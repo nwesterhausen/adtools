@@ -18,5 +18,14 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^6.0.3"
+  },
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "bootswatch": "^4.3.1",
+    "datatables.net": "^1.10.19",
+    "datatables.net-bs4": "^1.10.19",
+    "jquery": "^3.4.1",
+    "node-powershell": "^4.0.0",
+    "popper.js": "^1.15.0"
   }
 }

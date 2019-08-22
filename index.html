@@ -1,16 +1,50 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <meta charset="UTF-8" />
+    <title>Diskr</title>
+    <link
+      rel="stylesheet"
+      href="node_modules/bootswatch/dist/lumen/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css"
+    />
   </head>
   <body>
-    <h1>Hello World!</h1>
-    We are using Node.js <span id="node-version"></span>,
-    Chromium <span id="chrome-version"></span>,
-    and Electron <span id="electron-version"></span>.
+    <div class="container">
+      <!-- Form -->
+      <div class="row top-buffer">
+        <div class="col-lg-6 mx-auto">
+          <div class="input-group">
+            <input
+              id="computerName"
+              type="text"
+              class="form-control"
+              placeholder="Computer Name"
+            />
+            <span class="input-group-btn">
+              <button id="getDisk" class="btn btn-primary" type="button">
+                Get Disk Info!
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
 
-    <!-- You can also require other files to run in this process -->
-    <script src="./renderer.js"></script>
+      <!-- Output -->
+      <div class="row justify-content-center top-buffer">
+        <table
+          id="output"
+          class="table table-striped table-bordered"
+          cellspacing="0"
+        ></table>
+      </div>
+    </div>
   </body>
+  <!-- You can also require other files to run in this process -->
+  <script>
+    require('./renderer.js');
+  </script>
 </html>
