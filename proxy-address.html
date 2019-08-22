@@ -9,8 +9,13 @@
     />
     <link
       rel="stylesheet"
+      href="node_modules/@mdi/font/css/materialdesignicons.min.css"
+    />
+    <link
+      rel="stylesheet"
       href="node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css"
     />
+    <link rel="stylesheet" href="./loading-bar.css" />
   </head>
   <body>
     <div class="container">
@@ -35,15 +40,23 @@
           />
         </div>
         <div class="col-sm-2">
-          <button id="getProxyAddresses" class="btn btn-primary" type="button">
+          <button id="getProxyAddresses" class="btn btn-primary" type="submit">
             Search
           </button>
         </div>
       </div>
     </div>
-
     <!-- Output -->
-    <div class="container">
+    <div class="d-flex justify-content-center">
+      <div id="loadingBar" class="la-line-scale la-dark la-2x">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+    <div id="fullOutput" class="container">
       <h3><span id="userDisplayname"></span></h3>
       <p>
         <span id="primaryLabel">Primary email address:</span>

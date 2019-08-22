@@ -8,23 +8,36 @@ const powershell = require('node-powershell');
 const dt = require('datatables.net');
 const dtbs = require('datatables.net-bs4')(window, $);
 
+const greenCheckmark =
+  '<span class="mdi mdi-checkbox-marked-circle-outline text-success"></span>';
+const redEx = '<span class="mdi mdi-checkbox-blank-circle-outline"></span>';
+
+const ps = new powershell({
+  executionPolicy: 'Bypass',
+  noProfile: true
+});
+
 $('#primaryLabel').hide();
 $('#addresslistLabel').hide();
+$('#loadingBar').hide();
+$('#fullOutput').hide();
 
 $('#getProxyAddresses').click(() => {
-  // Create the PS Instance
-  let ps = new powershell({
-    executionPolicy: 'Bypass',
-    noProfile: true
-  });
-
   // Load the gun
   let user = $('#userName').val() || 'nwesterhausen';
-  ps.addCommand('./Load-AD-User', [{ username: user }]);
+
+  let loadUser = new powershell.PSCommand('./Load-AD-User').addParameter({
+    username: user
+  });
+
+  ps.addCommand(loadUser);
 
   // Pull the Trigger
   ps.invoke()
     .then(output => {
+      $('#loadingBar').hide();
+      $('#fullOutput').show();
+      console.log('Response from Powershell command.');
       let data = JSON.parse(output);
       console.log(data);
 
@@ -35,10 +48,20 @@ $('#getProxyAddresses').click(() => {
       let proxyAddresses = data.proxyAddresses;
 
       // generate DataTables columns dynamically
-      let columns = [
-        { title: 'Primary Address', data: 'isprimary' },
-        { title: 'Address', data: 'address' },
+      let columnDefs = [
         {
+          targets: 0,
+          title: 'Primary Address',
+          data: null,
+          defaultContent: redEx
+        },
+        {
+          targets: 1,
+          title: 'Address',
+          data: 'address'
+        },
+        {
+          targets: 2,
           title: 'Actions',
           data: null,
           defaultContent:
@@ -59,15 +82,23 @@ $('#getProxyAddresses').click(() => {
       // Create DataTable
       $('#outputTable').DataTable({
         data: cleanedData,
-        columns: columns,
+        columnDefs: columnDefs,
         paging: false,
         searching: false,
         info: false,
         destroy: true
       });
+      return false;
     })
     .catch(err => {
       console.error(err);
       ps.dispose();
+    })
+    .finally(() => {
+      return false;
     });
+
+  console.log('Invoked Powershell Command.');
+  $('#loadingBar').show();
+  $('#fullOutput').hide();
 });
