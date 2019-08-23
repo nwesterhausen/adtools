@@ -52,6 +52,12 @@ function createMenu() {
           click() {
             mainWindow.loadFile('proxy-address.html');
           }
+        },
+        {
+          label: 'Users Tool',
+          click() {
+            mainWindow.loadFile('users.html');
+          }
         }
       ]
     },
