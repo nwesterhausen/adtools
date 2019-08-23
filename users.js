@@ -12,13 +12,12 @@ const ps = new powershell({
   noProfile: true
 });
 
-const greenCheckmark =
-  '<div class="d-flex justify-content-center"><span class="mdi mdi-checkbox-marked-circle-outline text-success "></span></div>';
-const redEx =
-  '<div class="d-flex justify-content-center"><span class="mdi mdi-checkbox-blank-circle-outline"></span></div>';
+const primeBadge =
+  ' <span class="badge badge-secondary">Primary Address</span>';
 
 $('#loadingBar').hide();
 $('#detailsTabs').hide();
+$('#userHeader').hide();
 
 $('#userLookup').click(loadUserDetails);
 $('#enableEditBtn').click(enabledBasicInfoEditing);
@@ -39,6 +38,7 @@ function loadUserDetails() {
     .then(output => {
       $('#loadingBar').hide();
       $('#detailsTabs').show();
+      $('#userHeader').show();
       console.log('Response from Powershell command.');
       let data = JSON.parse(output);
       console.log(data);
@@ -50,27 +50,21 @@ function loadUserDetails() {
       $('#uSurname').val(data.Surname);
       $('#uDescription').val(data.Description);
       $('#uCompany').val(data.Company);
-      $('#uSamAccountName').val(data.SamAccountName);
+
+      $('#uSamAccountName').text(data.SamAccountName);
 
       $('#userDisplayname').text(data.DisplayName);
       $('#primaryLabel').show();
       $('#addresslistLabel').show();
 
-      let proxyAddresses = [];
       data.proxyAddresses.forEach(value => {
         let address = value.split(':')[1];
         let isprime = value.split(':')[0] === 'SMTP';
-        proxyAddresses.push({
-          isprimary: isprime,
-          address: address
-        });
-        $('#outputTable tbody').append(
-          `<tr><td>${address}</td><td>${
-            isprime ? greenCheckmark : redEx
+        $('#proxyTable tbody').append(
+          `<tr ${isprime ? 'class="table-primary"' : ''}><td>${address}${
+            isprime ? primeBadge : ''
           }</td></tr>`
         );
-        if (value.split(':')[0] === 'SMTP')
-          $('#primaryAddress').text(value.split(':')[1]);
       });
     })
     .catch(err => {
@@ -84,7 +78,7 @@ function loadUserDetails() {
 }
 
 function enabledBasicInfoEditing() {
-  $('#basicinfotbl tbody td input').prop('disabled', false);
+  $('#basicinfoform').prop('disabled', false);
   $('#enableEditBtn').prop('disabled', true);
   $('#saveEditBtn').prop('disabled', false);
   $('#cancelEditBtn').prop('disabled', false);
@@ -102,9 +96,8 @@ function cancelBasicInfoEditing() {
   $('#uSurname').val(data.Surname);
   $('#uDescription').val(data.Description);
   $('#uCompany').val(data.Company);
-  $('#uSamAccountName').val(data.SamAccountName);
 
-  $('#basicinfotbl tbody td input').prop('disabled', true);
+  $('#basicinfoform').prop('disabled', true);
   $('#enableEditBtn').prop('disabled', false);
   $('#saveEditBtn').prop('disabled', true);
   $('#cancelEditBtn').prop('disabled', true);

@@ -46,7 +46,7 @@
         </div>
       </div>
     </div>
-    <!-- Output -->
+    <!-- Loading Bar -->
     <div class="d-flex justify-content-center">
       <div id="loadingBar" class="la-line-scale la-dark la-2x">
         <div></div>
@@ -56,8 +56,12 @@
         <div></div>
       </div>
     </div>
+    <!-- Tabs Menu -->
     <div id="detailsTabs" class="container">
-      <h3><span id="userDisplayname"></span></h3>
+      <div id="userHeader">
+        <p class="h3" id="userDisplayname"></p>
+        <p>Logon Username: <strong id="uSamAccountName"></strong></p>
+      </div>
       <ul class="nav nav-tabs">
         <li class="nav-item">
           <a class="nav-link" data-toggle="tab" href="#basic">Basic Info</a>
@@ -71,7 +75,9 @@
           >
         </li>
       </ul>
+      <!-- Tab Content -->
       <div id="myTabContent" class="tab-content">
+        <!-- Basic User Info -->
         <div class="tab-pane fade" id="basic">
           <div class="d-flex justify-content-end my-2">
             <button id="enableEditBtn" class="btn btn-primary btn-sm">
@@ -92,81 +98,46 @@
               Cancel
             </button>
           </div>
-          <table class="table" id="basicinfotbl">
-            <thead>
-              <th>Property</th>
-              <th>Value</th>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Firstname</td>
-                <td>
-                  <input
-                    type="text"
-                    disabled
-                    class="form-control"
-                    id="uGivenName"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Lastname</td>
-                <td>
-                  <input
-                    type="text"
-                    disabled
-                    class="form-control"
-                    id="uSurname"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Logon Username</td>
-                <td>
-                  <input
-                    type="text"
-                    disabled
-                    class="form-control"
-                    id="uSamAccountName"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Company</td>
-                <td>
-                  <input
-                    type="text"
-                    disabled
-                    class="form-control"
-                    id="uCompany"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Department</td>
-                <td>
-                  <input
-                    type="text"
-                    disabled
-                    class="form-control"
-                    id="uDepartment"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Description</td>
-                <td>
-                  <input
-                    type="text"
-                    disabled
-                    class="form-control"
-                    id="uDescription"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <fieldset id="basicinfoform" disabled>
+            <div class="form-group">
+              <label for="uGivenName" class=" control-label">
+                Firstname
+              </label>
+              <input type="text" class="form-control" id="uGivenName" />
+            </div>
+            <div class="form-group">
+              <label for="uSurname" class="control-label">
+                Lastname
+              </label>
+              <input type="text" class="form-control" id="uSurname" />
+            </div>
+
+            <div class="form-group">
+              <label for="uCompany" class="control-label">
+                Company
+              </label>
+              <select class="form-control" id="uCompany">
+                <option>National Trade Supply</option>
+                <option>National Filter Sales</option>
+                <option>Midwest Purification</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="uDepartment" class="control-label">
+                Department
+              </label>
+              <input type="text" class="form-control" id="uDepartment" />
+            </div>
+            <div class="form-group">
+              <label for="uDescription" class="control-label">
+                Description
+              </label>
+              <input type="text" class="form-control" id="uDescription" />
+            </div>
+          </fieldset>
         </div>
+        <!-- Proxy Address Info -->
         <div class="tab-pane fade" id="proxy">
           <div class="py-1">
             <button id="changePrimary" class="btn btn-primary btn-sm">
@@ -179,20 +150,15 @@
           <h3 id="addresslistLabel">Proxy Addresses:</h3>
           <div class="top-buffer">
             <table
-              id="outputTable"
+              id="proxyTable"
               class="table table-striped table-bordered"
               cellspacing="0"
             >
-              <thead>
-                <th>Address</th>
-                <th>
-                  <div class="d-flex justify-content-center">Primary</div>
-                </th>
-              </thead>
               <tbody></tbody>
             </table>
           </div>
         </div>
+        <!-- Group Membership Info -->
         <div class="tab-pane fade" id="groups">
           <p>
             Etsy mixtape wayfarers, ethical wes anderson tofu before they sold
