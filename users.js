@@ -6,8 +6,6 @@
 const $ = require('jquery');
 const bs = require('bootstrap');
 const powershell = require('node-powershell');
-const dt = require('datatables.net');
-const dtbs = require('datatables.net-bs4')(window, $);
 
 const ps = new powershell({
   executionPolicy: 'Bypass',
@@ -23,6 +21,8 @@ $('#loadingBar').hide();
 $('#detailsTabs').hide();
 
 $('#userLookup').click(loadUserDetails);
+$('#enableEditBtn').click(enabledBasicInfoEditing);
+$('#cancelEditBtn').click(cancelBasicInfoEditing);
 
 function loadUserDetails() {
   $('#outputTable tbody').html('');
@@ -42,6 +42,8 @@ function loadUserDetails() {
       console.log('Response from Powershell command.');
       let data = JSON.parse(output);
       console.log(data);
+
+      saveData(data);
 
       $('#uGivenName').val(data.GivenName);
       $('#uDepartment').val(data.Department);
@@ -70,7 +72,6 @@ function loadUserDetails() {
         if (value.split(':')[0] === 'SMTP')
           $('#primaryAddress').text(value.split(':')[1]);
       });
-      $('#outputTable').data({ proxyAddresses: proxyAddresses });
     })
     .catch(err => {
       console.error(err);
@@ -80,4 +81,37 @@ function loadUserDetails() {
   console.log('Invoked Powershell Command.');
   $('#loadingBar').show();
   $('#detailsTabs').hide();
+}
+
+function enabledBasicInfoEditing() {
+  $('#basicinfotbl tbody td input').removeAttr('readonly');
+  $('#enableEditBtn').addClass('disabled');
+  $('#enableEditBtn').attr('disabled');
+  $('#saveEditBtn').removeClass('disabled');
+  $('#saveEditBtn').removeAttr('disabled');
+  $('#cancelEditBtn').removeClass('disabled');
+  $('#cancelEditBtn').removeAttr('disabled');
+}
+
+function saveData(jsonData) {
+  localStorage.setItem('userData', JSON.stringify(jsonData));
+}
+
+function cancelBasicInfoEditing() {
+  let data = JSON.parse(localStorage.getItem('userData'));
+
+  $('#uGivenName').val(data.GivenName);
+  $('#uDepartment').val(data.Department);
+  $('#uSurname').val(data.Surname);
+  $('#uDescription').val(data.Description);
+  $('#uCompany').val(data.Company);
+  $('#uSamAccountName').val(data.SamAccountName);
+
+  $('#basicinfotbl tbody td input').attr('readonly');
+  $('#enableEditBtn').removeClass('disabled');
+  $('#enableEditBtn').removeAttr('disabled');
+  $('#saveEditBtn').addClass('disabled');
+  $('#saveEditBtn').attr('disabled');
+  $('#cancelEditBtn').addClass('disabled');
+  $('#cancelEditBtn').attr('disabled');
 }
