@@ -6,7 +6,7 @@
     <title>NTS AD Tools - User Tools</title>
     <link
       rel="stylesheet"
-      href="node_modules/bootswatch/dist/lumen/bootstrap.min.css"
+      href="node_modules/bootswatch/dist/yeti/bootstrap.min.css"
     />
     <link
       rel="stylesheet"
@@ -67,7 +67,9 @@
           <a class="nav-link" data-toggle="tab" href="#basic">Basic Info</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#proxy">Proxy Address</a>
+          <a class="nav-link" data-toggle="tab" href="#proxy"
+            >Proxy Addresses</a
+          >
         </li>
         <li class="nav-item">
           <a class="nav-link" data-toggle="tab" href="#groups"
@@ -79,25 +81,26 @@
       <div id="myTabContent" class="tab-content">
         <!-- Basic User Info -->
         <div class="tab-pane fade" id="basic">
-          <div class="d-flex justify-content-end my-2">
+          <div class="py-1">
             <button id="enableEditBtn" class="btn btn-primary btn-sm">
               Enable Editing
             </button>
             <button
               id="saveEditBtn"
-              class="btn btn-warning btn-sm mx-1"
+              class="btn btn-warning btn-sm ml-1"
               disabled
             >
               Save
             </button>
             <button
               id="cancelEditBtn"
-              class="btn btn-secondary btn-sm mx-1"
+              class="btn btn-secondary btn-sm ml-1"
               disabled
             >
               Cancel
             </button>
           </div>
+          <h3>Basic User Info:</h3>
           <fieldset id="basicinfoform" disabled>
             <div class="form-group">
               <label for="uGivenName" class=" control-label">
@@ -143,11 +146,14 @@
             <button id="changePrimary" class="btn btn-primary btn-sm">
               Change Primary Address
             </button>
-            <button id="addAddress" class="btn btn-success btn-sm mx-2">
+            <button id="addAddress" class="btn btn-success btn-sm ml-2">
               New Address
             </button>
+            <button id="delAddress" class="btn btn-danger btn-sm ml-2">
+              Delete Address
+            </button>
           </div>
-          <h3 id="addresslistLabel">Proxy Addresses:</h3>
+          <h3>Proxy Addresses:</h3>
           <div class="top-buffer">
             <table
               id="proxyTable"
