@@ -24,7 +24,7 @@ $('#enableEditBtn').click(enabledBasicInfoEditing);
 $('#cancelEditBtn').click(cancelBasicInfoEditing);
 
 function loadUserDetails() {
-  $('#outputTable tbody').html('');
+  $('#proxyTable tbody').html('');
   let user = $('#userName').val() || 'nwesterhausen';
 
   let loadUser = new powershell.PSCommand('./Load-AD-User').addParameter({
