@@ -14,13 +14,14 @@ const ps = new powershell({
   noProfile: true
 });
 
+const greenCheckmark =
+  '<span class="mdi mdi-checkbox-marked-circle-outline text-success"></span>';
+const redEx = '<span class="mdi mdi-checkbox-blank-circle-outline"></span>';
+
 $('#loadingBar').hide();
 $('#detailsTabs').hide();
 
 $('#userLookup').click(loadUserDetails);
-
-const redEx = 'No';
-const greenCheck = 'Yes';
 
 function loadUserDetails() {
   let user = $('#userName').val() || 'nwesterhausen';
@@ -51,57 +52,27 @@ function loadUserDetails() {
       $('#primaryLabel').show();
       $('#addresslistLabel').show();
 
-      let proxyAddresses = data.proxyAddresses;
-
-      // generate DataTables columns dynamically
-      let columnDefs = [
-        {
-          targets: 0,
-          title: 'Primary Address',
-          data: null,
-          defaultContent: redEx
-        },
-        {
-          targets: 1,
-          title: 'Address',
-          data: 'address'
-        },
-        {
-          targets: 2,
-          title: 'Actions',
-          data: null,
-          defaultContent:
-            '<button id="edit" class="btn btn-primary">Edit</button> <button id="remove" class="btn btn-danger">Delete</button>'
-        }
-      ];
-
-      let cleanedData = [];
-      proxyAddresses.forEach(value => {
-        cleanedData.push({
-          isprimary: value.split(':')[0] === 'SMTP',
-          address: value.split(':')[1]
+      let proxyAddresses = [];
+      data.proxyAddresses.forEach(value => {
+        let address = value.split(':')[1];
+        let isprime = value.split(':')[0] === 'SMTP';
+        proxyAddresses.push({
+          isprimary: isprime,
+          address: address
         });
+        $('#outputTable tbody').append(
+          `<tr><td>${address}</td><td>${
+            isprime ? greenCheckmark : redEx
+          }</td></tr>`
+        );
         if (value.split(':')[0] === 'SMTP')
           $('#primaryAddress').text(value.split(':')[1]);
       });
-
-      // Create DataTable
-      $('#outputTable').DataTable({
-        data: cleanedData,
-        columnDefs: columnDefs,
-        paging: false,
-        searching: false,
-        info: false,
-        destroy: true
-      });
-      return false;
+      $('#outputTable').data({ proxyAddresses: proxyAddresses });
     })
     .catch(err => {
       console.error(err);
       ps.dispose();
-    })
-    .finally(() => {
-      return false;
     });
 
   console.log('Invoked Powershell Command.');
