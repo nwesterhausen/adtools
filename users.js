@@ -84,13 +84,10 @@ function loadUserDetails() {
 }
 
 function enabledBasicInfoEditing() {
-  $('#basicinfotbl tbody td input').removeAttr('readonly');
-  $('#enableEditBtn').addClass('disabled');
-  $('#enableEditBtn').attr('disabled');
-  $('#saveEditBtn').removeClass('disabled');
-  $('#saveEditBtn').removeAttr('disabled');
-  $('#cancelEditBtn').removeClass('disabled');
-  $('#cancelEditBtn').removeAttr('disabled');
+  $('#basicinfotbl tbody td input').prop('disabled', false);
+  $('#enableEditBtn').prop('disabled', true);
+  $('#saveEditBtn').prop('disabled', false);
+  $('#cancelEditBtn').prop('disabled', false);
 }
 
 function saveData(jsonData) {
@@ -107,11 +104,8 @@ function cancelBasicInfoEditing() {
   $('#uCompany').val(data.Company);
   $('#uSamAccountName').val(data.SamAccountName);
 
-  $('#basicinfotbl tbody td input').attr('readonly');
-  $('#enableEditBtn').removeClass('disabled');
-  $('#enableEditBtn').removeAttr('disabled');
-  $('#saveEditBtn').addClass('disabled');
-  $('#saveEditBtn').attr('disabled');
-  $('#cancelEditBtn').addClass('disabled');
-  $('#cancelEditBtn').attr('disabled');
+  $('#basicinfotbl tbody td input').prop('disabled', true);
+  $('#enableEditBtn').prop('disabled', false);
+  $('#saveEditBtn').prop('disabled', true);
+  $('#cancelEditBtn').prop('disabled', true);
 }
