@@ -25,6 +25,7 @@ $('#detailsTabs').hide();
 $('#userLookup').click(loadUserDetails);
 
 function loadUserDetails() {
+  $('#outputTable tbody').html('');
   let user = $('#userName').val() || 'nwesterhausen';
 
   let loadUser = new powershell.PSCommand('./Load-AD-User').addParameter({
