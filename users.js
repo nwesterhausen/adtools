@@ -15,8 +15,9 @@ const ps = new powershell({
 });
 
 const greenCheckmark =
-  '<span class="mdi mdi-checkbox-marked-circle-outline text-success"></span>';
-const redEx = '<span class="mdi mdi-checkbox-blank-circle-outline"></span>';
+  '<div class="d-flex justify-content-center"><span class="mdi mdi-checkbox-marked-circle-outline text-success "></span></div>';
+const redEx =
+  '<div class="d-flex justify-content-center"><span class="mdi mdi-checkbox-blank-circle-outline"></span></div>';
 
 $('#loadingBar').hide();
 $('#detailsTabs').hide();
