@@ -18,6 +18,7 @@ const primeBadge =
 $('#loadingBar').hide();
 $('#detailsTabs').hide();
 $('#userHeader').hide();
+$('#grouptabtoggle').prop('disabled', true);
 
 $('#userLookup').click(loadUserDetails);
 $('#enableEditBtn').click(enabledBasicInfoEditing);
@@ -39,9 +40,11 @@ function loadUserDetails() {
       $('#loadingBar').hide();
       $('#detailsTabs').show();
       $('#userHeader').show();
-      console.log('Response from Powershell command.');
+      console.log(output);
       let data = JSON.parse(output);
       console.log(data);
+
+      loadGroupMembership(data.SamAccountName);
 
       saveData(data);
 
@@ -75,6 +78,33 @@ function loadUserDetails() {
   console.log('Invoked Powershell Command.');
   $('#loadingBar').show();
   $('#detailsTabs').hide();
+}
+
+function loadGroupMembership(user) {
+  let loadGroups = new powershell.PSCommand(
+    './Load-AD-UserGroupMembership'
+  ).addParameter({
+    username: user
+  });
+
+  ps.addCommand(loadGroups);
+
+  ps.invoke()
+    .then(output => {
+      console.log(output);
+      let data = JSON.parse(output);
+      console.log(data);
+
+      data.forEach(value => {
+        $('#grouplist').append(`<tr><td>${value.name}</td></tr>`);
+      });
+
+      $('#grouptabtoggle').prop('disabled', false);
+    })
+    .catch(err => {
+      console.error(err);
+      ps.dispose();
+    });
 }
 
 function enabledBasicInfoEditing() {

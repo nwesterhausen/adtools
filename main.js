@@ -48,9 +48,15 @@ function createMenu() {
           }
         },
         {
-          label: 'Users Tool',
+          label: 'Modify User',
           click() {
             mainWindow.loadFile('users.html');
+          }
+        },
+        {
+          label: 'New User',
+          click() {
+            mainWindow.loadFile('newuser.html');
           }
         }
       ]
