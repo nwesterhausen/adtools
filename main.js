@@ -59,6 +59,12 @@ function createMenu() {
           click() {
             mainWindow.loadFile('newuser.html');
           }
+        },
+        {
+          label: 'List Computers',
+          click() {
+            mainWindow.loadFile('computers.html');
+          }
         }
       ]
     },
