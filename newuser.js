@@ -6,3 +6,13 @@
 const $ = require('jquery');
 const bs = require('bootstrap');
 const powershell = require('node-powershell');
+
+$('#uGivenName').change(updateDirectoryName);
+$('#uSurname').change(updateDirectoryName);
+
+function updateDirectoryName() {
+  $('#uDirectoryName').val(
+    ($('#uGivenName').val()[0] + $('#uSurname').val()).toLowerCase() +
+      '@ntsupply.com'
+  );
+}
