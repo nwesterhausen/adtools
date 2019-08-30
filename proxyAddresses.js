@@ -44,3 +44,6 @@ function commitProxyAddressChange() {
 }
 
 $('#commitPrimary').click(commitProxyAddressChange);
+$('#changePrimary').click(() => {
+  $('#testModal').modal();
+});

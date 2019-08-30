@@ -69,6 +69,10 @@ function loadUserDetails() {
             isprime ? 'class="table-primary"' : ''
           }><td>${address}${isprime ? primeBadge : ''}</td></tr>`
         );
+        if (isprime) {
+          $('#modalCurrPrim').text(address);
+        }
+        $('#selectNewPrimaryAddress').append(`<option>${address}</option>`);
       });
     })
     .catch(err => {
