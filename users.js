@@ -103,10 +103,11 @@ function updatePageWithUserInfo(data) {
   data.proxyAddresses.forEach(value => {
     let address = value.split(':')[1];
     let isprime = value.split(':')[0] === 'SMTP';
-    $('#proxyTable tbody').append(
-      `<tr data-value="${value}" ${
-        isprime ? 'class="table-primary"' : ''
-      }><td>${address}${isprime ? primeBadge : ''}</td></tr>`
+
+    $('#proxyTable').append(
+      `<li class="list-group-item" data-value="${value}" ${
+        isprime ? 'active' : ''
+      }>${address}${isprime ? primeBadge : ''}</li>`
     );
     if (isprime) {
       $('#modalCurrPrim').text(address);
@@ -133,7 +134,9 @@ function loadGroupMembership(user) {
       console.log(data);
 
       data.forEach(value => {
-        $('#grouplist').append(`<tr><td>${value.name}</td></tr>`);
+        $('#grouplist').append(
+          `<li class='list-group-item'>${value.name}</li>`
+        );
       });
 
       $('#grouptabtoggle').prop('disabled', false);

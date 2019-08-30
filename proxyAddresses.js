@@ -45,16 +45,16 @@ function commitProxyAddressChange() {
 
 function updateProxyAddressList() {
   let newPA = $('#selectNewPrimaryAddress').val();
-  for (let row of $('#proxyTable tbody tr')) {
+  for (let row of $('#proxyTable li')) {
     let aval = row.getAttribute('data-value');
     if (aval.startsWith('SMTP:') && aval.indexOf(newPA) === -1) {
+      $(row).removeProp('active');
       row.setAttribute('data-value', `smtp:${aval.split(':')[1]}`);
-      row.innerHTML = `<td>${aval.split(':')[1]}</td>`;
-      row.classList.remove('table-primary');
+      row.innerHTML = `${aval.split(':')[1]}`;
     } else if (aval.indexOf(newPA) !== -1) {
+      $(row).prop('active');
       row.setAttribute('data-value', `SMTP:${newPA}`);
-      row.innerHTML = `<td>${newPA} ${primeBadge}</td>`;
-      row.classList.add('table-primary');
+      row.innerHTML = `${newPA} ${primeBadge}`;
     }
   }
 
