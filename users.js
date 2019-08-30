@@ -57,6 +57,7 @@ function loadUserDetails() {
       $('#uSamAccountName').text(data.SamAccountName);
 
       $('#userDisplayname').text(data.DisplayName);
+      $('#userDisplayname').attr('data-guid', data.ObjectGUID);
       $('#primaryLabel').show();
       $('#addresslistLabel').show();
 
@@ -64,9 +65,9 @@ function loadUserDetails() {
         let address = value.split(':')[1];
         let isprime = value.split(':')[0] === 'SMTP';
         $('#proxyTable tbody').append(
-          `<tr ${isprime ? 'class="table-primary"' : ''}><td>${address}${
-            isprime ? primeBadge : ''
-          }</td></tr>`
+          `<tr data-value="${value}" ${
+            isprime ? 'class="table-primary"' : ''
+          }><td>${address}${isprime ? primeBadge : ''}</td></tr>`
         );
       });
     })
