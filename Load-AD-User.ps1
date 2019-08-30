@@ -8,5 +8,5 @@ try {
 }
 catch {
     $likeuser = '*' + $username + '*'
-    Get-ADUser -Filter { name -like $likeuser } | ConvertTo-Json -Compress
+    Get-ADUser -Filter { name -like $likeuser } -Properties proxyAddresses, displayName, company, department, description, lastLogon, logonCount, manager | ConvertTo-Json -Compress
 }
