@@ -1,1 +1,1 @@
-Get-ADComputer -Filter * -Properties whenCreated,whenChanged,sAMAccountName,OperatingSystemVersion,OperatingSystem,name,logonCount,distinguishedName,Location,Description,DNSHostName,ObjectClass | ConvertTo-Json -Compress
+Get-ADComputer -Filter * -Properties whenCreated,whenChanged,sAMAccountName,OperatingSystemVersion,OperatingSystem,name,logonCount,distinguishedName,Location,Description,DNSHostName,ObjectClass,CanonicalName | ConvertTo-Json -Compress
