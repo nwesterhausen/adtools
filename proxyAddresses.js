@@ -43,7 +43,26 @@ function commitProxyAddressChange() {
   });
 }
 
+function updateProxyAddressList() {
+  let newPA = $('#selectNewPrimaryAddress').val();
+  for (let row of $('#proxyTable tbody tr')) {
+    let aval = row.getAttribute('data-value');
+    if (aval.startsWith('SMTP:') && aval.indexOf(newPA) === -1) {
+      row.setAttribute('data-value', `smtp:${aval.split(':')[1]}`);
+      row.innerHTML = `<td>${aval.split(':')[1]}</td>`;
+      row.classList.remove('table-primary');
+    } else if (aval.indexOf(newPA) !== -1) {
+      row.setAttribute('data-value', `SMTP:${newPA}`);
+      row.innerHTML = `<td>${newPA} ${primeBadge}</td>`;
+      row.classList.add('table-primary');
+    }
+  }
+
+  $('#primaryAddressModal').modal('hide');
+}
+
 $('#commitPrimary').click(commitProxyAddressChange);
 $('#changePrimary').click(() => {
-  $('#testModal').modal();
+  $('#primaryAddressModal').modal();
 });
+$('#mdlbtnSetPrimary').click(updateProxyAddressList);
