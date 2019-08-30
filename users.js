@@ -72,7 +72,9 @@ function loadUserDetails() {
         if (isprime) {
           $('#modalCurrPrim').text(address);
         }
-        $('#selectNewPrimaryAddress').append(`<option>${address}</option>`);
+        $('#selectNewPrimaryAddress').append(
+          `<option ${isprime ? 'selected' : ''}>${address}</option>`
+        );
       });
     })
     .catch(err => {
