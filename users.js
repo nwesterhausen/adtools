@@ -23,6 +23,7 @@ $('#grouptabtoggle').prop('disabled', true);
 $('#userLookup').click(loadUserDetails);
 $('#enableEditBtn').click(enabledBasicInfoEditing);
 $('#cancelEditBtn').click(cancelBasicInfoEditing);
+$('#mldbtnSelectResult').click(chooseResult);
 
 function loadUserDetails() {
   $('#proxyTable tbody').html('');
@@ -45,38 +46,14 @@ function loadUserDetails() {
       let data = JSON.parse(output);
       console.log(data);
 
-      loadGroupMembership(data.SamAccountName);
-
-      saveData(data);
-
-      $('#uGivenName').val(data.GivenName);
-      $('#uDepartment').val(data.Department);
-      $('#uSurname').val(data.Surname);
-      $('#uDescription').val(data.Description);
-      $('#uCompany').val(data.Company);
-
-      $('#uSamAccountName').text(data.SamAccountName);
-
-      $('#userDisplayname').text(data.DisplayName);
-      $('#userDisplayname').attr('data-guid', data.ObjectGUID);
-      $('#primaryLabel').show();
-      $('#addresslistLabel').show();
-
-      data.proxyAddresses.forEach(value => {
-        let address = value.split(':')[1];
-        let isprime = value.split(':')[0] === 'SMTP';
-        $('#proxyTable tbody').append(
-          `<tr data-value="${value}" ${
-            isprime ? 'class="table-primary"' : ''
-          }><td>${address}${isprime ? primeBadge : ''}</td></tr>`
-        );
-        if (isprime) {
-          $('#modalCurrPrim').text(address);
-        }
-        $('#selectNewPrimaryAddress').append(
-          `<option ${isprime ? 'selected' : ''}>${address}</option>`
-        );
-      });
+      // It's possible that the data returned is a list instead of a single
+      // account. So we should check if we got a list back or not.
+      if (Array.isArray(data)) {
+        updateResultsChoiceModal(data);
+        $('#multipleResultsModal').modal();
+      } else {
+        updatePageWithUserInfo(data);
+      }
     })
     .catch(err => {
       console.error(err);
@@ -86,6 +63,58 @@ function loadUserDetails() {
   console.log('Invoked Powershell Command.');
   $('#loadingBar').show();
   $('#detailsTabs').hide();
+}
+
+function chooseResult() {
+  updatePageWithUserInfo(JSON.parse($('#selectResultForm').val()));
+  $('#multipleResultsModal').modal('hide');
+}
+
+function updateResultsChoiceModal(resultList) {
+  for (let i = 0; i < resultList.length; i++) {
+    let r = resultList[i];
+    console.log(r.Name, r.SamAccountName);
+    $('#selectResultForm').append(
+      `<option value='${JSON.stringify(r)}'>${r.Name} (${
+        r.SamAccountName
+      })</select>`
+    );
+  }
+}
+
+function updatePageWithUserInfo(data) {
+  loadGroupMembership(data.SamAccountName);
+
+  saveData(data);
+
+  $('#uGivenName').val(data.GivenName);
+  $('#uDepartment').val(data.Department);
+  $('#uSurname').val(data.Surname);
+  $('#uDescription').val(data.Description);
+  $('#uCompany').val(data.Company);
+
+  $('#uSamAccountName').text(data.SamAccountName);
+
+  $('#userDisplayname').text(data.DisplayName);
+  $('#userDisplayname').attr('data-guid', data.ObjectGUID);
+  $('#primaryLabel').show();
+  $('#addresslistLabel').show();
+
+  data.proxyAddresses.forEach(value => {
+    let address = value.split(':')[1];
+    let isprime = value.split(':')[0] === 'SMTP';
+    $('#proxyTable tbody').append(
+      `<tr data-value="${value}" ${
+        isprime ? 'class="table-primary"' : ''
+      }><td>${address}${isprime ? primeBadge : ''}</td></tr>`
+    );
+    if (isprime) {
+      $('#modalCurrPrim').text(address);
+    }
+    $('#selectNewPrimaryAddress').append(
+      `<option ${isprime ? 'selected' : ''}>${address}</option>`
+    );
+  });
 }
 
 function loadGroupMembership(user) {
