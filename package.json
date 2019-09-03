@@ -6,7 +6,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-packager . nts-adtools --platform win32 --arch x64 --out dist/",
+    "build": "electron-packager . nts-adtools --platform win32 --arch x64 --out dist/ --overwrite",
     "setup": "electron-installer-windows --src dist/nts-adtools-win32-x64/ --dest dist/installers/"
   },
   "author": "Nicholas Westerhausen",
