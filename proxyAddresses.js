@@ -18,7 +18,7 @@ const primeBadge =
 
 function getProxyAddressValue() {
   let proxyAddresses = [];
-  for (let row of $('#proxyTable tbody tr')) {
+  for (let row of $('#proxyTable li')) {
     proxyAddresses.push(row.getAttribute('data-value'));
   }
   return proxyAddresses;

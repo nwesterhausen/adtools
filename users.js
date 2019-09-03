@@ -27,7 +27,7 @@ $('#cancelEditBtn').click(cancelBasicInfoEditing);
 $('#mldbtnSelectResult').click(chooseResult);
 
 function loadUserDetails() {
-  $('#proxyTable tbody').html('');
+  $('#proxyTable').html('');
   $('#selectNewPrimaryAddress').html('');
   let user = $('#userName').val() || 'nwesterhausen';
 
