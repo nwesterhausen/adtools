@@ -28,7 +28,7 @@ function commitProxyAddressChange() {
   let newValue = getProxyAddressValue();
   let userid = $('#userDisplayname').attr('data-guid');
   let commitChange = new powershell.PSCommand(
-    path.join(__dirname, './Update-User-ProxyAddresses.ps1')
+    path.join(__dirname, '../scripts/Update-User-ProxyAddresses')
   )
     .addParameter({
       userid: userid

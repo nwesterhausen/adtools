@@ -1,18 +1,32 @@
 {
   "name": "nts-adtools",
-  "productName": "National Trade Supply AD Tools",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "A simple toolset for NTS to work better with AD.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "build": "electron-packager . nts-adtools --platform win32 --arch x64 --out dist/ --overwrite",
-    "win-installer": "electron-installer-windows --src dist/nts-adtools-win32-x64/ --dest dist/installers/"
+    "win-installer": "electron-installer-windows --src dist/nts-adtools-win32-x64/ --dest dist/installers/",
+    "ebuild": "electron-builder"
   },
-  "author": "Nicholas Westerhausen",
+  "build": {
+    "productName": "Active Directory Tools",
+    "appId": "com.ntsupply.adtools",
+    "copyright": "Copyright © 2019 ${author}",
+    "nsis": {
+      "oneClick": true
+    },
+    "win": {
+      "extraResources": [
+        "./scripts/*"
+      ]
+    }
+  },
+  "author": "National Trade Supply",
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^6.0.3",
+    "electron-builder": "^21.2.0",
     "electron-installer-windows": "^2.0.0",
     "electron-packager": "^14.0.5"
   },
@@ -25,5 +39,6 @@
     "jquery": "^3.4.1",
     "node-powershell": "^4.0.0",
     "popper.js": "^1.15.0"
-  }
+  },
+  "postinstall": "electron-builder install-app-deps"
 }

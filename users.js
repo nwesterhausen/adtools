@@ -13,6 +13,8 @@ const ps = new powershell({
   noProfile: true
 });
 
+console.log('Dirname:', __dirname);
+
 const primeBadge =
   ' <span class="badge badge-secondary">Primary Address</span>';
 
@@ -32,7 +34,7 @@ function loadUserDetails() {
   let user = $('#userName').val() || 'nwesterhausen';
 
   let loadUser = new powershell.PSCommand(
-    path.join(__dirname, './Load-AD-User')
+    path.join(__dirname, '../scripts/Load-AD-User')
   ).addParameter({
     username: user
   });
@@ -123,7 +125,7 @@ function updatePageWithUserInfo(data) {
 
 function loadGroupMembership(user) {
   let loadGroups = new powershell.PSCommand(
-    path.join(__dirname, './Load-AD-UserGroupMembership')
+    path.join(__dirname, '../scripts/Load-AD-UserGroupMembership')
   ).addParameter({
     username: user
   });
