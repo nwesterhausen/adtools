@@ -1,23 +1,20 @@
 {
-  "name": "electron-quick-start",
-  "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "name": "nts-adtools",
+  "productName": "National Trade Supply AD Tools",
+  "version": "0.1.0",
+  "description": "A simple toolset for NTS to work better with AD.",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-packager . nts-adtools --platform win32 --arch x64 --out dist/",
+    "setup": "electron-installer-windows --src dist/nts-adtools-win32-x64/ --dest dist/installers/"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
-  ],
-  "author": "GitHub",
+  "author": "Nicholas Westerhausen",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^6.0.3"
+    "electron": "^6.0.3",
+    "electron-installer-windows": "^2.0.0",
+    "electron-packager": "^14.0.5"
   },
   "dependencies": {
     "@mdi/font": "^4.1.95",
