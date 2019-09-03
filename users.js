@@ -6,6 +6,7 @@
 const $ = require('jquery');
 const bs = require('bootstrap');
 const powershell = require('node-powershell');
+const path = require('path');
 
 const ps = new powershell({
   executionPolicy: 'Bypass',
@@ -30,7 +31,9 @@ function loadUserDetails() {
   $('#selectNewPrimaryAddress').html('');
   let user = $('#userName').val() || 'nwesterhausen';
 
-  let loadUser = new powershell.PSCommand('./Load-AD-User').addParameter({
+  let loadUser = new powershell.PSCommand(
+    path.join(__dirname, './Load-AD-User')
+  ).addParameter({
     username: user
   });
 
@@ -120,7 +123,7 @@ function updatePageWithUserInfo(data) {
 
 function loadGroupMembership(user) {
   let loadGroups = new powershell.PSCommand(
-    './Load-AD-UserGroupMembership'
+    path.join(__dirname, './Load-AD-UserGroupMembership')
   ).addParameter({
     username: user
   });
