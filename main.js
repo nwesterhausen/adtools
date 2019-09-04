@@ -1,7 +1,13 @@
 // Modules to control application life and create native browser window
 const { app, Menu, BrowserWindow, dialog } = require('electron');
 const path = require('path');
+const fs = require('fs');
 
+global.scripts = {
+  path: fs.existsSync(path.join(__dirname, 'scripts'))
+    ? path.join(__dirname, 'scripts/')
+    : path.join(__dirname, '../scripts/')
+};
 const appID = 'me.westerhausen.adtools';
 const aboutMessage = `Active Directory Tools
 Version ${process.version}
@@ -44,7 +50,7 @@ function createWindow() {
     height: 844,
     icon: path.join(__dirname, 'build/icon.png'),
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      preload: 'preload.js',
       nodeIntegration: true
     }
   });
