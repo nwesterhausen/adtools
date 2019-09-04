@@ -1,7 +1,7 @@
 {
   "name": "nts-adtools",
   "version": "0.1.3",
-  "description": "A simple toolset for NTS to work better with AD.",
+  "description": "A set of tools to make doing simple but repetitive tasks in Active Directory much easier.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",

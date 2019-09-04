@@ -1,6 +1,34 @@
 // Modules to control application life and create native browser window
-const { app, Menu, BrowserWindow } = require('electron');
+const { app, Menu, BrowserWindow, dialog } = require('electron');
 const path = require('path');
+const pjson = require('./package.json');
+
+const aboutMessage = `${pjson.build.productName}
+Version ${pjson.version}
+
+${pjson.description}
+
+Utilizing the following open source libraries:
+
+node ${process.versions.node}
+electron ${process.versions.electron}
+chrome ${process.versions.chrome}
+jquery 3.4.1
+bootstrap 4.3.1
+popper.js 1.15.0
+node-powershell 4.0.0
+material design icons 4.1.95
+bootswatch 4.3.1
+datatables.net 1.10.19
+
+
+AppID: ${pjson.build.appId}
+
+
+Copyright © 2019 ${pjson.author}`;
+
+// Set Application User Model ID
+app.setAppUserModelId(pjson.build.appId);
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -40,7 +68,7 @@ function createMenu() {
   const template = [
     // Tool Selector
     {
-      label: 'Tools',
+      label: 'Jump to..',
       submenu: [
         {
           label: 'Modify User',
@@ -62,19 +90,24 @@ function createMenu() {
         }
       ]
     },
-    // Standard View Options
+    // Help section
     {
-      label: 'View',
+      label: 'Help',
       submenu: [
+        { role: 'reload' },
+        { role: 'forcereload' },
+        { role: 'toggledevtools' },
         {
-          role: 'reload'
+          label: 'About',
+          click() {
+            dialog.showMessageBoxSync({
+              title: 'About',
+              message: aboutMessage
+            });
+          }
         },
-        {
-          role: 'forcereload'
-        },
-        {
-          role: 'toggledevtools'
-        }
+        { type: 'separator' },
+        { role: 'quit' }
       ]
     }
   ];
