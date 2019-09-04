@@ -5,9 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-packager . adtools --platform win32 --arch x64 --out dist/ --overwrite",
-    "win-installer": "electron-installer-windows --src dist/adtools-win32-x64/ --dest dist/installers/",
-    "ebuild": "electron-builder"
+    "build": "electron-builder"
   },
   "build": {
     "productName": "Active Directory Tools",
