@@ -14,8 +14,6 @@ const ps = new powershell({
   noProfile: true
 });
 
-console.log('Dirname:', __dirname);
-
 const primeBadge =
   ' <span class="badge badge-secondary">Primary Address</span>';
 

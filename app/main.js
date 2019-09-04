@@ -3,11 +3,17 @@ const { app, Menu, BrowserWindow, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
+// Test for scripts file location:
+let scriptsPath = path.join(__dirname, '../scripts');
+if (!fs.existsSync(scriptsPath)) {
+  scriptsPath = path.join(__dirname, '..', '..', 'scripts');
+}
+
 global.scripts = {
-  path: fs.existsSync(path.join(__dirname, 'scripts'))
-    ? path.join(__dirname, 'scripts/')
-    : path.join(__dirname, '../scripts/')
+  path: scriptsPath
 };
+
+// Set Const Variables
 const appID = 'me.westerhausen.adtools';
 const aboutMessage = `Active Directory Tools
 Version ${process.version}
@@ -56,7 +62,7 @@ function createWindow() {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile('users.html');
+  mainWindow.loadFile(path.join(__dirname, 'users.html'));
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
@@ -79,19 +85,19 @@ function createMenu() {
         {
           label: 'Modify User',
           click() {
-            mainWindow.loadFile('users.html');
+            mainWindow.loadFile(path.join(__dirname, 'users.html'));
           }
         },
         {
           label: 'New User',
           click() {
-            mainWindow.loadFile('newuser.html');
+            mainWindow.loadFile(path.join(__dirname, 'newuser.html'));
           }
         },
         {
           label: 'List Computers',
           click() {
-            mainWindow.loadFile('computers.html');
+            mainWindow.loadFile(path.join(__dirname, 'computers.html'));
           }
         }
       ]
