@@ -1,34 +1,34 @@
 // Modules to control application life and create native browser window
 const { app, Menu, BrowserWindow, dialog } = require('electron');
 const path = require('path');
-const pjson = require('./package.json');
 
-const aboutMessage = `${pjson.build.productName}
-Version ${pjson.version}
+const appID = 'me.westerhausen.adtools';
+const aboutMessage = `Active Directory Tools
+Version ${process.version}
 
-${pjson.description}
+A set of tools to make doing simple but repetitive tasks in Active Directory much easier.
 
 Utilizing the following open source libraries:
 
-node ${process.versions.node}
-electron ${process.versions.electron}
-chrome ${process.versions.chrome}
-jquery 3.4.1
-bootstrap 4.3.1
-popper.js 1.15.0
-node-powershell 4.0.0
-material design icons 4.1.95
-bootswatch 4.3.1
-datatables.net 1.10.19
+node 
+electron 
+chrome 
+jquery
+bootstrap 
+popper.js
+node-powershell 
+material design icons 
+bootswatch 
+datatables.net 
 
 
-AppID: ${pjson.build.appId}
+AppID: ${appID}
 
 
-Copyright © 2019 ${pjson.author}`;
+Copyright © 2019 Nicholas Westerhausen`;
 
 // Set Application User Model ID
-app.setAppUserModelId(pjson.build.appId);
+app.setAppUserModelId(appId);
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
