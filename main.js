@@ -28,7 +28,7 @@ AppID: ${appID}
 Copyright © 2019 Nicholas Westerhausen`;
 
 // Set Application User Model ID
-app.setAppUserModelId(appId);
+app.setAppUserModelId(appID);
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
