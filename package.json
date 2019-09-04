@@ -19,8 +19,7 @@
     "win": {
       "extraResources": [
         "./scripts/*"
-      ],
-      "publish":
+      ]
     }
   },
   "author": "Nicholas Westerhausen",
