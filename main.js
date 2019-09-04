@@ -14,7 +14,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 844,
-    icon: path.join(__dirname, 'logo.png'),
+    icon: path.join(__dirname, 'build/icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true
@@ -22,7 +22,7 @@ function createWindow() {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html');
+  mainWindow.loadFile('users.html');
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
@@ -42,12 +42,6 @@ function createMenu() {
     {
       label: 'Tools',
       submenu: [
-        {
-          label: 'Landing Page',
-          click() {
-            mainWindow.loadFile('index.html');
-          }
-        },
         {
           label: 'Modify User',
           click() {
