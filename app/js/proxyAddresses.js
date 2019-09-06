@@ -7,6 +7,7 @@ const $ = require('jquery');
 const bs = require('bootstrap');
 const powershell = require('node-powershell');
 const path = require('path');
+const { remote } = require('electron');
 
 const ps = new powershell({
   executionPolicy: 'Bypass',
@@ -28,7 +29,7 @@ function commitProxyAddressChange() {
   let newValue = getProxyAddressValue();
   let userid = $('#userDisplayname').attr('data-guid');
   let commitChange = new powershell.PSCommand(
-    path.join(__dirname, '../scripts/Update-User-ProxyAddresses')
+    path.join(remote.getGlobal('scripts').path, 'Update-User-ProxyAddresses')
   )
     .addParameter({
       userid: userid

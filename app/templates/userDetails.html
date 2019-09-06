@@ -1,20 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Modify User</title>
-    <link
-      rel="stylesheet"
-      href="node_modules/bootswatch/dist/pulse/bootstrap.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="node_modules/@mdi/font/css/materialdesignicons.min.css"
-    />
-    <link rel="stylesheet" href="./loading-bar.css" />
-  </head>
-  <body>
+<template>
+  <div class="container template" id="user-template" data-tab="useredit">
     <div class="container">
       <div class="page-header">
         <h1>Active Directory User Tool</h1>
@@ -274,14 +259,14 @@
         </div>
       </div>
     </div>
-  </body>
+  </div>
   <script>
-    require('./users.js');
-    require('./proxyAddresses.js');
+    require('./js/users.js');
+    require('./js/proxyAddresses.js');
   </script>
-  <style>
-    .mdi {
-      font-size: 1.25em;
-    }
-  </style>
-</html>
+</template>
+<script type="module">
+  let tmpl = import.meta.document.querySelector('template');
+  let content = document.importNode(tmpl.content, true);
+  export { content };
+</script>

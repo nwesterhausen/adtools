@@ -1,17 +1,15 @@
 {
   "name": "adtools",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A set of tools to make doing simple but repetitive tasks in Active Directory much easier.",
-  "main": "main.js",
+  "main": "app/main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-packager . adtools --platform win32 --arch x64 --out dist/ --overwrite",
-    "win-installer": "electron-installer-windows --src dist/adtools-win32-x64/ --dest dist/installers/",
-    "ebuild": "electron-builder"
+    "build": "electron-builder"
   },
   "build": {
     "productName": "Active Directory Tools",
-    "appId": "md.westerhausen.adtools",
+    "appId": "me.westerhausen.adtools",
     "copyright": "Copyright © 2019 ${author}",
     "nsis": {
       "oneClick": true
@@ -19,11 +17,13 @@
     "win": {
       "extraResources": [
         "./scripts/*"
-      ],
-      "publish":
+      ]
     }
   },
-  "author": "Nicholas Westerhausen",
+  "author": {
+    "name": "Nicholas Westerhausen",
+    "email": "nicholas@westerhausen.me"
+  },
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^6.0.3",

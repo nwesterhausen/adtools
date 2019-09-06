@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Active Directory Tools</title>
+    <link
+      rel="stylesheet"
+      href="../node_modules/bootswatch/dist/cosmo/bootstrap.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../node_modules/@mdi/font/css/materialdesignicons.min.css"
+    />
+    <link rel="stylesheet" href="./loading-bar.css" />
+  </head>
+  <body>
+    <div class="container my-4">
+      <div class="row">
+        <div class="col-3 px-0">
+          <div class="list-group mx-0" id="v-pills-tab" role="tablist">
+            <a
+              class="list-group-item list-group-item-action active"
+              id="main-tab"
+              data-toggle="pill"
+              href="#main"
+              role="tab"
+              >Overview</a
+            >
+            <a
+              class="list-group-item list-group-item-action "
+              id="user-tab"
+              data-toggle="pill"
+              href="#user"
+              role="tab"
+              >Edit a User</a
+            >
+            <a
+              class="list-group-item list-group-item-action "
+              id="newuser-tab"
+              data-toggle="pill"
+              href="#newuser"
+              role="tab"
+              >Create a User</a
+            >
+            <a
+              class="list-group-item list-group-item-action "
+              id="computer-tab"
+              data-toggle="pill"
+              href="#computer"
+              role="tab"
+              >Computer List</a
+            >
+          </div>
+        </div>
+        <div class="col-9">
+          <div class="tab-content" id="v-pills-tabContent">
+            <div
+              class="tab-pane fade show active"
+              id="main"
+              role="tabpanel"
+            ></div>
+            <div class="tab-pane fade" id="computer" role="tabpanel">&lbbrk; Doesn't Exist &rbbrk;</div>
+            <div class="tab-pane fade" id="newuser" role="tabpanel"></div>
+            <div class="tab-pane fade" id="user" role="tabpanel"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    window.$ = window.jquery = require('jquery');
+    window.popper = require('popper.js');
+    require('bootstrap');
+    require('./index.js');
+  </script>
+</html>

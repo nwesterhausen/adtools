@@ -2,6 +2,8 @@
 const $ = require('jquery');
 const bs = require('bootstrap');
 const powershell = require('node-powershell');
+const path = require('path');
+const { remote } = require('electron');
 
 const dt = require('datatables.net')();
 const dtbs = require('datatables.net-bs4')(window, $);
@@ -11,7 +13,9 @@ const ps = new powershell({
   noProfile: true
 });
 
-ps.addCommand('./Load-Computers.ps1');
+ps.addCommand(
+  path.join(remote.getGlobal('scripts').path, 'Load-Computers.ps1')
+);
 
 ps.invoke().then(output => {
   console.log(output);

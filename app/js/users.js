@@ -4,16 +4,14 @@
 
 // Require Dependencies
 const $ = require('jquery');
-const bs = require('bootstrap');
 const powershell = require('node-powershell');
 const path = require('path');
+const { remote } = require('electron');
 
 const ps = new powershell({
   executionPolicy: 'Bypass',
   noProfile: true
 });
-
-console.log('Dirname:', __dirname);
 
 const primeBadge =
   ' <span class="badge badge-secondary">Primary Address</span>';
@@ -29,12 +27,11 @@ $('#cancelEditBtn').click(cancelBasicInfoEditing);
 $('#mldbtnSelectResult').click(chooseResult);
 
 function loadUserDetails() {
-  $('#proxyTable').html('');
-  $('#selectNewPrimaryAddress').html('');
+  resetPage();
   let user = $('#userName').val() || 'nwesterhausen';
 
   let loadUser = new powershell.PSCommand(
-    path.join(__dirname, '../scripts/Load-AD-User')
+    path.join(remote.getGlobal('scripts').path, 'Load-AD-User')
   ).addParameter({
     username: user
   });
@@ -87,6 +84,13 @@ function updateResultsChoiceModal(resultList) {
   }
 }
 
+function resetPage() {
+  $('#grouplist').html('');
+  $('#selectResultForm').html('');
+  $('#proxyTable').html('');
+  $('#selectNewPrimaryAddress').html('');
+}
+
 function updatePageWithUserInfo(data) {
   loadGroupMembership(data.SamAccountName);
 
@@ -125,7 +129,7 @@ function updatePageWithUserInfo(data) {
 
 function loadGroupMembership(user) {
   let loadGroups = new powershell.PSCommand(
-    path.join(__dirname, '../scripts/Load-AD-UserGroupMembership')
+    path.join(remote.getGlobal('scripts').path, 'Load-AD-UserGroupMembership')
   ).addParameter({
     username: user
   });

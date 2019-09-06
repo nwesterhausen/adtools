@@ -1,34 +1,46 @@
 // Modules to control application life and create native browser window
 const { app, Menu, BrowserWindow, dialog } = require('electron');
 const path = require('path');
-const pjson = require('./package.json');
+const fs = require('fs');
 
-const aboutMessage = `${pjson.build.productName}
-Version ${pjson.version}
+// Test for scripts file location:
+let scriptsPath = path.join(__dirname, '../scripts');
+if (!fs.existsSync(scriptsPath)) {
+  scriptsPath = path.join(__dirname, '..', '..', 'scripts');
+}
 
-${pjson.description}
+global.scripts = {
+  path: scriptsPath
+};
+
+// Set Const Variables
+const appID = 'me.westerhausen.adtools';
+const aboutMessage = `Active Directory Tools
+Version ${process.version}
+
+A set of tools to make doing simple but repetitive tasks in Active Directory much easier.
 
 Utilizing the following open source libraries:
 
-node ${process.versions.node}
-electron ${process.versions.electron}
-chrome ${process.versions.chrome}
-jquery 3.4.1
-bootstrap 4.3.1
-popper.js 1.15.0
-node-powershell 4.0.0
-material design icons 4.1.95
-bootswatch 4.3.1
-datatables.net 1.10.19
+node 
+electron 
+chrome 
+jquery
+bootstrap 
+popper.js
+node-powershell 
+material design icons 
+bootswatch 
+datatables.net 
 
 
-AppID: ${pjson.build.appId}
+AppID: ${appID}
 
 
-Copyright © 2019 ${pjson.author}`;
+Copyright © 2019 Nicholas Westerhausen`;
 
 // Set Application User Model ID
-app.setAppUserModelId(pjson.build.appId);
+app.setAppUserModelId(appID);
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -40,17 +52,16 @@ function createWindow() {
 
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 844,
+    width: 1020,
+    height: 860,
     icon: path.join(__dirname, 'build/icon.png'),
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true
     }
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile('users.html');
+  mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
@@ -73,19 +84,19 @@ function createMenu() {
         {
           label: 'Modify User',
           click() {
-            mainWindow.loadFile('users.html');
+            mainWindow.loadFile(path.join(__dirname, 'users.html'));
           }
         },
         {
           label: 'New User',
           click() {
-            mainWindow.loadFile('newuser.html');
+            mainWindow.loadFile(path.join(__dirname, 'newuser.html'));
           }
         },
         {
           label: 'List Computers',
           click() {
-            mainWindow.loadFile('computers.html');
+            mainWindow.loadFile(path.join(__dirname, 'computers.html'));
           }
         }
       ]
