@@ -4,7 +4,6 @@
 
 // Require Dependencies
 const $ = require('jquery');
-const bs = require('bootstrap');
 const powershell = require('node-powershell');
 const path = require('path');
 const { remote } = require('electron');
@@ -28,8 +27,7 @@ $('#cancelEditBtn').click(cancelBasicInfoEditing);
 $('#mldbtnSelectResult').click(chooseResult);
 
 function loadUserDetails() {
-  $('#proxyTable').html('');
-  $('#selectNewPrimaryAddress').html('');
+  resetPage();
   let user = $('#userName').val() || 'nwesterhausen';
 
   let loadUser = new powershell.PSCommand(
@@ -84,6 +82,13 @@ function updateResultsChoiceModal(resultList) {
       })</select>`
     );
   }
+}
+
+function resetPage() {
+  $('#grouplist').html('');
+  $('#selectResultForm').html('');
+  $('#proxyTable').html('');
+  $('#selectNewPrimaryAddress').html('');
 }
 
 function updatePageWithUserInfo(data) {
