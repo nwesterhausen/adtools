@@ -23,6 +23,11 @@ getTemplate(path.join(__dirname, 'templates/newUser.html')).then(val => {
   console.log(val);
   $('#newuser').html(val);
 });
+// Load User List Page
+getTemplate(path.join(__dirname, 'templates/userList.html')).then(val => {
+  console.log(val);
+  $('#userlist').html(val);
+});
 // Load edit User Page
 getTemplate(path.join(__dirname, 'templates/userDetails.html')).then(val => {
   console.log(val);
