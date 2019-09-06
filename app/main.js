@@ -79,7 +79,7 @@ function createMenu() {
   const template = [
     // Help section
     {
-      label: 'Help',
+      label: 'File',
       submenu: [
         { role: 'reload' },
         { role: 'forcereload' },
