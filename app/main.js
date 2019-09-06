@@ -52,8 +52,8 @@ function createWindow() {
 
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 844,
+    width: 1020,
+    height: 860,
     icon: path.join(__dirname, 'build/icon.png'),
     webPreferences: {
       nodeIntegration: true
@@ -61,7 +61,7 @@ function createWindow() {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, 'users.html'));
+  mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
