@@ -101,6 +101,7 @@ function updatePageWithUserInfo(data) {
   $('#uSurname').val(data.Surname);
   $('#uDescription').val(data.Description);
   $('#uCompany').val(data.Company);
+  $('#uTitle').val(data.Title);
 
   $('#uSamAccountName').text(data.SamAccountName);
 
@@ -175,6 +176,7 @@ function cancelBasicInfoEditing() {
   $('#uSurname').val(data.Surname);
   $('#uDescription').val(data.Description);
   $('#uCompany').val(data.Company);
+  $('#uTitle').val(data.Title);
 
   $('#basicinfoform').prop('disabled', true);
   $('#enableEditBtn').prop('disabled', false);
