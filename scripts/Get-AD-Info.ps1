@@ -1,0 +1,1 @@
+Get-ADDomain | ConvertTo-Json -Compress
