@@ -56,7 +56,6 @@ function createWindow() {
     height: 844,
     icon: path.join(__dirname, 'build/icon.png'),
     webPreferences: {
-      preload: 'preload.js',
       nodeIntegration: true
     }
   });
