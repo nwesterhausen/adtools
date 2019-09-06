@@ -14,7 +14,6 @@
       href="../node_modules/@mdi/font/css/materialdesignicons.min.css"
     />
     <link rel="stylesheet" href="./loading-bar.css" />
-    <link rel="import" href="./templates/userDetails.html" />
   </head>
   <body>
     <div class="container my-4">
@@ -31,17 +30,17 @@
             >
             <a
               class="list-group-item list-group-item-action "
-              id="useredit-tab"
+              id="user-tab"
               data-toggle="pill"
-              href="#useredit"
+              href="#user"
               role="tab"
               >Edit a User</a
             >
             <a
               class="list-group-item list-group-item-action "
-              id="help-tab"
+              id="newuser-tab"
               data-toggle="pill"
-              href="#help"
+              href="#newuser"
               role="tab"
               >Create a User</a
             >
@@ -63,23 +62,17 @@
               role="tabpanel"
             ></div>
             <div class="tab-pane fade" id="help" role="tabpanel"></div>
-            <div class="tab-pane fade" id="contact" role="tabpanel"></div>
-            <div class="tab-pane fade" id="useredit" role="tabpanel"></div>
+            <div class="tab-pane fade" id="newuser" role="tabpanel"></div>
+            <div class="tab-pane fade" id="user" role="tabpanel"></div>
           </div>
         </div>
       </div>
     </div>
   </body>
   <script>
-    const links = document.querySelectorAll('link[rel="import"]');
-    links.forEach(link => {
-      let template = link.import.querySelector('template');
-      let clone = document.importNode(template.content, true);
-      let target = clone.querySelector('.template').dataset.tab;
-      document.getElementById(target).appendChild(clone);
-    });
     window.$ = window.jquery = require('jquery');
     window.popper = require('popper.js');
     require('bootstrap');
+    require('./index.js');
   </script>
 </html>
