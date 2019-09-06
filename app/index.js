@@ -13,6 +13,11 @@ function getTemplate(filepath) {
     });
 }
 
+// Load Domain Info Page
+getTemplate(path.join(__dirname, 'templates/domainInfo.html')).then(val => {
+  console.log(val);
+  $('#main').html(val);
+});
 // Load New User Page
 getTemplate(path.join(__dirname, 'templates/newUser.html')).then(val => {
   console.log(val);

@@ -1,0 +1,47 @@
+<template>
+  <div id="connecting-msg">
+    <p>Attempting Domain Connection...</p>
+    <!-- Loading Bar -->
+    <div class="d-flex justify-content-center">
+      <div class="la-line-scale la-dark la-2x">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  </div>
+  <div class="conatiner" id="domaininfo">
+    <div class="row">
+      <div class="col-4">Domain Name</div>
+      <div class="col-6"><span id="adName"></span></div>
+    </div>
+    <div class="row">
+      <div class="col-4">Domain Root</div>
+      <div class="col-6"><span id="adDNSRoot"></span></div>
+    </div>
+    <div class="row">
+      <div class="col-4">Forest</div>
+      <div class="col-6"><span id="adForest"></span></div>
+    </div>
+    <div class="row">
+      <div class="col-4">Domain Controllers</div>
+      <div class="col-6">
+        <span id="adDomainControllers"></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4">Domain Mode</div>
+      <div class="col-6"><span id="adDomainMode"></span></div>
+    </div>
+    <div class="row">
+      <div class="col-4">Child Domains</div>
+      <div class="col-6"><span id="adChildDomains"></span></div>
+    </div>
+    <p id="dump"></p>
+  </div>
+  <script>
+    require('./js/general.js');
+  </script>
+</template>
