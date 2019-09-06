@@ -77,30 +77,6 @@ function createWindow() {
 
 function createMenu() {
   const template = [
-    // Tool Selector
-    {
-      label: 'Jump to..',
-      submenu: [
-        {
-          label: 'Modify User',
-          click() {
-            mainWindow.loadFile(path.join(__dirname, 'users.html'));
-          }
-        },
-        {
-          label: 'New User',
-          click() {
-            mainWindow.loadFile(path.join(__dirname, 'newuser.html'));
-          }
-        },
-        {
-          label: 'List Computers',
-          click() {
-            mainWindow.loadFile(path.join(__dirname, 'computers.html'));
-          }
-        }
-      ]
-    },
     // Help section
     {
       label: 'Help',
