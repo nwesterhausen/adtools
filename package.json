@@ -9,7 +9,7 @@
   },
   "build": {
     "productName": "Active Directory Tools",
-    "appId": "md.westerhausen.adtools",
+    "appId": "me.westerhausen.adtools",
     "copyright": "Copyright © 2019 ${author}",
     "nsis": {
       "oneClick": true
