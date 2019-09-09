@@ -2,6 +2,7 @@
 const { app, Menu, BrowserWindow, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const ProgressBar = require('electron-progressbar');
 
 // Test for scripts file location:
 let scriptsPath = path.join(__dirname, '../scripts');
@@ -46,35 +47,6 @@ app.setAppUserModelId(appID);
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-function createWindow() {
-  // Add menu
-  createMenu();
-
-  // Create the browser window.
-  mainWindow = new BrowserWindow({
-    width: 1020,
-    height: 860,
-    icon: path.join(__dirname, 'build/icon.png'),
-    webPreferences: {
-      nodeIntegration: true
-    }
-  });
-
-  // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, 'index.html'));
-
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
-
-  // Emitted when the window is closed.
-  mainWindow.on('closed', function() {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null;
-  });
-}
-
 function createMenu() {
   const template = [
     // Help section
@@ -106,7 +78,58 @@ function createMenu() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', function() {
+  // Add menu
+  createMenu();
+
+  // Create the browser window.
+  mainWindow = new BrowserWindow({
+    width: 1020,
+    height: 860,
+    icon: path.join(__dirname, 'build/icon.png'),
+    webPreferences: {
+      nodeIntegration: true
+    }
+  });
+
+  // Emitted when the window is closed.
+  mainWindow.on('closed', function() {
+    // Dereference the window object, usually you would store windows
+    // in an array if your app supports multi windows, this is the time
+    // when you should delete the corresponding element.
+    mainWindow = null;
+  });
+  // Open the DevTools.
+  // mainWindow.webContents.openDevTools();
+
+  var pbar = new ProgressBar({
+    title: 'Connecting to Active Directory',
+    browserWindow: {
+      parent: mainWindow,
+      text: 'Connecting to Active Directory',
+      detail: 'Attempting basic Active Directory Connection',
+      webPreferences: {
+        nodeIntegration: true
+      }
+    }
+  });
+
+  pbar
+    .on('completed', function() {
+      console.info(`ProgressBar finished.`);
+      pbar.detail = 'Active Directory connection established. Launching...';
+
+      // and load the index.html of the app.
+      mainWindow.loadFile(path.join(__dirname, 'index.html'));
+    })
+    .on('aborted', function(value) {
+      process.quit();
+    });
+
+  setTimeout(function() {
+    pbar.setCompleted();
+  }, 2000);
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
