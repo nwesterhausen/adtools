@@ -1,11 +1,12 @@
 {
   "name": "adtools",
-  "version": "0.1.6",
+  "version": "0.1.7-snapshot",
   "description": "A set of tools to make doing simple but repetitive tasks in Active Directory much easier.",
   "main": "app/main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder"
+    "build": "electron-builder",
+    "upload": "env-cmd -f spaces.env --use-shell electron-builder -p always"
   },
   "build": {
     "productName": "Active Directory Tools",
@@ -18,7 +19,15 @@
       "extraResources": [
         "./scripts/*"
       ]
-    }
+    },
+    "publish": [
+      {
+        "provider": "spaces",
+        "name": "nwest",
+        "region": "nyc3",
+        "path": "/adtools"
+      }
+    ]
   },
   "author": {
     "name": "Nicholas Westerhausen",
@@ -29,7 +38,8 @@
     "electron": "^6.0.3",
     "electron-builder": "^21.2.0",
     "electron-installer-windows": "^2.0.0",
-    "electron-packager": "^14.0.5"
+    "electron-packager": "^14.0.5",
+    "env-cmd": "^10.0.1"
   },
   "dependencies": {
     "@mdi/font": "^4.1.95",
@@ -39,6 +49,7 @@
     "datatables.net": "^1.10.19",
     "datatables.net-bs4": "^1.10.19",
     "electron-progressbar": "^1.2.0",
+    "electron-updater": "^4.1.2",
     "jquery": "^3.4.1",
     "node-powershell": "^4.0.0",
     "popper.js": "^1.15.0"
