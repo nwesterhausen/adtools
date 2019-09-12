@@ -9,7 +9,15 @@ const logger = require('electron-log');
 logger.transports.file.level = 'info';
 logger.transports.console.level = false;
 logger.transports.rendererConsole.level = false;
-logger.transports.file.clear();
+
+// Move existing log to previous.log
+if (fs.existsSync(logger.transports.file.findLogPath())) {
+  let baselogpath = path.dirname(logger.transports.file.findLogPath());
+  fs.renameSync(
+    path.join(baselogpath, 'log.log'),
+    path.join(baselogpath, 'previous.log')
+  );
+}
 
 // Test for scripts file location:
 let scriptsPath = path.join(__dirname, '../scripts');
