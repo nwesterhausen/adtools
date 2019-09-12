@@ -6,6 +6,11 @@ const Constants = require('./js/constants');
 const powershell = require('node-powershell');
 const { waterfall } = require('async');
 const $ = require('jquery');
+const log = require('electron-log');
+
+// Set log details
+log.transports.file.level = 'info';
+log.transports.console.level = false;
 
 function getTemplate(filepath) {
   return fetch(filepath)
@@ -20,28 +25,24 @@ function getTemplate(filepath) {
 
 // Load Domain Info Page
 getTemplate(path.join(__dirname, 'templates/domainInfo.html')).then(val => {
-  console.log(val);
   $('#main').html(val);
 });
 // Load New User Page
 getTemplate(path.join(__dirname, 'templates/newUser.html')).then(val => {
-  console.log(val);
   $('#newuser').html(val);
 });
 // Load User List Page
 getTemplate(path.join(__dirname, 'templates/userList.html')).then(val => {
-  console.log(val);
   $('#userlist').html(val);
 });
 // Load edit User Page
 getTemplate(path.join(__dirname, 'templates/userDetails.html')).then(val => {
-  console.log(val);
   $('#user').html(val);
 });
 
 var pbar = new ProgressBar({
   title: 'Connecting to Active Directory',
-  text: '',
+  text: 'Connecting...',
   detail: '',
   browserWindow: {
     webPreferences: {
@@ -52,7 +53,8 @@ var pbar = new ProgressBar({
 });
 pbar
   .on('completed', function() {
-    console.info(`ProgressBar finished.`);
+    log.info(`ProgressBar finished.`);
+    pbar.text = 'Connected';
     pbar.detail = 'Active Directory connection established.';
   })
   .on('aborted', function(value) {
@@ -88,7 +90,7 @@ function establishConnectionAndStart(progressbar) {
         ps.addCommand(getInfo);
         ps.invoke().then(output => {
           let data = JSON.parse(output);
-          console.debug('getInfo', data);
+          log.debug('getInfo', data);
           setDomainInfo(data);
           callback(null);
         });
@@ -100,7 +102,7 @@ function establishConnectionAndStart(progressbar) {
         ps.invoke().then(output => {
           let data = JSON.parse(output);
           localStorage.setItem(Constants.USERSLIST, JSON.stringify(data));
-          console.debug('getUsers', data);
+          log.debug('getUsers', data);
           callback(null);
         });
         pbar.detail = 'Loading basic AD-User details.';
@@ -111,7 +113,7 @@ function establishConnectionAndStart(progressbar) {
       }
     ],
     function(err, result) {
-      console.log('waterfall result', result);
+      log.info('waterfall result', result);
       $.getScript('./js/general.js');
       $.getScript('./js/userlist.js');
     }
