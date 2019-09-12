@@ -3,16 +3,6 @@
 // All of the Node.js APIs are available in this process.
 
 // Require Dependencies
-const $ = require('jquery');
-const bs = require('bootstrap');
-const powershell = require('node-powershell');
-const path = require('path');
-const { remote } = require('electron');
-
-const ps = new powershell({
-  executionPolicy: 'Bypass',
-  noProfile: true
-});
 
 const primeBadge =
   ' <span class="badge badge-secondary">Primary Address</span>';

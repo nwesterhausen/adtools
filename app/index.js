@@ -6,11 +6,13 @@ const Constants = require('./js/constants');
 const powershell = require('node-powershell');
 const { waterfall } = require('async');
 const $ = require('jquery');
-const log = require('electron-log');
+const bs = require('bootstrap');
+const logger = require('electron-log');
 
 // Set log details
-log.transports.file.level = 'info';
-log.transports.console.level = false;
+logger.transports.file.level = 'info';
+logger.transports.console.level = false;
+logger.transports.mainConsole.level = false;
 
 function getTemplate(filepath) {
   return fetch(filepath)
@@ -53,7 +55,7 @@ var pbar = new ProgressBar({
 });
 pbar
   .on('completed', function() {
-    log.info(`ProgressBar finished.`);
+    logger.info(`ProgressBar finished.`);
     pbar.text = 'Connected';
     pbar.detail = 'Active Directory connection established.';
   })
@@ -90,7 +92,7 @@ function establishConnectionAndStart(progressbar) {
         ps.addCommand(getInfo);
         ps.invoke().then(output => {
           let data = JSON.parse(output);
-          log.debug('getInfo', data);
+          logger.debug('getInfo', output);
           setDomainInfo(data);
           callback(null);
         });
@@ -102,7 +104,7 @@ function establishConnectionAndStart(progressbar) {
         ps.invoke().then(output => {
           let data = JSON.parse(output);
           localStorage.setItem(Constants.USERSLIST, JSON.stringify(data));
-          log.debug('getUsers', data);
+          logger.debug('getUsers', output);
           callback(null);
         });
         pbar.detail = 'Loading basic AD-User details.';
@@ -113,9 +115,12 @@ function establishConnectionAndStart(progressbar) {
       }
     ],
     function(err, result) {
-      log.info('waterfall result', result);
+      logger.info('waterfall result', result);
       $.getScript('./js/general.js');
       $.getScript('./js/userlist.js');
+      $.getScript('./js/newuser.js');
+      $.getScript('./js/users.js');
+      $.getScript('./js/proxyAddresses.js');
     }
   );
 }
