@@ -37,10 +37,7 @@ global.connection = {
 
 // Set Const Variables
 const appID = 'me.westerhausen.adtools';
-const aboutMessage = `Active Directory Tools
-Version ${process.version}
-
-A set of tools to make doing simple but repetitive tasks in Active Directory much easier.
+const aboutMessage = `A set of tools to make doing simple but repetitive tasks in Active Directory much easier.
 
 AppID: ${appID}
 Copyright © 2019 Nicholas Westerhausen`;
@@ -94,7 +91,8 @@ app.on('ready', function() {
     icon: path.join(__dirname, 'build/icon.png'),
     webPreferences: {
       nodeIntegration: true
-    }
+    },
+    title: `Active Directory Tools ${app.getVersion()}`
   });
 
   // Emitted when the window is closed.
