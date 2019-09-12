@@ -41,6 +41,10 @@ getTemplate(path.join(__dirname, 'templates/userList.html')).then(val => {
 getTemplate(path.join(__dirname, 'templates/userDetails.html')).then(val => {
   $('#user').html(val);
 });
+// Load settings Page
+getTemplate(path.join(__dirname, 'templates/settings.html')).then(val => {
+  $('#settings').html(val);
+});
 
 var pbar = new ProgressBar({
   title: 'Connecting to Active Directory',
