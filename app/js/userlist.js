@@ -1,18 +1,6 @@
-const powershell = require('node-powershell');
-const path = require('path');
-const { remote } = require('electron');
+updateUserListTableFromLocalStorage();
 
-const ps = new powershell({
-  executionPolicy: 'Bypass',
-  noProfile: true
-});
-
-ps.addCommand(path.join(remote.getGlobal('scripts').path, 'Load-User-List'));
-
-ps.invoke().then(output => {
-  let data = JSON.parse(output);
-  console.log(data);
-
+function updateUserListTableFromLocalStorage() {
   let columns = [
     { title: 'Company', data: 'Company' },
     { title: 'First', data: 'GivenName' },
@@ -26,8 +14,18 @@ ps.invoke().then(output => {
   ];
 
   // Create DataTable
+  let data = JSON.parse(localStorage.getItem(Constants.USERSLIST));
   $('#userListTable').html(buildTable(columns, data));
-});
+}
+
+function updateUserListInfo() {
+  ps.addCommand(path.join(remote.getGlobal('scripts').path, 'Load-User-List'));
+
+  ps.invoke().then(output => {
+    let data = JSON.parse(output);
+    console.log(data);
+  });
+}
 
 function buildTable(columns, data) {
   let tb = '<thead>';

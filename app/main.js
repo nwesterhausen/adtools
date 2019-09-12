@@ -2,7 +2,6 @@
 const { app, Menu, BrowserWindow, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
-const ProgressBar = require('electron-progressbar');
 
 // Test for scripts file location:
 let scriptsPath = path.join(__dirname, '../scripts');
@@ -14,6 +13,12 @@ global.scripts = {
   path: scriptsPath
 };
 
+// Set a global regarding AD connection
+
+global.connection = {
+  status: false
+};
+
 // Set Const Variables
 const appID = 'me.westerhausen.adtools';
 const aboutMessage = `Active Directory Tools
@@ -21,23 +26,7 @@ Version ${process.version}
 
 A set of tools to make doing simple but repetitive tasks in Active Directory much easier.
 
-Utilizing the following open source libraries:
-
-node 
-electron 
-chrome 
-jquery
-bootstrap 
-popper.js
-node-powershell 
-material design icons 
-bootswatch 
-datatables.net 
-
-
 AppID: ${appID}
-
-
 Copyright © 2019 Nicholas Westerhausen`;
 
 // Set Application User Model ID
@@ -102,33 +91,8 @@ app.on('ready', function() {
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
 
-  var pbar = new ProgressBar({
-    title: 'Connecting to Active Directory',
-    browserWindow: {
-      parent: mainWindow,
-      text: 'Connecting to Active Directory',
-      detail: 'Attempting basic Active Directory Connection',
-      webPreferences: {
-        nodeIntegration: true
-      }
-    }
-  });
-
-  pbar
-    .on('completed', function() {
-      console.info(`ProgressBar finished.`);
-      pbar.detail = 'Active Directory connection established. Launching...';
-
-      // and load the index.html of the app.
-      mainWindow.loadFile(path.join(__dirname, 'index.html'));
-    })
-    .on('aborted', function(value) {
-      process.quit();
-    });
-
-  setTimeout(function() {
-    pbar.setCompleted();
-  }, 2000);
+  // and load the index.html of the app.
+  mainWindow.loadFile(path.join(__dirname, 'index.html'));
 });
 
 // Quit when all windows are closed.
