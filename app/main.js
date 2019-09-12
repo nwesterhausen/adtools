@@ -3,6 +3,13 @@ const { app, Menu, BrowserWindow, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const { autoUpdater } = require('electron-updater');
+const logger = require('electron-log');
+
+// Set log details
+logger.transports.file.level = 'info';
+logger.transports.console.level = false;
+logger.transports.rendererConsole.level = false;
+logger.transports.file.clear();
 
 // Test for scripts file location:
 let scriptsPath = path.join(__dirname, '../scripts');
@@ -112,43 +119,17 @@ app.on('activate', function() {
   if (mainWindow === null) createWindow();
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
-//-------------------------------------------------------------------
-// Open a window that displays the version
-//
-// THIS SECTION IS NOT REQUIRED
-//
-// This isn't required for auto-updates to work, but it's easier
-// for the app to show a window than to have to click "About" to see
-// that updates are working.
-//-------------------------------------------------------------------
-let win;
-
-function sendStatusToWindow(text) {
-  logger.info(text);
-  win.webContents.send('message', text);
-}
-function createDefaultWindow() {
-  win = new BrowserWindow();
-  win.webContents.openDevTools();
-  win.on('closed', () => {
-    win = null;
-  });
-  win.loadURL(`file://${__dirname}/version.html#v${app.getVersion()}`);
-  return win;
-}
 autoUpdater.on('checking-for-update', () => {
-  sendStatusToWindow('Checking for update...');
+  logger.info('Checking for update...');
 });
 autoUpdater.on('update-available', info => {
-  sendStatusToWindow('Update available.');
+  logger.info('Update available.');
 });
 autoUpdater.on('update-not-available', info => {
-  sendStatusToWindow('Update not available.');
+  logger.info('Update not available.');
 });
 autoUpdater.on('error', err => {
-  sendStatusToWindow('Error in auto-updater. ' + err);
+  logger.info('Error in auto-updater. ' + err);
 });
 autoUpdater.on('download-progress', progressObj => {
   let log_message = 'Download speed: ' + progressObj.bytesPerSecond;
@@ -160,8 +141,8 @@ autoUpdater.on('download-progress', progressObj => {
     '/' +
     progressObj.total +
     ')';
-  sendStatusToWindow(log_message);
+  logger.info(log_message);
 });
 autoUpdater.on('update-downloaded', info => {
-  sendStatusToWindow('Update downloaded');
+  logger.info('Update downloaded');
 });
