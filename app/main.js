@@ -87,6 +87,8 @@ app.on('ready', function() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     icon: path.join(__dirname, 'build/icon.png'),
+    height: 600,
+    width: 1050,
     webPreferences: {
       nodeIntegration: true
     },
