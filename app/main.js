@@ -24,7 +24,7 @@ let scriptsPath = path.join(__dirname, '../scripts');
 if (!fs.existsSync(scriptsPath)) {
   scriptsPath = path.join(__dirname, '..', '..', 'scripts');
 }
-
+// Then set global path for scripts
 global.scripts = {
   path: scriptsPath
 };
