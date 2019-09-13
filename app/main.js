@@ -86,8 +86,6 @@ app.on('ready', function() {
 
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 1020,
-    height: 860,
     icon: path.join(__dirname, 'build/icon.png'),
     webPreferences: {
       nodeIntegration: true
@@ -125,14 +123,17 @@ app.on('activate', function() {
   if (mainWindow === null) createWindow();
 });
 
+// UPDATER ITEMS
 autoUpdater.on('checking-for-update', () => {
   logger.info('Checking for update...');
 });
 autoUpdater.on('update-available', info => {
   logger.info('Update available.');
+  logger.info(info);
 });
 autoUpdater.on('update-not-available', info => {
   logger.info('Update not available.');
+  logger.info(info);
 });
 autoUpdater.on('error', err => {
   logger.info('Error in auto-updater. ' + err);
@@ -151,4 +152,5 @@ autoUpdater.on('download-progress', progressObj => {
 });
 autoUpdater.on('update-downloaded', info => {
   logger.info('Update downloaded');
+  logger.info(info);
 });
