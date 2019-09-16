@@ -1,6 +1,7 @@
 // Exports
 module.exports = {
   loadUserDetails,
+  loadUserDetailsEnter,
   chooseResult,
   enabledBasicInfoEditing,
   cancelBasicInfoEditing,
@@ -24,6 +25,11 @@ const primeBadge =
   ' <span class="badge badge-secondary">Primary Address</span>';
 
 // EDIT USER FUNCTIONS
+function loadUserDetailsEnter(event) {
+  // check if key was enterkey
+  if (event.which === 13) loadUserDetails();
+}
+
 function loadUserDetails() {
   resetPage();
   let user = $('#userName').val() || 'nwesterhausen';
@@ -108,22 +114,24 @@ function updatePageWithUserInfo(data) {
   $('#primaryLabel').show();
   $('#addresslistLabel').show();
 
-  data.proxyAddresses.forEach(value => {
-    let address = value.split(':')[1];
-    let isprime = value.split(':')[0] === 'SMTP';
+  if (data.proxyAddresses) {
+    data.proxyAddresses.forEach(value => {
+      let address = value.split(':')[1];
+      let isprime = value.split(':')[0] === 'SMTP';
 
-    $('#proxyTable').append(
-      `<li class="list-group-item" data-value="${value}" ${
-        isprime ? 'active' : ''
-      }>${address}${isprime ? primeBadge : ''}</li>`
-    );
-    if (isprime) {
-      $('#modalCurrPrim').text(address);
-    }
-    $('#selectNewPrimaryAddress').append(
-      `<option ${isprime ? 'selected' : ''}>${address}</option>`
-    );
-  });
+      $('#proxyTable').append(
+        `<li class="list-group-item" data-value="${value}" ${
+          isprime ? 'active' : ''
+        }>${address}${isprime ? primeBadge : ''}</li>`
+      );
+      if (isprime) {
+        $('#modalCurrPrim').text(address);
+      }
+      $('#selectNewPrimaryAddress').append(
+        `<option ${isprime ? 'selected' : ''}>${address}</option>`
+      );
+    });
+  }
 }
 
 function loadGroupMembership(user) {

@@ -218,6 +218,7 @@ function registerHandlers() {
   $('#basicinfoform input').prop('disabled', true);
   $('#basicinfoform select').prop('disabled', true);
 
+  $('#userName').keypress(edituser.loadUserDetailsEnter);
   $('#userLookup').click(edituser.loadUserDetails);
   $('#enableEditBtn').click(edituser.enabledBasicInfoEditing);
   $('#cancelEditBtn').click(edituser.cancelBasicInfoEditing);
