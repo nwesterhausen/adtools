@@ -86,7 +86,7 @@ app.on('ready', function() {
 
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    icon: path.join(__dirname, 'build/icon.png'),
+    icon: path.join(__dirname, '../build/icon.png'),
     height: 600,
     width: 1050,
     webPreferences: {
@@ -94,6 +94,7 @@ app.on('ready', function() {
     },
     title: `Active Directory Tools ${app.getVersion()}`
   });
+  mainWindow.maximize();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
