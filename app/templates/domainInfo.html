@@ -1,31 +1,71 @@
 <template>
-  <div class="conatiner" id="domaininfo">
-    <div class="row">
-      <div class="col-4">Domain Name</div>
-      <div class="col-6"><span id="adName"></span></div>
-    </div>
-    <div class="row">
-      <div class="col-4">Domain Root</div>
-      <div class="col-6"><span id="adDNSRoot"></span></div>
-    </div>
-    <div class="row">
-      <div class="col-4">Forest</div>
-      <div class="col-6"><span id="adForest"></span></div>
-    </div>
-    <div class="row">
-      <div class="col-4">Domain Controllers</div>
-      <div class="col-6">
-        <span id="adDomainControllers"></span>
+  <div class="jumbotron">
+    <h1 class="display-3">Active Directory Tools</h1>
+    <p class="lead">A simple app to help the lay-admin make simple changes.</p>
+    <hr class="my-4" />
+    <p>
+      Active directory status:
+      <span id="adconnectionStatus" class="px-1">unknown</span>
+    </p>
+  </div>
+  <div class="d-flex flex-wrap">
+    <div id="basicDomainInfoCard" class="card m-3">
+      <div class="card-header">Basic Domain Info</div>
+      <div class="card-body">
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <td>Domain Name</td>
+              <td><span id="adName"></span></td>
+            </tr>
+            <tr>
+              <td>Domain Root</td>
+              <td><span id="adDNSRoot"></span></td>
+            </tr>
+            <tr>
+              <td>Forest</td>
+              <td><span id="adForest"></span></td>
+            </tr>
+            <tr>
+              <td>Domain Controllers</td>
+              <td><span id="adDomainControllers"></span></td>
+            </tr>
+            <tr>
+              <td>Domain Mode</td>
+              <td><span id="adDomainMode"></span></td>
+            </tr>
+            <tr>
+              <td>Child Domains</td>
+              <td><span id="adChildDomains"></span></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-    <div class="row">
-      <div class="col-4">Domain Mode</div>
-      <div class="col-6"><span id="adDomainMode"></span></div>
+    <div id="bonusDomainInfoCard" class="card m-3">
+      <div class="card-header">Domain Statistics</div>
+      <div class="card-body">
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <td>Users in Domain</td>
+              <td><span id="adUserTotal">204</span></td>
+            </tr>
+            <tr>
+              <td>Total Disabled Users</td>
+              <td><span id="adDisabledUserTotal">82</span></td>
+            </tr>
+            <tr>
+              <td>Computers in Domain</td>
+              <td><span id="adComputerTotal">137</span></td>
+            </tr>
+            <tr>
+              <td>Total Disabled Computers</td>
+              <td><span id="adDisabledComputerTotal">64</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="row">
-      <div class="col-4">Child Domains</div>
-      <div class="col-6"><span id="adChildDomains"></span></div>
-    </div>
-    <p id="dump"></p>
   </div>
 </template>
