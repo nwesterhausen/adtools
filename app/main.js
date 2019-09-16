@@ -37,7 +37,7 @@ global.connection = {
 
 // Set Const Variables
 const appID = 'me.westerhausen.adtools';
-const aboutMessage = `A set of tools to make doing simple but repetitive tasks in Active Directory much easier.
+const aboutMessage = `A simple app to help the lay-admin make simple changes.
 
 AppID: ${appID}
 Copyright © 2019 Nicholas Westerhausen`;
