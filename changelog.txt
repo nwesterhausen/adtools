@@ -1,3 +1,4 @@
-v0.1.15
+v0.1.15-snapshot
 
-Feature Began tracking changes in a changelog.
+Feature: Began tracking changes in a changelog.
+Feature: Wrote 'changelog-uploader' which uploads a new changelog when publishing an update.

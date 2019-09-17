@@ -6,7 +6,9 @@
   "scripts": {
     "start": "electron .",
     "build": "electron-builder",
-    "upload": "env-cmd -f spaces.env --use-shell electron-builder -p always"
+    "changelog": "node changelog-uploader.js",
+    "buildp": "electron-builder -p always",
+    "upload": "env-cmd -f spaces.env --use-shell \"yarn buildp && yarn changelog\""
   },
   "build": {
     "productName": "Active Directory Tools",
@@ -35,9 +37,12 @@
   },
   "license": "CC0-1.0",
   "devDependencies": {
+    "aws-sdk": "^2.529.0",
+    "builder-util": "^21.2.0",
     "electron": "^6.0.3",
     "electron-builder": "^21.2.0",
     "electron-installer-windows": "^2.0.0",
+    "electron-util": "^0.12.1",
     "env-cmd": "^10.0.1"
   },
   "dependencies": {
@@ -48,7 +53,6 @@
     "datatables.net": "^1.10.19",
     "datatables.net-bs4": "^1.10.19",
     "electron-json-storage": "^4.1.8",
-    "electron-log": "^3.0.7",
     "electron-progressbar": "^1.2.0",
     "electron-updater": "^4.1.2",
     "jquery": "^3.4.1",
