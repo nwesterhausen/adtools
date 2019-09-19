@@ -1,5 +1,7 @@
 v0.1.16-snapshot
 
+Fix: Included Matieral-Design Icon CSS Shim
+
 v0.1.15
 
 Feature: Began tracking changes in a changelog.
