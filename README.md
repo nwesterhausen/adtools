@@ -18,7 +18,7 @@ cd adtools
 # Install dependencies
 yarn
 # Run the app
-yarn
+yarn start
 ```
 
 ## License
