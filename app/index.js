@@ -2,10 +2,11 @@
 const path = require('path');
 const { remote, ipcRenderer } = require('electron');
 const ProgressBar = require('electron-progressbar');
-const Constants = require('./constants');
-const StorageUtil = require('./js/storage');
 const { waterfall } = require('async');
 const $ = require('jquery');
+
+const Constants = require('./constants');
+const StorageUtil = require('./js/storage');
 const edituser = require('./js/editUser');
 const pscmd = require('./js/powershell-commander');
 const logger = {
