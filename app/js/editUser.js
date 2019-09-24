@@ -9,16 +9,9 @@ module.exports = {
   updateProxyAddressList
 };
 // Imports
-const powershell = require('node-powershell');
-const path = require('path');
-const { remote } = require('electron');
+const pscmd = require('./powershell-commander');
 const $ = require('jquery');
 const logger = require('electron-log');
-
-const ps = new powershell({
-  executionPolicy: 'Bypass',
-  noProfile: true
-});
 
 // Static HTML for Inclusion
 const primeBadge =
@@ -30,45 +23,25 @@ function loadUserDetailsEnter(event) {
   if (event.which === 13) loadUserDetails();
 }
 
-function loadUserDetails() {
+async function loadUserDetails() {
   resetPage();
   let user = $('#userName').val() || 'nwesterhausen';
 
-  let loadUser = new powershell.PSCommand(
-    path.join(remote.getGlobal('scripts').path, 'Load-AD-User')
-  ).addParameter({
-    username: user
-  });
-
-  ps.addCommand(loadUser);
-
-  // Pull the Trigger
-  ps.invoke()
-    .then(output => {
-      $('#loadingBar').hide();
-      $('#detailsTabs').show();
-      $('#userHeader').show();
-      console.log(output);
-      let data = JSON.parse(output);
-      console.log(data);
-
-      // It's possible that the data returned is a list instead of a single
-      // account. So we should check if we got a list back or not.
-      if (Array.isArray(data)) {
-        updateResultsChoiceModal(data);
-        $('#multipleResultsModal').modal();
-      } else {
-        updatePageWithUserInfo(data);
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      ps.dispose();
-    });
-
-  console.log('Invoked Powershell Command.');
   $('#loadingBar').show();
   $('#detailsTabs').hide();
+  let data = await pscmd.loadAdUser(user);
+
+  // It's possible that the data returned is a list instead of a single
+  // account. So we should check if we got a list back or not.
+  if (Array.isArray(data)) {
+    updateResultsChoiceModal(data);
+    $('#multipleResultsModal').modal();
+  } else {
+    updatePageWithUserInfo(data);
+  }
+  $('#loadingBar').hide();
+  $('#detailsTabs').show();
+  $('#userHeader').show();
 }
 
 function chooseResult() {
@@ -134,33 +107,13 @@ function updatePageWithUserInfo(data) {
   }
 }
 
-function loadGroupMembership(user) {
-  let loadGroups = new powershell.PSCommand(
-    path.join(remote.getGlobal('scripts').path, 'Load-AD-UserGroupMembership')
-  ).addParameter({
-    username: user
+async function loadGroupMembership(user) {
+  let data = await pscmd.loadUserGroupMembership(user);
+  data.forEach(value => {
+    $('#grouplist').append(`<li class='list-group-item'>${value.name}</li>`);
   });
 
-  ps.addCommand(loadGroups);
-
-  ps.invoke()
-    .then(output => {
-      console.log(output);
-      let data = JSON.parse(output);
-      console.log(data);
-
-      data.forEach(value => {
-        $('#grouplist').append(
-          `<li class='list-group-item'>${value.name}</li>`
-        );
-      });
-
-      $('#grouptabtoggle').prop('disabled', false);
-    })
-    .catch(err => {
-      console.error(err);
-      ps.dispose();
-    });
+  $('#grouptabtoggle').prop('disabled', false);
 }
 
 function enabledBasicInfoEditing() {
@@ -202,21 +155,7 @@ function getProxyAddressValue() {
 function commitProxyAddressChange() {
   let newValue = getProxyAddressValue();
   let userid = $('#userDisplayname').attr('data-guid');
-  let commitChange = new powershell.PSCommand(
-    path.join(remote.getGlobal('scripts').path, 'Update-User-ProxyAddresses')
-  )
-    .addParameter({
-      userid: userid
-    })
-    .addParameter({
-      proxyAddresses: newValue
-    });
-
-  ps.addCommand(commitChange);
-
-  ps.invoke().then(output => {
-    console.log(output);
-  });
+  pscmd.saveUserProxyAddresses(userid, newValue);
 }
 
 function updateProxyAddressList() {
