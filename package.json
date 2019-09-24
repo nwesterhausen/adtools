@@ -35,7 +35,7 @@
     "name": "Nicholas Westerhausen",
     "email": "nicholas@westerhausen.me"
   },
-  "license": "CC0-1.0",
+  "license": "MIT",
   "devDependencies": {
     "aws-sdk": "^2.529.0",
     "builder-util": "^21.2.0",
