@@ -1,18 +1,28 @@
 // Require Dependencies
 const path = require('path');
-const { remote } = require('electron');
+const { remote, ipcRenderer } = require('electron');
 const ProgressBar = require('electron-progressbar');
 const Constants = require('./constants');
 const powershell = require('node-powershell');
 const { waterfall } = require('async');
 const $ = require('jquery');
-const logger = require('electron-log');
 const edituser = require('./js/editUser');
-
-// Set log details
-logger.transports.file.level = 'info';
-logger.transports.console.level = false;
-logger.transports.mainConsole.level = false;
+const pscmd = require('./js/powershell-commander');
+const logger = {
+  info: function(msg) {
+    ipcRenderer.sendSync('log', { sev: 'info', msg: msg });
+  },
+  warning: function(msg) {
+    ipcRenderer.sendSync('log', { sev: 'warning', msg: msg });
+  },
+  error: function(msg) {
+    ipcRenderer.sendSync('log', { sev: 'error', msg: msg });
+  },
+  debug: function(msg) {
+    ipcRenderer.sendSync('log', { sev: 'debug', msg: msg });
+  }
+};
+logger.info('test');
 
 // Establish powershell instance
 const ps = new powershell({
@@ -119,15 +129,12 @@ function establishConnectionAndStart(progressbar) {
     waterfall(
       [
         function(callback) {
+          pbar.detail = 'Loading basic Domain information';
           // Check for basic domain info
-          ps.addCommand(getInfo);
-          ps.invoke().then(output => {
-            let data = JSON.parse(output);
-            logger.debug('getInfo', output);
+          pscmd.getBasicDomainInfo().then(data => {
             setDomainInfo(data);
             callback(null);
           });
-          pbar.detail = 'Loading basic Domain information';
         },
         function(callback) {
           // Get list of AD-Users

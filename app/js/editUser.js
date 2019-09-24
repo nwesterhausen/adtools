@@ -11,7 +11,22 @@ module.exports = {
 // Imports
 const pscmd = require('./powershell-commander');
 const $ = require('jquery');
-const logger = require('electron-log');
+
+const { ipcRenderer } = require('electron');
+const logger = {
+  info: function(msg) {
+    ipcRenderer.sendSync('log', { sev: 'info', msg: msg });
+  },
+  warning: function(msg) {
+    ipcRenderer.sendSync('log', { sev: 'warning', msg: msg });
+  },
+  error: function(msg) {
+    ipcRenderer.sendSync('log', { sev: 'error', msg: msg });
+  },
+  debug: function(msg) {
+    ipcRenderer.sendSync('log', { sev: 'debug', msg: msg });
+  }
+};
 
 // Static HTML for Inclusion
 const primeBadge =
@@ -52,7 +67,7 @@ function chooseResult() {
 function updateResultsChoiceModal(resultList) {
   for (let i = 0; i < resultList.length; i++) {
     let r = resultList[i];
-    console.log(r.Name, r.SamAccountName);
+
     $('#selectResultForm').append(
       `<option value='${JSON.stringify(r)}'>${r.Name} (${
         r.SamAccountName

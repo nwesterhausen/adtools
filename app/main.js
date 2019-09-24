@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, Menu, BrowserWindow, dialog } = require('electron');
+const { app, Menu, BrowserWindow, dialog, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const { autoUpdater } = require('electron-updater');
@@ -10,6 +10,29 @@ logger.transports.file.level = 'info';
 logger.transports.console.level = false;
 logger.transports.rendererConsole.level = false;
 
+// Make Logging Available To Other Windows
+ipcMain.on('log', (event, args) => {
+  if (!args.msg) logger.error(`Got bad logging request:\n${event}\n${args}`);
+  else {
+    switch (args.sev) {
+      case 'error':
+        logger.error(args.msg);
+        break;
+      case 'warning':
+        logger.warning(args.msg);
+        break;
+      case 'debug':
+        logger.debug(args.msg);
+        break;
+      case 'info':
+      default:
+        logger.info(args.msg);
+        break;
+    }
+  }
+  event.returnValue = true;
+});
+
 // Move existing log to previous.log
 if (fs.existsSync(logger.transports.file.findLogPath())) {
   let baselogpath = path.dirname(logger.transports.file.findLogPath());
@@ -18,6 +41,7 @@ if (fs.existsSync(logger.transports.file.findLogPath())) {
     path.join(baselogpath, 'previous.log')
   );
 }
+logger.info('App started.');
 
 // Test for scripts file location:
 let scriptsPath = path.join(__dirname, '../scripts');

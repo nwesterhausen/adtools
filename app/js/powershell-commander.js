@@ -4,18 +4,40 @@
  */
 const powershell = require('node-powershell');
 const path = require('path');
-const { remote } = require('electron');
-const logger = require('electron-log');
-
+const { remote, ipcRenderer } = require('electron');
+const logger = {
+  info: function(msg) {
+    ipcRenderer.sendSync('log', { sev: 'info', msg: msg });
+  },
+  warning: function(msg) {
+    ipcRenderer.sendSync('log', { sev: 'warning', msg: msg });
+  },
+  error: function(msg) {
+    ipcRenderer.sendSync('log', { sev: 'error', msg: msg });
+  },
+  debug: function(msg) {
+    ipcRenderer.sendSync('log', { sev: 'debug', msg: msg });
+  }
+};
+logger.info('test');
 const ps = new powershell({
   executionPolicy: 'Bypass',
   noProfile: true
 });
 
+// Set up PS commands to use
+const getInfo = new powershell.PSCommand(
+  path.join(remote.getGlobal('scripts').path, 'Get-AD-Info')
+);
+const getUsers = new powershell.PSCommand(
+  path.join(remote.getGlobal('scripts').path, 'Load-User-List')
+);
+
 module.exports = {
   loadAdUser,
   loadUserGroupMembership,
-  saveUserProxyAddresses
+  saveUserProxyAddresses,
+  getBasicDomainInfo
 };
 
 async function loadAdUser(user) {
@@ -66,4 +88,11 @@ async function saveUserProxyAddresses(userGuid, proxyList) {
   ps.invoke().then(output => {
     logger.info(`Saved new proxy addresses for user. ${output}`);
   });
+}
+
+async function getBasicDomainInfo() {
+  ps.addCommand(getInfo);
+  let output = await ps.invoke();
+  logger.debug(`Got basic domain info: ${output}`);
+  return JSON.parse(output);
 }
