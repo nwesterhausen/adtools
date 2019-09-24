@@ -20,3 +20,14 @@ yarn
 # Run the app
 yarn start
 ```
+
+### electron-progressbar
+
+To properly run the app using `yarn run`, you will need to modify the code
+used in electron-progress bar how it is modified in
+[PR #12](https://github.com/AndersonMamede/electron-progressbar/pull/12).
+
+If you are really using yarn, you can modify the electron-progressbar in your
+cache and it will maintain that change wherever you yarn. The change in PR12
+does not affect currently working code, only adds an optional argument to the
+progress-bar creation to allow specifying a remote window.
