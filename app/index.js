@@ -9,6 +9,7 @@ const Constants = require('./constants');
 const StorageUtil = require('./js/storage');
 const edituser = require('./js/editUser');
 const pscmd = require('./js/powershell-commander');
+// Helper for sending log messages:
 const logger = {
   info: function(msg) {
     ipcRenderer.sendSync('log', { sev: 'info', msg: msg });
@@ -23,30 +24,12 @@ const logger = {
     ipcRenderer.sendSync('log', { sev: 'debug', msg: msg });
   }
 };
-logger.info('test');
 
-var pbar = new ProgressBar({
-  title: 'Establishing Connection to Active Directory',
-  text: 'Connecting...',
-  detail: '',
-  browserWindow: {
-    webPreferences: {
-      nodeIntegration: true
-    }
-  },
-  remoteWindow: remote.BrowserWindow
-});
-pbar
-  .on('completed', function() {
-    logger.info(`ProgressBar finished.`);
-    pbar.text = 'Connected';
-    pbar.detail = 'Active Directory connection established.';
-  })
-  .on('aborted', function(value) {
-    process.quit();
-  });
-// Waterfall through the template loads because we can't populate the page until
-// the pages all exist!
+// define the progress bar here so it isn't garbage collected
+let pbar;
+
+// Using waterfall to chain-add templates (basically so we know that they all
+// get added before we continue further.)
 waterfall(
   [
     function(callback) {
@@ -92,11 +75,44 @@ waterfall(
   function(err, result) {
     if (err) logger.error(err);
     else logger.info('Loaded template files');
-    registerHandlers(); // establish interactivity now that page is loaded
+    // Now we can register the handlers for clicks etc.
+    registerHandlers();
+
+    // Progress bar displays inital connectivity to Active Directory.
+    // It displays immediately once it is instantiated and then we interact
+    // with it as we make calls to the powershell-commander.
+    pbar = new ProgressBar({
+      title: 'Establishing Connection to Active Directory',
+      text: 'Connecting...',
+      detail: '',
+      browserWindow: {
+        webPreferences: {
+          nodeIntegration: true
+        }
+      },
+      remoteWindow: remote.BrowserWindow
+    });
+    pbar
+      .on('completed', function() {
+        logger.info(`ProgressBar finished.`);
+        pbar.text = 'Connected';
+        pbar.detail = 'Active Directory connection established.';
+      })
+      .on('aborted', function(value) {
+        process.quit();
+      });
+    // Now let's start the connection process.
     establishConnectionAndStart(pbar); // continue loading info
   }
 );
 
+/**
+ * HTMLstring:getTemplate
+ *
+ * Function which performs a fetch on an HTML file and returns the HTML
+ *
+ * @param {path} filepath
+ */
 function getTemplate(filepath) {
   return fetch(filepath)
     .then(response => {
@@ -108,8 +124,25 @@ function getTemplate(filepath) {
     });
 }
 
+/**
+ * void: establishConnectionAndStart
+ *
+ * This function checks for existing session storage and if there is none, it
+ * creates empty values for the fields we use, then goes through and calls
+ * powershell commander to run the basic info gathering scripts, filling them
+ * into session storage.progressbar
+ *
+ * If there already exisits session storage when this function runs, it simply
+ * loads values from the session storage instead of getting them again.
+ *
+ * This function interacts with the progressbar to update it's detail with the
+ * current status and to complete it when the process is done.
+ *
+ * @param {electron-progressbar.ProgressBar} progressbar
+ */
 function establishConnectionAndStart(progressbar) {
-  // check for existing local storage
+  // If session storage doesn't have the domain name key, then we assume there
+  // is no session storage.
   if (!sessionStorage.getItem(Constants.DOMAIN.NAME)) {
     StorageUtil.populateStorage();
 
@@ -120,6 +153,7 @@ function establishConnectionAndStart(progressbar) {
           pbar.detail = 'Loading basic Domain information';
           // Check for basic domain info
           pscmd.getBasicDomainInfo().then(data => {
+            // Save basic domain info to session storage
             StorageUtil.setDomainInfo(data);
             callback(null);
           });
@@ -128,18 +162,19 @@ function establishConnectionAndStart(progressbar) {
           pbar.detail = 'Loading basic AD-User details.';
           // Get list of AD-Users
           pscmd.getBasicUserInfo().then(data => {
+            // Save list to session storage
             sessionStorage.setItem(Constants.USERSLIST, JSON.stringify(data));
             callback(null);
           });
-        },
-        function(callback) {
-          progressbar.setCompleted();
-          callback(null, 'done');
         }
       ],
       function(err, result) {
         if (err) logger.error(err);
+        // Finally, "complete" the progressbar
+        progressbar.setCompleted();
+        // Log when we are done.
         logger.info('Series of AD Connections Done', result);
+        // Update the page with the data we stored in session storage.
         updateDomainInfoFromStorage();
         updateUserListTableFromsessionStorage();
       }
@@ -155,6 +190,13 @@ function establishConnectionAndStart(progressbar) {
   }
 }
 
+/**
+ * void: registerHandlers
+ *
+ * This function interacts with the page, setting the default visibility state
+ * of some items as well as registering onKeypress, onClick, and onChange
+ * event handlers for page interactivity.
+ */
 function registerHandlers() {
   // EDIT USER PAGE
   $('#loadingBar').hide();
@@ -180,6 +222,12 @@ function registerHandlers() {
   $('#uSurname').change(updateDirectoryName);
 }
 
+/**
+ * void: updateDomainInfoFromStorage
+ *
+ * This function sets the value of the various basic domain info into the
+ * informational cards on the Overview page.
+ */
 function updateDomainInfoFromStorage() {
   $('#adName').text(sessionStorage.getItem(Constants.DOMAIN.NAME));
   $('#adDNSRoot').text(sessionStorage.getItem(Constants.DOMAIN.DNS_ROOT));
