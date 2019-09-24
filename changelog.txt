@@ -1,5 +1,7 @@
 v0.1.16-snapshot
 
+Fix: More robust logging.
+Fix: Using only one powershell instance
 Fix: Included Matieral-Design Icon CSS Shim
 
 v0.1.15
