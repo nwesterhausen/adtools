@@ -1,4 +1,4 @@
-v0.1.16-snapshot
+v0.1.16
 
 Fix: More robust logging.
 Fix: Using only one powershell instance
