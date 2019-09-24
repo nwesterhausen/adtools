@@ -1,6 +1,6 @@
 {
   "name": "adtools",
-  "version": "0.1.16",
+  "version": "0.1.17-snapshot",
   "description": "A set of tools to make doing simple but repetitive tasks in Active Directory much easier.",
   "main": "app/main.js",
   "scripts": {
@@ -64,6 +64,6 @@
   "postinstall": "electron-builder install-app-deps",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nwesterhausen/nts-adtools"
+    "url": "https://github.com/nwesterhausen/adtools"
   }
 }
