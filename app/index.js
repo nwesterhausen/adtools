@@ -4,7 +4,6 @@ const { remote, ipcRenderer } = require('electron');
 const ProgressBar = require('electron-progressbar');
 const Constants = require('./constants');
 const StorageUtil = require('./js/storage');
-const powershell = require('node-powershell');
 const { waterfall } = require('async');
 const $ = require('jquery');
 const edituser = require('./js/editUser');
@@ -24,19 +23,6 @@ const logger = {
   }
 };
 logger.info('test');
-
-// Establish powershell instance
-const ps = new powershell({
-  executionPolicy: 'Bypass',
-  noProfile: true
-});
-// Set up PS commands to use
-const getInfo = new powershell.PSCommand(
-  path.join(remote.getGlobal('scripts').path, 'Get-AD-Info')
-);
-const getUsers = new powershell.PSCommand(
-  path.join(remote.getGlobal('scripts').path, 'Load-User-List')
-);
 
 var pbar = new ProgressBar({
   title: 'Establishing Connection to Active Directory',
@@ -138,15 +124,12 @@ function establishConnectionAndStart(progressbar) {
           });
         },
         function(callback) {
+          pbar.detail = 'Loading basic AD-User details.';
           // Get list of AD-Users
-          ps.addCommand(getUsers);
-          ps.invoke().then(output => {
-            let data = JSON.parse(output);
+          pscmd.getBasicUserInfo().then(data => {
             sessionStorage.setItem(Constants.USERSLIST, JSON.stringify(data));
-            logger.debug('getUsers', output);
             callback(null);
           });
-          pbar.detail = 'Loading basic AD-User details.';
         },
         function(callback) {
           progressbar.setCompleted();

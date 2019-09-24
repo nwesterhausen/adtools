@@ -37,7 +37,8 @@ module.exports = {
   loadAdUser,
   loadUserGroupMembership,
   saveUserProxyAddresses,
-  getBasicDomainInfo
+  getBasicDomainInfo,
+  getBasicUserInfo
 };
 
 async function loadAdUser(user) {
@@ -94,5 +95,11 @@ async function getBasicDomainInfo() {
   ps.addCommand(getInfo);
   let output = await ps.invoke();
   logger.debug(`Got basic domain info: ${output}`);
+  return JSON.parse(output);
+}
+
+async function getBasicUserInfo() {
+  ps.addCommand(getUsers);
+  let output = await ps.invoke();
   return JSON.parse(output);
 }
