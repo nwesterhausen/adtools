@@ -8,7 +8,7 @@
       <span id="adconnectionStatus" class="px-1">unknown</span>
     </p>
   </div>
-  <div class="d-flex flex-wrap">
+  <div id="domainInfoCards" class="d-flex flex-wrap">
     <div id="basicDomainInfoCard" class="card m-3">
       <div class="card-header text-white bg-primary">Basic Domain Info</div>
       <div class="card-body">
@@ -43,25 +43,25 @@
       </div>
     </div>
     <div id="bonusDomainInfoCard" class="card m-3">
-      <div class="card-header text-white bg-secondary">Domain Statistics</div>
+      <div class="card-header bg-secondary">Domain Statistics</div>
       <div class="card-body">
         <table class="table table-striped">
           <tbody>
             <tr>
               <td>Users in Domain</td>
-              <td><span id="adUserTotal">204</span></td>
+              <td><span id="adUserTotal"></span></td>
             </tr>
             <tr>
               <td>Total Disabled Users</td>
-              <td><span id="adDisabledUserTotal">82</span></td>
+              <td><span id="adDisabledUserTotal"></span></td>
             </tr>
             <tr>
               <td>Computers in Domain</td>
-              <td><span id="adComputerTotal">137</span></td>
+              <td><span id="adComputerTotal"></span></td>
             </tr>
             <tr>
               <td>Total Disabled Computers</td>
-              <td><span id="adDisabledComputerTotal">64</span></td>
+              <td><span id="adDisabledComputerTotal"></span></td>
             </tr>
           </tbody>
         </table>
