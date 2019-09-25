@@ -1,3 +1,7 @@
+v0.1.17
+
+Fix: Removed unused dependencies.
+
 v0.1.16
 
 Fix: More robust logging.
