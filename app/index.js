@@ -94,7 +94,7 @@ waterfall(
     });
     pbar
       .on('completed', function() {
-        logger.info(`ProgressBar finished.`);
+        logger.debug(`ProgressBar finished.`);
         pbar.text = 'Connected';
         pbar.detail = 'Active Directory connection established.';
       })
@@ -163,7 +163,7 @@ function establishConnectionAndStart(progressbar) {
           // Get list of AD-Users
           pscmd.getBasicUserInfo().then(data => {
             // Save list to session storage
-            sessionStorage.setItem(Constants.USERSLIST, JSON.stringify(data));
+            StorageUtil.setUserlistInfo(data);
             callback(null);
           });
         }
@@ -177,6 +177,10 @@ function establishConnectionAndStart(progressbar) {
         // Update the page with the data we stored in session storage.
         updateDomainInfoFromStorage();
         updateUserListTableFromsessionStorage();
+        $('body').removeClass('d-none');
+        $('#adconnectionStatus').html(
+          '<span class="badge badge-success p-1">Connected</span>'
+        );
       }
     );
   } else {
@@ -187,6 +191,10 @@ function establishConnectionAndStart(progressbar) {
     pbar.setCompleted();
     updateDomainInfoFromStorage();
     updateUserListTableFromsessionStorage();
+    $('body').removeClass('d-none');
+    $('#adconnectionStatus').html(
+      '<span class="badge badge-success p-1">Connected</span>'
+    );
   }
 }
 
@@ -240,7 +248,17 @@ function updateDomainInfoFromStorage() {
   $('#adDomainMode').text(sessionStorage.getItem(Constants.DOMAIN.DOMAIN_MODE));
   let cds = JSON.parse(sessionStorage.getItem(Constants.DOMAIN.CHILD_DOMAINS));
   $('#adChildDomains').html(cds.length === 0 ? 'None' : cds.join('<br>'));
-  logger.info('updating general domain info from storage.');
+  $('#adUserTotal').text(sessionStorage.getItem(Constants.DOMAIN.USER_TOTAL));
+  $('#adDisabledUserTotal').text(
+    sessionStorage.getItem(Constants.DOMAIN.DISABLED_USER_TOTAL)
+  );
+  $('#adComputerTotal').text(
+    sessionStorage.getItem(Constants.DOMAIN.COMPUTER_TOTAL)
+  );
+  $('#adDisabledComputerTotal').text(
+    sessionStorage.getItem(Constants.DOMAIN.DISABLED_COMPUTER_TOTAL)
+  );
+  logger.info('Updated general domain info from session storage.');
 }
 
 function updateUserListTableFromsessionStorage() {

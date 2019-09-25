@@ -40,7 +40,11 @@ const DOMAIN = {
   REPLICA_DIRECTORY_SERVERS: 'DomainReplicaDirectoryServers', // array
   SUBORDINATE_REFERENCES: 'DomainSubordinateReferences', // array
   SYSTEMS_CONTAINER: 'DomainSystemsContainer', // LDAP string
-  USERS_CONTAINER: 'DomainUsersContainer' // LDAP string
+  USERS_CONTAINER: 'DomainUsersContainer', // LDAP string
+  USER_TOTAL: 'DomainTotalUsers', // Int
+  DISABLED_USER_TOTAL: 'DomainTotalDisabledUsers', // Int
+  COMPUTER_TOTAL: 'DomainTotalComputers', // Int
+  DISABLED_COMPUTER_TOTAL: 'DomainTotalDisabledComputers' // Int
 };
 const USERSLIST = 'AllADUsers'; // array
 const COMPUTERSLIST = 'AllADComputers'; //array

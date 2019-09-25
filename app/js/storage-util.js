@@ -4,7 +4,8 @@
 
 module.exports = {
   populateStorage,
-  setDomainInfo
+  setDomainInfo,
+  setUserlistInfo
 };
 
 const Constants = require('../constants');
@@ -50,6 +51,10 @@ function populateStorage() {
   sessionStorage.setItem(Constants.DOMAIN.SUBORDINATE_REFERENCES, '[]');
   sessionStorage.setItem(Constants.DOMAIN.SYSTEMS_CONTAINER, '');
   sessionStorage.setItem(Constants.DOMAIN.USERS_CONTAINER, '');
+  sessionStorage.setItem(Constants.DOMAIN.USER_TOTAL, '');
+  sessionStorage.setItem(Constants.DOMAIN.DISABLED_USER_TOTAL, '');
+  sessionStorage.setItem(Constants.DOMAIN.COMPUTER_TOTAL, '');
+  sessionStorage.setItem(Constants.DOMAIN.DISABLED_COMPUTER_TOTAL, '');
   // Set other big values
   sessionStorage.setItem(Constants.USERSLIST, '[]');
   sessionStorage.setItem(Constants.COMPUTERSLIST, '[]');
@@ -152,4 +157,16 @@ function setDomainInfo(domainJSON) {
     Constants.DOMAIN.USERS_CONTAINER,
     domainJSON.UsersContainer
   );
+}
+
+function setUserlistInfo(userlistJson) {
+  sessionStorage.setItem(Constants.USERSLIST, JSON.stringify(userlistJson));
+  sessionStorage.setItem(Constants.DOMAIN.USER_TOTAL, userlistJson.length);
+
+  // Calculate and store which users are disabled
+  let disabledUsers = 0;
+  userlistJson.map(user => {
+    if (!user.Enabled) disabledUsers++;
+  });
+  sessionStorage.setItem(Constants.DOMAIN.DISABLED_USER_TOTAL, disabledUsers);
 }
