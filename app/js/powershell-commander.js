@@ -5,6 +5,8 @@
 const powershell = require('node-powershell');
 const path = require('path');
 const { remote, ipcRenderer } = require('electron');
+
+// Helper function for IPC logging
 const logger = {
   info: function(msg) {
     ipcRenderer.sendSync('log', { sev: 'info', msg: msg });
@@ -19,7 +21,7 @@ const logger = {
     ipcRenderer.sendSync('log', { sev: 'debug', msg: msg });
   }
 };
-logger.info('test');
+// Single Powershell instance
 const ps = new powershell({
   executionPolicy: 'Bypass',
   noProfile: true
@@ -41,6 +43,11 @@ module.exports = {
   getBasicUserInfo
 };
 
+/**
+ * Load details on a single active directory user. Will return an object if
+ * we matched a single user, otherwise returns a list.
+ * @param {String} user
+ */
 async function loadAdUser(user) {
   // Build loadUser command by adding the parameter we need
   let loadUser = new powershell.PSCommand(
@@ -48,17 +55,21 @@ async function loadAdUser(user) {
   ).addParameter({
     username: user
   });
-  logger.info(`Invoked PS Command: loadAdUser(${user})`);
+
   ps.addCommand(loadUser);
 
   // Invoke the command
+  logger.info(`Invoked PS Command: loadAdUser(${user})`);
   let output = await ps.invoke();
-
+  logger.debug(`${user}:: ${output}`);
   let data = JSON.parse(output);
-  console.log(data);
   return data;
 }
 
+/**
+ * Loads a list of groups a user belongs to.
+ * @param {String} user GUID of the user to load groups for
+ */
 async function loadUserGroupMembership(user) {
   let loadGroups = new powershell.PSCommand(
     path.join(remote.getGlobal('scripts').path, 'Load-AD-UserGroupMembership')
@@ -67,9 +78,10 @@ async function loadUserGroupMembership(user) {
   });
 
   ps.addCommand(loadGroups);
+  logger.info(`Invoked PS Command: loadUserGroupMembership(${user})`);
   let output = await ps.invoke();
+  logger.debug(`${user}:: ${output}`);
   let data = JSON.parse(output);
-  console.log(data);
   return data;
 }
 
@@ -86,6 +98,11 @@ async function saveUserProxyAddresses(userGuid, proxyList) {
 
   ps.addCommand(commitChange);
 
+  logger.info(
+    `Invoked PS Command: saveUserProxyAddresses(${user}): ${JSON.stringify(
+      proxyList
+    )}`
+  );
   ps.invoke().then(output => {
     logger.info(`Saved new proxy addresses for user. ${output}`);
   });
@@ -93,6 +110,7 @@ async function saveUserProxyAddresses(userGuid, proxyList) {
 
 async function getBasicDomainInfo() {
   ps.addCommand(getInfo);
+  logger.info(`Invoked PS Command: getBasicDomainInfo()`);
   let output = await ps.invoke();
   logger.debug(`Got basic domain info: ${output}`);
   return JSON.parse(output);
@@ -100,6 +118,7 @@ async function getBasicDomainInfo() {
 
 async function getBasicUserInfo() {
   ps.addCommand(getUsers);
+  logger.info(`Invoked PS Command: getBasicUserInfo()`);
   let output = await ps.invoke();
   return JSON.parse(output);
 }
