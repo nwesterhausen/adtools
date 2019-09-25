@@ -1,3 +1,5 @@
+v0.1.18-snapshot
+
 v0.1.17
 
 Fix: Removed unused dependencies.
