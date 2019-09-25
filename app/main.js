@@ -4,13 +4,16 @@ const path = require('path');
 const fs = require('fs');
 const { autoUpdater } = require('electron-updater');
 const logger = require('electron-log');
+const storage = require('electron-json-storage');
+
+// The app ID is used for notifications and consistent updates / uninstalls
+const appID = 'me.westerhausen.adtools';
 
 // Set log details
-logger.transports.file.level = 'info';
-logger.transports.console.level = false;
-logger.transports.rendererConsole.level = false;
+logger.transports.file.level = 'info'; // log level for the file
+logger.transports.console.level = 'info'; // log level for the console (false is off)
 
-// Make Logging Available To Other Windows
+// Make Logging Available To Other Windows via IPC
 ipcMain.on('log', (event, args) => {
   if (!args.msg) logger.error(`Got bad logging request:\n${event}\n${args}`);
   else {
@@ -41,7 +44,11 @@ if (fs.existsSync(logger.transports.file.findLogPath())) {
     path.join(baselogpath, 'previous.log')
   );
 }
-logger.info('App started.');
+
+// Start log
+logger.info(`Started adtools version ${app.getVersion()}`);
+logger.info(`AppID: ${appID}`);
+logger.info(`Settings will be stored in ${storage.getDataPath()}`);
 
 // Test for scripts file location:
 let scriptsPath = path.join(__dirname, '../scripts');
@@ -60,10 +67,8 @@ global.connection = {
 };
 
 // Set Const Variables
-const appID = 'me.westerhausen.adtools';
 const aboutMessage = `A simple app to help the lay-admin make simple changes.
 
-AppID: ${appID}
 Copyright © 2019 Nicholas Westerhausen`;
 
 // Set Application User Model ID
