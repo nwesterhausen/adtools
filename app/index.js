@@ -6,7 +6,7 @@ const { waterfall } = require('async');
 const $ = require('jquery');
 
 const Constants = require('./constants');
-const StorageUtil = require('./js/storage');
+const StorageUtil = require('./js/storage-util');
 const edituser = require('./js/editUser');
 const pscmd = require('./js/powershell-commander');
 // Helper for sending log messages:
