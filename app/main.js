@@ -11,7 +11,7 @@ const appID = 'me.westerhausen.adtools';
 
 // Set log details
 logger.transports.file.level = 'info'; // log level for the file
-logger.transports.console.level = 'info'; // log level for the console (false is off)
+logger.transports.console.level = 'debug'; // log level for the console (false is off)
 
 // Make Logging Available To Other Windows via IPC
 ipcMain.on('log', (event, args) => {

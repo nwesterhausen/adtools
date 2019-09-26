@@ -8,6 +8,7 @@ const $ = require('jquery');
 const Constants = require('./constants');
 const StorageUtil = require('./js/storage-util');
 const edituser = require('./js/editUser');
+const settings = require('./js/settings');
 const pscmd = require('./js/powershell-commander');
 // Helper for sending log messages:
 const logger = {
@@ -68,6 +69,7 @@ waterfall(
       // Load settings Page
       getTemplate(path.join(__dirname, 'templates/settings.html')).then(val => {
         $('#settings').html(val);
+        settings.populateSettingsPage();
         callback(null);
       });
     }
@@ -193,7 +195,7 @@ function establishConnectionAndStart(progressbar) {
     updateUserListTableFromsessionStorage();
     $('body').removeClass('d-none');
     $('#adconnectionStatus').html(
-      '<span class="badge badge-success p-1">Connected</span>'
+      '<span class="badge badge-warning p-1">Cached</span>'
     );
   }
 }
@@ -219,7 +221,7 @@ function registerHandlers() {
   $('#enableEditBtn').click(edituser.enabledBasicInfoEditing);
   $('#cancelEditBtn').click(edituser.cancelBasicInfoEditing);
   $('#mldbtnSelectResult').click(edituser.chooseResult);
-  //
+  // Proxy Address Items
   $('#commitPrimary').click(edituser.commitProxyAddressChange);
   $('#changePrimary').click(() => {
     $('#primaryAddressModal').modal();

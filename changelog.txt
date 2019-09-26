@@ -1,5 +1,7 @@
 v0.1.18-snapshot
 
+Feature: Settings page allows you to save/edit/remove items from the lists.
+
 v0.1.17
 
 Fix: Removed unused dependencies.

@@ -48,5 +48,17 @@ const DOMAIN = {
 };
 const USERSLIST = 'AllADUsers'; // array
 const COMPUTERSLIST = 'AllADComputers'; //array
+const SETTINGS = {
+  COMPANY_OPTIONS: 'companies',
+  DEPARTMENT_OPTIONS: 'departments',
+  TITLE_OPTIONS: 'titles',
+  PROXY_DOMAIN_OPTIONS: 'proxyDomains'
+};
 
-module.exports = { DOMAIN_MODE_ENUM, DOMAIN, USERSLIST, COMPUTERSLIST };
+module.exports = {
+  DOMAIN_MODE_ENUM,
+  DOMAIN,
+  USERSLIST,
+  COMPUTERSLIST,
+  SETTINGS
+};

@@ -3,18 +3,23 @@
     .settings-card {
       width: 24rem;
     }
-    .remove-option {
+    .settings-option {
       color: black;
       float: right;
     }
     .remove-option:hover {
       color: red;
     }
-    .list-group-item-action .remove-option {
-      visibility: hidden;
+    .edit-option:hover {
+      color: green;
     }
-    .list-group-item-action:hover .remove-option {
+    .list-group-item-action .settings-option {
+      visibility: hidden;
+      cursor: default;
+    }
+    .list-group-item-action:hover .settings-option {
       visibility: visible;
+      cursor: pointer;
     }
   </style>
   <div class="container-fluid">
@@ -36,95 +41,7 @@
           Options for Department
         </div>
         <div class="card-body">
-          <div class="list-group" id="listDepartmentOptions">
-            <div
-              class="list-group-item list-group-item-action"
-              data-value="Accounting"
-            >
-              Accounting
-              <div class="remove-option my-0">
-                <i class="mdi mdi-trash-can-outline"></i>
-              </div>
-            </div>
-            <div
-              class="list-group-item list-group-item-action"
-              data-value="Customer Service"
-            >
-              Customer Service
-              <div class="remove-option my-0">
-                <i class="mdi mdi-trash-can-outline"></i>
-              </div>
-            </div>
-            <div
-              class="list-group-item list-group-item-action"
-              data-value="Human Resources"
-            >
-              Human Resources
-              <div class="remove-option my-0">
-                <i class="mdi mdi-trash-can-outline"></i>
-              </div>
-            </div>
-            <div class="list-group-item list-group-item-action" data-value="IT">
-              IT
-              <div class="remove-option my-0">
-                <i class="mdi mdi-trash-can-outline"></i>
-              </div>
-            </div>
-            <div
-              class="list-group-item list-group-item-action"
-              data-value="Logistics"
-            >
-              Logistics
-              <div class="remove-option my-0">
-                <i class="mdi mdi-trash-can-outline"></i>
-              </div>
-            </div>
-            <div
-              class="list-group-item list-group-item-action"
-              data-value="Marketing"
-            >
-              Marketing
-              <div class="remove-option my-0">
-                <i class="mdi mdi-trash-can-outline"></i>
-              </div>
-            </div>
-            <div
-              class="list-group-item list-group-item-action"
-              data-value="Prepack/Production"
-            >
-              Prepack/Production
-              <div class="remove-option my-0">
-                <i class="mdi mdi-trash-can-outline"></i>
-              </div>
-            </div>
-            <div
-              class="list-group-item list-group-item-action"
-              data-value="Receiving"
-            >
-              Receiving
-              <div class="remove-option my-0">
-                <i class="mdi mdi-trash-can-outline"></i>
-              </div>
-            </div>
-            <div
-              class="list-group-item list-group-item-action"
-              data-value="Sales"
-            >
-              Sales
-              <div class="remove-option my-0">
-                <i class="mdi mdi-trash-can-outline"></i>
-              </div>
-            </div>
-            <div
-              class="list-group-item list-group-item-action"
-              data-value="Shipping"
-            >
-              Shipping
-              <div class="remove-option my-0">
-                <i class="mdi mdi-trash-can-outline"></i>
-              </div>
-            </div>
-          </div>
+          <div class="list-group" id="listDepartmentOptions"></div>
           <hr />
           <button class="btn btn-success">Add New</button>
         </div>
@@ -132,7 +49,7 @@
       <div class="card m-3 settings-card">
         <div class="card-header text-white bg-info">Options for Title</div>
         <div class="card-body">
-          <div class="list-group" id="listCompanyOptions"></div>
+          <div class="list-group" id="listTitleOptions"></div>
           <hr />
           <button class="btn btn-success">Add New</button>
         </div>
@@ -142,7 +59,7 @@
           Domains for Proxy Addresses
         </div>
         <div class="card-body">
-          <div class="list-group" id="listCompanyOptions"></div>
+          <div class="list-group" id="listProxyDomainOptions"></div>
           <hr />
           <button class="btn btn-success">Add New</button>
         </div>
