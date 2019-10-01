@@ -4,6 +4,7 @@
 .settings-option {
   color: black;
   float: right;
+  font-weight: bolder;
 }
 .remove-option:hover {
   color: red;

@@ -10,7 +10,7 @@
         <div class="card-body">
           <div class="list-group" id="listCompanyOptions"></div>
           <hr />
-          <button class="btn btn-success">Add New</button>
+          <button class="btn btn-success addNewItemBtn">Add New</button>
         </div>
       </div>
       <div class="card m-3 settings-card">
@@ -20,7 +20,7 @@
         <div class="card-body">
           <div class="list-group" id="listDepartmentOptions"></div>
           <hr />
-          <button class="btn btn-success">Add New</button>
+          <button class="btn btn-success addNewItemBtn">Add New</button>
         </div>
       </div>
       <div class="card m-3 settings-card">
@@ -28,7 +28,7 @@
         <div class="card-body">
           <div class="list-group" id="listTitleOptions"></div>
           <hr />
-          <button class="btn btn-success">Add New</button>
+          <button class="btn btn-success addNewItemBtn">Add New</button>
         </div>
       </div>
       <div class="card m-3 settings-card">
@@ -38,7 +38,39 @@
         <div class="card-body">
           <div class="list-group" id="listProxyDomainOptions"></div>
           <hr />
-          <button class="btn btn-success">Add New</button>
+          <button class="btn btn-success addNewItemBtn">Add New</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modals -->
+  <!-- Primary Address Modal -->
+  <div class="modal fade" id="addListItemModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            Add New <span class="newListItemCategory">ITEM</span>
+          </h5>
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="newItemInput" class="control-label">
+              New <span class="newListItemCategory">ITEM</span>
+            </label>
+            <input class="form-control" id="newItemInput" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Cancel
+          </button>
+          <button type="button" class="btn btn-primary" id="mdlbtnSetPrimary">
+            Save
+          </button>
         </div>
       </div>
     </div>

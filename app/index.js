@@ -230,6 +230,8 @@ function registerHandlers() {
   // NEW USER PAGE
   $('#uGivenName').change(updateDirectoryName);
   $('#uSurname').change(updateDirectoryName);
+  // SETTINGS PAGE
+  $('.addNewItemBtn').click(settings.addListItem);
 }
 
 /**

@@ -101,7 +101,14 @@ function generateListHTMLFromJson(listjson) {
   return html;
 }
 
-function addListItem() {}
+function addListItem(event) {
+  console.log(event);
+  let cat = event.currentTarget.parentElement.dataset.value;
+  logger.debug(`Adding new item for ${cat}`);
+  $('span .newListItemCategory').text(cat);
+  $('#addListItemModal').modal();
+}
+
 function editListItem(event) {
   let $listItem = $(event.currentTarget.parentElement);
   $('span', $listItem).hide();
