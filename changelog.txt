@@ -1,6 +1,7 @@
 v0.1.18-snapshot
 
 Feature: Settings page allows you to save/edit/remove items from the lists.
+Fix: Gracefully quits and gives error message if no ActiveDirectory PowerShell module.
 
 v0.1.17
 
