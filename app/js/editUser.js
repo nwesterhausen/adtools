@@ -1,13 +1,3 @@
-// Exports
-module.exports = {
-  loadUserDetails,
-  loadUserDetailsEnter,
-  chooseResult,
-  enabledBasicInfoEditing,
-  cancelBasicInfoEditing,
-  commitProxyAddressChange,
-  updateProxyAddressList
-};
 // Imports
 const pscmd = require('./powershell-commander');
 const $ = require('jquery');
@@ -26,6 +16,16 @@ const logger = {
   debug: function(msg) {
     ipcRenderer.sendSync('log', { sev: 'debug', msg: msg });
   }
+};
+// Exports
+module.exports = {
+  loadUserDetails,
+  loadUserDetailsEnter,
+  chooseResult,
+  enabledBasicInfoEditing,
+  cancelBasicInfoEditing,
+  commitProxyAddressChange,
+  updateProxyAddressList
 };
 
 // Static HTML for Inclusion
