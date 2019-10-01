@@ -1,6 +1,6 @@
 // Require Dependencies
 const path = require('path');
-const { remote, ipcRenderer } = require('electron');
+const { remote, ipcRenderer, dialog } = require('electron');
 const ProgressBar = require('electron-progressbar');
 const { waterfall } = require('async');
 const $ = require('jquery');
@@ -94,15 +94,11 @@ waterfall(
       },
       remoteWindow: remote.BrowserWindow
     });
-    pbar
-      .on('completed', function() {
-        logger.debug(`ProgressBar finished.`);
-        pbar.text = 'Connected';
-        pbar.detail = 'Active Directory connection established.';
-      })
-      .on('aborted', function(value) {
-        process.quit();
-      });
+    pbar.on('completed', function() {
+      logger.debug(`ProgressBar finished.`);
+      pbar.text = 'Connected';
+      pbar.detail = 'Active Directory connection established.';
+    });
     // Now let's start the connection process.
     establishConnectionAndStart(pbar); // continue loading info
   }
@@ -155,6 +151,12 @@ function establishConnectionAndStart(progressbar) {
           pbar.detail = 'Loading basic Domain information';
           // Check for basic domain info
           pscmd.getBasicDomainInfo().then(data => {
+            if (data.hasOwnProperty('errorOccured')) {
+              logger.error(data.msg);
+              pbar.close();
+              remote.dialog.showErrorBox('Powershell Error', data.msg);
+              ipcRenderer.sendSync('close-app');
+            }
             // Save basic domain info to session storage
             StorageUtil.setDomainInfo(data);
             callback(null);
