@@ -155,36 +155,50 @@ function establishConnectionAndStart(progressbar) {
               logger.error(data.msg);
               pbar.close();
               remote.dialog.showErrorBox('Powershell Error', data.msg);
-              ipcRenderer.sendSync('close-app');
+              callback(null, false);
+            } else {
+              // Save basic domain info to session storage
+              StorageUtil.setDomainInfo(data);
+              callback(null, true);
             }
-            // Save basic domain info to session storage
-            StorageUtil.setDomainInfo(data);
-            callback(null);
           });
         },
-        function(callback) {
-          pbar.detail = 'Loading basic AD-User details.';
-          // Get list of AD-Users
-          pscmd.getBasicUserInfo().then(data => {
-            // Save list to session storage
-            StorageUtil.setUserlistInfo(data);
-            callback(null);
-          });
+        function(adConnection, callback) {
+          if (adConnection) {
+            pbar.detail = 'Loading basic AD-User details.';
+            // Get list of AD-Users
+            pscmd.getBasicUserInfo().then(data => {
+              // Save list to session storage
+              StorageUtil.setUserlistInfo(data);
+              callback(null, true);
+            });
+          } else {
+            callback(null, false);
+          }
         }
       ],
-      function(err, result) {
+      function(err, adConnection) {
         if (err) logger.error(err);
-        // Finally, "complete" the progressbar
-        progressbar.setCompleted();
-        // Log when we are done.
-        logger.info('Series of AD Connections Done', result);
-        // Update the page with the data we stored in session storage.
-        updateDomainInfoFromStorage();
-        updateUserListTableFromsessionStorage();
-        $('body').removeClass('d-none');
-        $('#adconnectionStatus').html(
-          '<span class="badge badge-success p-1">Connected</span>'
-        );
+        if (adConnection) {
+          // Finally, "complete" the progressbar
+          progressbar.setCompleted();
+          // Log when we are done.
+          logger.info('Series of AD Connections Done');
+          // Update the page with the data we stored in session storage.
+          updateDomainInfoFromStorage();
+          updateUserListTableFromsessionStorage();
+          $('body').removeClass('d-none');
+          $('#adconnectionStatus').html(
+            '<span class="badge badge-success p-1">Connected</span>'
+          );
+        } else {
+          $('body').removeClass('d-none');
+          $('#adconnectionStatus').html(
+            `<span class="badge badge-danger p-1">Unable to Connect</span>
+            <button class="button btn-sm btn-secondary" id="retryConnectionButton">Retry</button>`
+          );
+          $('#retryConnectionButton').click(establishConnectionAndStart);
+        }
       }
     );
   } else {

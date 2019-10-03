@@ -111,8 +111,16 @@ async function saveUserProxyAddresses(userGuid, proxyList) {
 async function getBasicDomainInfo() {
   ps.addCommand(getInfo);
   logger.info(`Invoked PS Command: getBasicDomainInfo()`);
-  let output = await ps.invoke();
-  return JSON.parse(output);
+  try {
+    let output = await ps.invoke();
+    return JSON.parse(output);
+  } catch (e) {
+    logger.error(e.name);
+    return {
+      errorOccured: true,
+      msg: 'Unable to connect to Active Directory'
+    };
+  }
 }
 
 async function getBasicUserInfo() {
