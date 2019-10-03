@@ -195,7 +195,6 @@ function establishConnectionAndStart(progressbar) {
           $('body').removeClass('d-none');
           $('#adconnectionStatus').html(
             `<span class="badge badge-danger p-1">Unable to Connect</span>`
-            //<button class="button btn-sm btn-secondary" id="retryConnectionButton">Retry</button>`
           );
           //$('#retryConnectionButton').click(establishConnectionAndStart);
         }
@@ -248,6 +247,13 @@ function registerHandlers() {
   $('#uSurname').change(updateDirectoryName);
   // SETTINGS PAGE
   $('.addNewItemBtn').click(settings.addListItem);
+  // MAIN PAGE
+  $('#refresh-ad-connection').click(e => {
+    $('#refresh-ad-connection').removeClass('rotate-on-hover');
+    $('#refresh-ad-connection i').removeClass('mdi-reload');
+    $('#refresh-ad-connection i').addClass('mdi-loading');
+    $('#refresh-ad-connection i').addClass('mdi-spin');
+  });
 }
 
 /**

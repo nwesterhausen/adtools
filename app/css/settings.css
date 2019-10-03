@@ -20,3 +20,12 @@
   visibility: visible;
   cursor: pointer;
 }
+
+.refresh-button {
+  display: inline-block;
+  border-radius: 100%;
+}
+.rotate-on-hover:hover {
+  transform: rotate(0.1turn);
+  cursor: pointer;
+}
