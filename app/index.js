@@ -257,6 +257,7 @@ function registerHandlers() {
   // SETTINGS PAGE
   $('.addNewItemBtn').click(settings.addListItem);
   $('#mbtnListAdd').click(settings.addItemFromModal);
+  $('#newItemInput').keypress(settings.addItemFromModal);
   $('#addListItemModal').on('shown.bs.modal', e => {
     $('#newItemInput').focus();
   });
