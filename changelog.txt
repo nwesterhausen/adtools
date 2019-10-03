@@ -1,3 +1,5 @@
+v0.1.19-snapshot
+
 v0.1.18
 
 Feature: Settings page allows you to save/edit/remove items from the lists.
