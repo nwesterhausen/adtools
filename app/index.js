@@ -1,7 +1,6 @@
 // Require Dependencies
 const path = require('path');
-const { remote, ipcRenderer, dialog } = require('electron');
-const ProgressBar = require('electron-progressbar');
+const { ipcRenderer } = require('electron');
 const { waterfall } = require('async');
 const $ = require('jquery');
 
@@ -26,8 +25,8 @@ const logger = {
   }
 };
 
-// define the progress bar here so it isn't garbage collected
-let pbar;
+// Disable navigation
+$('#navPills a').addClass('disabled');
 
 // Using waterfall to chain-add templates (basically so we know that they all
 // get added before we continue further.)
@@ -80,27 +79,7 @@ waterfall(
     // Now we can register the handlers for clicks etc.
     registerHandlers();
 
-    // Progress bar displays inital connectivity to Active Directory.
-    // It displays immediately once it is instantiated and then we interact
-    // with it as we make calls to the powershell-commander.
-    pbar = new ProgressBar({
-      title: 'Establishing Connection to Active Directory',
-      text: 'Connecting...',
-      detail: '',
-      browserWindow: {
-        webPreferences: {
-          nodeIntegration: true
-        }
-      },
-      remoteWindow: remote.BrowserWindow
-    });
-    pbar.on('completed', function() {
-      logger.debug(`ProgressBar finished.`);
-      pbar.text = 'Connected';
-      pbar.detail = 'Active Directory connection established.';
-    });
-    // Now let's start the connection process.
-    establishConnectionAndStart(pbar); // continue loading info
+    establishConnectionAndStart(); // continue loading info
   }
 );
 
@@ -138,23 +117,32 @@ function getTemplate(filepath) {
  *
  * @param {electron-progressbar.ProgressBar} progressbar
  */
-function establishConnectionAndStart(progressbar) {
+function establishConnectionAndStart(forced) {
+  const $pbar = $('#connectionProgress');
+  $('div', $pbar).show();
+  $('div', $pbar).removeClass('bg-success');
+  $('div', $pbar).removeClass('bg-warning');
+  $('div', $pbar).removeClass('bg-danger');
+  $('div', $pbar).addClass('progress-bar-animated');
+  $('div', $pbar).addClass('progress-bar-striped');
   // If session storage doesn't have the domain name key, then we assume there
   // is no session storage.
-  if (!sessionStorage.getItem(Constants.DOMAIN.NAME)) {
+  if (forced || !sessionStorage.getItem(Constants.DOMAIN.NAME)) {
     StorageUtil.populateStorage();
 
     // Synchronously and in order go through the commands.
     waterfall(
       [
         function(callback) {
-          pbar.detail = 'Loading basic Domain information';
+          $('div', $pbar).text('Loading basic Domain information');
+          $('div', $pbar).css('width', '33%');
           // Check for basic domain info
           pscmd.getBasicDomainInfo().then(data => {
             if (data.hasOwnProperty('errorOccured')) {
               logger.error(data.msg);
-              pbar.close();
-              remote.dialog.showErrorBox('Powershell Error', data.msg);
+              $('div', $pbar).addClass('bg-danger');
+              $('div', $pbar).removeClass('progress-bar-animated');
+              $('div', $pbar).text(data.msg);
               callback(null, false);
             } else {
               // Save basic domain info to session storage
@@ -165,7 +153,8 @@ function establishConnectionAndStart(progressbar) {
         },
         function(adConnection, callback) {
           if (adConnection) {
-            pbar.detail = 'Loading basic AD-User details.';
+            $('div', $pbar).text('Loading basic AD-User details.');
+            $('div', $pbar).css('width', '67%');
             // Get list of AD-Users
             pscmd.getBasicUserInfo().then(data => {
               // Save list to session storage
@@ -181,7 +170,7 @@ function establishConnectionAndStart(progressbar) {
         if (err) logger.error(err);
         if (adConnection) {
           // Finally, "complete" the progressbar
-          progressbar.setCompleted();
+          $('div', $pbar).text('Succeeded in connecting to Active Directory.');
           // Log when we are done.
           logger.info('Series of AD Connections Done');
           // Update the page with the data we stored in session storage.
@@ -191,28 +180,58 @@ function establishConnectionAndStart(progressbar) {
           $('#adconnectionStatus').html(
             '<span class="badge badge-success p-1">Connected</span>'
           );
+          $('#refreshAdConnection span').text('Refresh');
+          $('div', $pbar).addClass('bg-success');
+          finishLoading();
         } else {
           $('body').removeClass('d-none');
           $('#adconnectionStatus').html(
             `<span class="badge badge-danger p-1">Unable to Connect</span>`
           );
-          //$('#retryConnectionButton').click(establishConnectionAndStart);
+
+          $('#refreshAdConnection span').text('Retry Connection');
+          $('#refreshAdConnection i').addClass('mdi-reload');
+          $('#refreshAdConnection i').removeClass('mdi-loading');
+          $('#refreshAdConnection i').removeClass('mdi-spin');
         }
       }
     );
   } else {
     logger.info('Using cached store of data.');
     logger.info('Domain Name', sessionStorage.getItem(Constants.DOMAIN.NAME));
-    pbar.detail = 'Using the local cache of AD data';
-    pbar.text = 'Local Cache Available';
-    pbar.setCompleted();
+    $('div', $pbar).text('Using the local cache of AD data');
     updateDomainInfoFromStorage();
     updateUserListTableFromsessionStorage();
-    $('body').removeClass('d-none');
     $('#adconnectionStatus').html(
       '<span class="badge badge-warning p-1">Cached</span>'
     );
+    $('#refreshAdConnection span').text('Refresh');
+    $('div', $pbar).addClass('bg-warning');
+    finishLoading();
   }
+}
+
+function finishLoading() {
+  const $pbar = $('#connectionProgress');
+
+  $('div', $pbar).removeClass('progress-bar-animated');
+  $('div', $pbar).removeClass('progress-bar-striped');
+  $('div', $pbar).css('width', '100%');
+
+  $('#navPills a').removeClass('disabled');
+
+  $('#domainInfoCards').removeClass('d-none');
+  $('#domainInfoCards').addClass('d-flex');
+
+  $('#refreshAdConnection i').addClass('mdi-reload');
+  $('#refreshAdConnection i').removeClass('mdi-loading');
+  $('#refreshAdConnection i').removeClass('mdi-spin');
+  setTimeout(() => {
+    $('div', $pbar).fadeOut(250, () => {
+      $('div', $pbar).css('width', '0%');
+      $('div', $pbar).text('');
+    });
+  }, 4000);
 }
 
 /**
@@ -248,11 +267,12 @@ function registerHandlers() {
   // SETTINGS PAGE
   $('.addNewItemBtn').click(settings.addListItem);
   // MAIN PAGE
-  $('#refresh-ad-connection').click(e => {
-    $('#refresh-ad-connection').removeClass('rotate-on-hover');
-    $('#refresh-ad-connection i').removeClass('mdi-reload');
-    $('#refresh-ad-connection i').addClass('mdi-loading');
-    $('#refresh-ad-connection i').addClass('mdi-spin');
+  $('#refreshAdConnection').click(e => {
+    $('#refreshAdConnection span').text('Connecting..');
+    $('#refreshAdConnection i').removeClass('mdi-reload');
+    $('#refreshAdConnection i').addClass('mdi-loading');
+    $('#refreshAdConnection i').addClass('mdi-spin');
+    establishConnectionAndStart(true);
   });
 }
 

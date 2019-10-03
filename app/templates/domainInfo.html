@@ -6,15 +6,18 @@
     <p>
       Active directory status:
       <span id="adconnectionStatus" class="px-1">unknown</span>
-      <span
-        class="px-2 py-1 refresh-button rotate-on-hover"
-        id="refresh-ad-connection"
-      >
-        <i class="mdi mdi-reload"></i>
-      </span>
+      <button class="btn btn-outline" id="refreshAdConnection">
+        <i class="mdi mdi-reload"></i> <span>Refresh</span>
+      </button>
     </p>
+    <div id="connectionProgress" class="progress">
+      <div
+        class="progress-bar progress-bar-animated progress-bar-striped"
+        role="progressbar"
+      ></div>
+    </div>
   </div>
-  <div id="domainInfoCards" class="d-flex flex-wrap">
+  <div id="domainInfoCards" class="d-none flex-wrap">
     <div id="basicDomainInfoCard" class="card m-3">
       <div class="card-header text-white bg-primary">Basic Domain Info</div>
       <div class="card-body">
