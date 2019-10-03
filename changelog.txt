@@ -1,4 +1,4 @@
-v0.1.20-snapshot
+v0.1.20
 Change: Settings page uses a tabbed style instead of a series of lists.
 Feature: Can add new items to a category on the settings page.
 Fix: Updated Material Design Icons CSS-shim.
