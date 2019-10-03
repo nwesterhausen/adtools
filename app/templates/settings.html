@@ -1,57 +1,17 @@
 <template>
   <div class="container-fluid">
-    <p>
-      Set values here which will be used to validate modifications to users.
-    </p>
-    <h2>Field Options</h2>
-    <div class="d-flex flex-wrap">
-      <div class="card m-3 settings-card">
-        <div class="card-header text-white bg-primary">Options for Company</div>
-        <div class="card-body">
-          <div class="list-group" id="listCompanyOptions"></div>
-          <hr />
-          <button class="btn btn-success addNewItemBtn">Add New</button>
-        </div>
-      </div>
-      <div class="card m-3 settings-card">
-        <div class="card-header text-white bg-warning">
-          Options for Department
-        </div>
-        <div class="card-body">
-          <div class="list-group" id="listDepartmentOptions"></div>
-          <hr />
-          <button class="btn btn-success addNewItemBtn">Add New</button>
-        </div>
-      </div>
-      <div class="card m-3 settings-card">
-        <div class="card-header text-white bg-info">Options for Title</div>
-        <div class="card-body">
-          <div class="list-group" id="listTitleOptions"></div>
-          <hr />
-          <button class="btn btn-success addNewItemBtn">Add New</button>
-        </div>
-      </div>
-      <div class="card m-3 settings-card">
-        <div class="card-header text-white bg-secondary">
-          Domains for Proxy Addresses
-        </div>
-        <div class="card-body">
-          <div class="list-group" id="listProxyDomainOptions"></div>
-          <hr />
-          <button class="btn btn-success addNewItemBtn">Add New</button>
-        </div>
-      </div>
-    </div>
+    <nav>
+      <div class="nav nav-tabs" id="settingsNav"></div>
+    </nav>
+    <div class="tab-content" id="settingsNav-tabContent"></div>
   </div>
   <!-- Modals -->
   <!-- Primary Address Modal -->
-  <div class="modal fade" id="addListItemModal" tabindex="-1" role="dialog">
+  <div class="modal fade" id="addListItemModal" data-category="" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">
-            Add New <span class="newListItemCategory">ITEM</span>
-          </h5>
+          <h5 class="modal-title">Add new option for <span class="newListItemCategory"></span></h5>
           <button type="button" class="close" data-dismiss="modal">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -59,8 +19,8 @@
         <div class="modal-body">
           <div class="form-group">
             <label for="newItemInput" class="control-label">
-              New <span class="newListItemCategory">ITEM</span>
-            </label>
+              New <span class="newListItemCategory"></span> option:</label
+            >
             <input class="form-control" id="newItemInput" />
           </div>
         </div>
@@ -68,7 +28,7 @@
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
             Cancel
           </button>
-          <button type="button" class="btn btn-primary" id="mdlbtnSetPrimary">
+          <button type="button" class="btn btn-primary" id="mbtnListAdd">
             Save
           </button>
         </div>

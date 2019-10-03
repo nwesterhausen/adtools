@@ -1,4 +1,6 @@
 v0.1.20-snapshot
+Change: Settings page uses a tabbed style instead of a series of lists.
+Feature: Can add new items to a category on the settings page.
 Fix: Updated Material Design Icons CSS-shim.
 Fix: AD Reconnection Button displays connecting when connecting.
 

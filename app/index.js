@@ -34,12 +34,10 @@ waterfall(
   [
     function(callback) {
       // Load Domain Info Page
-      getTemplate(path.join(__dirname, 'templates/domainInfo.html')).then(
-        val => {
-          $('#main').html(val);
-          callback(null);
-        }
-      );
+      getTemplate(path.join(__dirname, 'templates/domainInfo.html')).then(val => {
+        $('#main').html(val);
+        callback(null);
+      });
     },
     function(callback) {
       // Load New User Page
@@ -57,12 +55,10 @@ waterfall(
     },
     function(callback) {
       // Load edit User Page
-      getTemplate(path.join(__dirname, 'templates/userDetails.html')).then(
-        val => {
-          $('#user').html(val);
-          callback(null);
-        }
-      );
+      getTemplate(path.join(__dirname, 'templates/userDetails.html')).then(val => {
+        $('#user').html(val);
+        callback(null);
+      });
     },
     function(callback) {
       // Load settings Page
@@ -178,16 +174,12 @@ function establishConnectionAndStart(forced) {
           // Update the page with the data we stored in session storage.
           updateDomainInfoFromStorage();
           updateUserListTableFromsessionStorage();
-          $('#adconnectionStatus').html(
-            '<span class="badge badge-success p-1">Connected</span>'
-          );
+          $('#adconnectionStatus').html('<span class="badge badge-success p-1">Connected</span>');
           $('#refreshAdConnection span').text('Refresh');
           $('div', $pbar).addClass('bg-success');
           finishLoading();
         } else {
-          $('#adconnectionStatus').html(
-            `<span class="badge badge-danger p-1">Unable to Connect</span>`
-          );
+          $('#adconnectionStatus').html(`<span class="badge badge-danger p-1">Unable to Connect</span>`);
 
           $('#refreshAdConnection span').text('Retry Connection');
           $('#refreshAdConnection i').addClass('mdi-reload');
@@ -202,9 +194,7 @@ function establishConnectionAndStart(forced) {
     $('div', $pbar).text('Using the local cache of AD data');
     updateDomainInfoFromStorage();
     updateUserListTableFromsessionStorage();
-    $('#adconnectionStatus').html(
-      '<span class="badge badge-warning p-1">Cached</span>'
-    );
+    $('#adconnectionStatus').html('<span class="badge badge-warning p-1">Cached</span>');
     $('#refreshAdConnection span').text('Refresh');
     $('div', $pbar).addClass('bg-warning');
     finishLoading();
@@ -266,6 +256,7 @@ function registerHandlers() {
   $('#uSurname').change(updateDirectoryName);
   // SETTINGS PAGE
   $('.addNewItemBtn').click(settings.addListItem);
+  $('#mbtnListAdd').click(settings.addItemFromModal);
   // MAIN PAGE
   $('#refreshAdConnection').click(e => {
     $('#refreshAdConnection span').text('Connecting..');
@@ -287,23 +278,15 @@ function updateDomainInfoFromStorage() {
   $('#adDNSRoot').text(sessionStorage.getItem(Constants.DOMAIN.DNS_ROOT));
   $('#adForest').text(sessionStorage.getItem(Constants.DOMAIN.FOREST));
   $('#adDomainControllers').html(
-    JSON.parse(
-      sessionStorage.getItem(Constants.DOMAIN.REPLICA_DIRECTORY_SERVERS)
-    ).join('<br>')
+    JSON.parse(sessionStorage.getItem(Constants.DOMAIN.REPLICA_DIRECTORY_SERVERS)).join('<br>')
   );
   $('#adDomainMode').text(sessionStorage.getItem(Constants.DOMAIN.DOMAIN_MODE));
   let cds = JSON.parse(sessionStorage.getItem(Constants.DOMAIN.CHILD_DOMAINS));
   $('#adChildDomains').html(cds.length === 0 ? 'None' : cds.join('<br>'));
   $('#adUserTotal').text(sessionStorage.getItem(Constants.DOMAIN.USER_TOTAL));
-  $('#adDisabledUserTotal').text(
-    sessionStorage.getItem(Constants.DOMAIN.DISABLED_USER_TOTAL)
-  );
-  $('#adComputerTotal').text(
-    sessionStorage.getItem(Constants.DOMAIN.COMPUTER_TOTAL)
-  );
-  $('#adDisabledComputerTotal').text(
-    sessionStorage.getItem(Constants.DOMAIN.DISABLED_COMPUTER_TOTAL)
-  );
+  $('#adDisabledUserTotal').text(sessionStorage.getItem(Constants.DOMAIN.DISABLED_USER_TOTAL));
+  $('#adComputerTotal').text(sessionStorage.getItem(Constants.DOMAIN.COMPUTER_TOTAL));
+  $('#adDisabledComputerTotal').text(sessionStorage.getItem(Constants.DOMAIN.DISABLED_COMPUTER_TOTAL));
   logger.info('Updated general domain info from session storage.');
 }
 
@@ -348,8 +331,5 @@ function buildTable(columns, data) {
 // NEW USER FUNCTIONS
 
 function updateDirectoryName() {
-  $('#uDirectoryName').val(
-    ($('#uGivenName').val()[0] + $('#uSurname').val()).toLowerCase() +
-      '@ntsupply.com'
-  );
+  $('#uDirectoryName').val(($('#uGivenName').val()[0] + $('#uSurname').val()).toLowerCase() + '@ntsupply.com');
 }

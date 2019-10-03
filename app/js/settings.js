@@ -21,21 +21,18 @@ const logger = {
 
 module.exports = {
   populateSettingsPage,
-  addListItem
+  addListItem,
+  addItemFromModal
 };
 
 // Reference for list IDs
 let settingPageIDS = {};
-settingPageIDS[Constants.SETTINGS.COMPANY_OPTIONS] = 'listCompanyOptions';
-settingPageIDS[Constants.SETTINGS.DEPARTMENT_OPTIONS] = 'listDepartmentOptions';
-settingPageIDS[Constants.SETTINGS.TITLE_OPTIONS] = 'listTitleOptions';
-settingPageIDS[Constants.SETTINGS.PROXY_DOMAIN_OPTIONS] =
-  'listProxyDomainOptions';
 
 // Storage Tests
 // check for existing storage
 Object.keys(Constants.SETTINGS).map(settingName => {
   const settingCategory = Constants.SETTINGS[settingName];
+  settingPageIDS[settingName] = settingCategory;
   storage.has(settingCategory, (err, hasKey) => {
     if (err) {
       logger.error(err.msg);
@@ -59,12 +56,14 @@ Object.keys(Constants.SETTINGS).map(settingName => {
 function populateSettingsPage() {
   logger.info('Loading values in settings page from settings files.');
   Object.keys(Constants.SETTINGS).map(k => {
+    addTab(Constants.SETTINGS[k]);
     generateListFromStorage(Constants.SETTINGS[k]);
   });
 }
 
 function generateListFromStorage(storageKey) {
-  const targetID = `#${settingPageIDS[storageKey]}`;
+  const targetID = `#${storageKey} .list-group`;
+  logger.debug(`generating settings list for ${targetID}`);
   storage.get(storageKey, (err, data) => {
     if (err) {
       logger.error(`Error reading storage for settings page.\n${err.msg}`);
@@ -79,9 +78,7 @@ function generateListFromStorage(storageKey) {
 function generateListHTMLFromJson(listjson) {
   // Should be an array..
   if (!Array.isArray(listjson)) {
-    logger.debug(
-      `Got non-array for list generation.\n${JSON.stringify(listjson)}`
-    );
+    logger.debug(`Got non-array for list generation.\n${JSON.stringify(listjson)}`);
     return false;
   }
 
@@ -103,10 +100,19 @@ function generateListHTMLFromJson(listjson) {
 
 function addListItem(event) {
   console.log(event);
-  let cat = event.currentTarget.parentElement.dataset.value;
+  let cat = event.currentTarget.parentElement.id;
   logger.debug(`Adding new item for ${cat}`);
-  $('span .newListItemCategory').text(cat);
+  $('.newListItemCategory').text(cat);
+  $('#addListItemModal').data('category', cat);
   $('#addListItemModal').modal();
+}
+
+function addItemFromModal() {
+  let item = $('#newItemInput').val();
+  let list = $('#addListItemModal').data('category');
+  updateListItem(list, null, item);
+  $('#addListItemModal').modal('hide');
+  $('#newItemInput').val('');
 }
 
 function editListItem(event) {
@@ -128,12 +134,9 @@ function removeListItem(event) {
 }
 
 function saveModified(event) {
-  if (
-    event.type === 'click' ||
-    (event.type === 'keypress' && event.which === 13)
-  ) {
+  if (event.type === 'click' || (event.type === 'keypress' && event.which === 13)) {
     let $listItem = $(event.target.parentElement);
-    let listID = event.target.parentElement.parentElement.id;
+    let listID = event.target.parentElement.parentElement.parentElement.id;
     let oldVal = event.currentTarget.parentElement.dataset.value;
     let newVal = $('input', $listItem).val();
     // Send values to get updated
@@ -157,26 +160,49 @@ function cancelModification(event) {
 }
 
 function updateListItem(listID, oldVal, newVal) {
-  Object.keys(settingPageIDS).map(storageKey => {
-    if (settingPageIDS[storageKey] === listID) {
-      storage.get(storageKey, (err, data) => {
+  logger.debug(`Called updateListItem(${listID}, ${oldVal}, ${newVal})`);
+  if (oldVal) {
+    storage.get(listID, (err, data) => {
+      if (err) {
+        logger.error(`Error reading storage for ${listID}.`);
+        throw err;
+      }
+      let editedList = data;
+      editedList.splice(data.indexOf(oldVal), 1, newVal);
+      storage.set(listID, editedList, err => {
         if (err) {
-          logger.error(
-            `Error reading storage for for ${storageKey}.\n${err.msg}`
-          );
+          logger.error(`Error setting new value (${newVal}) for ${listID}.`);
           throw err;
         }
-        let editedList = data;
-        editedList.splice(data.indexOf(oldVal), 1, newVal);
-        storage.set(storageKey, editedList, err => {
-          if (err) {
-            logger.error(
-              `Error setting new value (${newVal}) for ${storageKey}.\n${err.msg}`
-            );
-            throw err;
-          }
-        });
       });
-    }
-  });
+    });
+  } else {
+    storage.get(listID, (err, data) => {
+      if (err) {
+        logger.error(`Error reading storage for for ${listID}.`);
+        throw err;
+      }
+      let editedList = data;
+      editedList.push(newVal);
+      storage.set(listID, editedList, err => {
+        if (err) {
+          logger.error(`Error adding new value (${newVal}) to ${listID} list.`);
+          throw err;
+        }
+        generateListFromStorage(listID);
+      });
+    });
+  }
+}
+
+function addTab(category) {
+  let htmlStr = `<a class="nav-item nav-link" id="nav-${category}-tab"
+    data-toggle="tab" href="#${category}">${category[0].toUpperCase() + category.substring(1)}</a>`;
+  let emptyCont = `<div class="tab-pane fade p-2" id="${category}">
+    <div class="list-group"></div><hr />
+    <button class="btn btn-success addNewItemBtn">Add New</button>
+    </div>`;
+  $('#settingsNav').append(htmlStr);
+  $('#settingsNav-tabContent').append(emptyCont);
+  // $(`#nav-${category}-tab`).tab();
 }
