@@ -194,10 +194,10 @@ function establishConnectionAndStart(progressbar) {
         } else {
           $('body').removeClass('d-none');
           $('#adconnectionStatus').html(
-            `<span class="badge badge-danger p-1">Unable to Connect</span>
-            <button class="button btn-sm btn-secondary" id="retryConnectionButton">Retry</button>`
+            `<span class="badge badge-danger p-1">Unable to Connect</span>`
+            //<button class="button btn-sm btn-secondary" id="retryConnectionButton">Retry</button>`
           );
-          $('#retryConnectionButton').click(establishConnectionAndStart);
+          //$('#retryConnectionButton').click(establishConnectionAndStart);
         }
       }
     );
