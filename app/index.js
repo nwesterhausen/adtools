@@ -257,6 +257,9 @@ function registerHandlers() {
   // SETTINGS PAGE
   $('.addNewItemBtn').click(settings.addListItem);
   $('#mbtnListAdd').click(settings.addItemFromModal);
+  $('#addListItemModal').on('shown.bs.modal', e => {
+    $('#newItemInput').focus();
+  });
   // MAIN PAGE
   $('#refreshAdConnection').click(e => {
     $('#refreshAdConnection span').text('Connecting..');
