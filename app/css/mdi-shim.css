@@ -1,41 +1,61 @@
-.alert.mdi::before,
-.breadcrumb .mdi::before,
-.btn.mdi::before,
-.card-title.mdi::before,
-.card-subtitle.mdi::before,
-.card-link.mdi::before,
-.dropdown-item.mdi::before,
-.list-group-item.mdi::before,
-.nav-link.mdi::before {
-  font-size: 1.25em;
-  line-height: initial;
-  position: relative;
-  top: 0.09rem;
+h2 {
+  margin: 15px 0 10px 0;
 }
-.alert.mdi::before,
-.breadcrumb .mdi:not(:empty)::before,
-.btn.mdi:not(:empty)::before,
-.card-title.mdi:not(:empty)::before,
-.card-subtitle.mdi:not(:empty)::before,
-.card-link.mdi:not(:empty)::before,
-.dropdown-item.mdi:not(:empty)::before,
-.nav-link.mdi:not(:empty)::before {
-  margin-right: 0.25rem;
+
+h3 {
+  font-size: 1.2em;
 }
-.list-group-item.mdi:not(:empty)::before {
-  margin-right: 0.5rem;
+
+.alert.mdi::before {
+  margin: 0 3px 0 -3px;
 }
-.dropdown-item.mdi:not(:empty)::before {
-  margin-left: -0.75rem;
+
+.btn.mdi:not(:empty)::before {
+  margin: 0 3px 0 -3px;
 }
-.alert.mdi::before,
-.list-group-item.mdi:not(:empty)::before {
-  margin-left: -0.5rem;
+
+.breadcrumb-item a.mdi::before,
+.breadcrumb-item span.mdi::before {
+  margin: 0 2px 0 -2px;
 }
+
+.dropdown-item.mdi::before {
+  margin: 0 8px 0 -10px;
+}
+
+.list-group-item.mdi::before {
+  margin: 0 6px 0 -6px;
+}
+
 .modal-title.mdi::before {
-  font-size: 1.5em;
-  line-height: 0.5;
+  margin: 0 4px 0 0;
+}
+
+.nav-link.mdi::before {
+  margin: 0 4px 0 -4px;
+}
+
+.navbar-brand.mdi::before {
+  margin: 0 4px 0 0;
+}
+
+.popover-title.mdi::before {
+  margin: 0 4px 0 -4px;
+}
+
+.btn.mdi-chevron-up.collapsed::before {
+  content: '\f140';
+}
+
+.bd-example-popover-static {
+  padding-bottom: 1.5rem;
+  background-color: #f9f9f9;
+}
+
+.bd-example-popover-static .popover {
   position: relative;
-  top: 0.26rem;
-  margin-right: 0.5rem;
+  display: block;
+  float: left;
+  width: 260px;
+  margin: 0.75rem;
 }
