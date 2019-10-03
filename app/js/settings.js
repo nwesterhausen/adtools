@@ -108,11 +108,13 @@ function addListItem(event) {
 }
 
 function addItemFromModal() {
-  let item = $('#newItemInput').val();
-  let list = $('#addListItemModal').data('category');
-  updateListItem(list, null, item);
-  $('#addListItemModal').modal('hide');
-  $('#newItemInput').val('');
+  if (event.type === 'click' || (event.type === 'keypress' && event.which === 13)) {
+    let item = $('#newItemInput').val();
+    let list = $('#addListItemModal').data('category');
+    updateListItem(list, null, item);
+    $('#addListItemModal').modal('hide');
+    $('#newItemInput').val('');
+  }
 }
 
 function editListItem(event) {
@@ -123,7 +125,7 @@ function editListItem(event) {
     <button class="btn btn-sm btn-success mt-1">Save</button>
     <button class="btn btn-sm btn-danger mt-1">Cancel</button>`
   );
-  console.log(event);
+  $('input', $listItem).focus();
   $('.btn-success', $listItem).click(saveModified);
   $('input', $listItem).keypress(saveModified);
   $('.btn-danger', $listItem).click(cancelModification);
@@ -146,8 +148,6 @@ function saveModified(event) {
     // Remove the input box and buttons
     $('input', $listItem).remove();
     $('button', $listItem).remove();
-    $('span', $listItem).text(newVal);
-    $('span', $listItem).show();
   }
 }
 
@@ -174,6 +174,7 @@ function updateListItem(listID, oldVal, newVal) {
           logger.error(`Error setting new value (${newVal}) for ${listID}.`);
           throw err;
         }
+        generateListFromStorage(listID);
       });
     });
   } else {
