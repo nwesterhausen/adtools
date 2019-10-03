@@ -125,6 +125,8 @@ function establishConnectionAndStart(forced) {
   $('div', $pbar).removeClass('bg-danger');
   $('div', $pbar).addClass('progress-bar-animated');
   $('div', $pbar).addClass('progress-bar-striped');
+
+  $('#adconnectionStatus span').html('');
   // If session storage doesn't have the domain name key, then we assume there
   // is no session storage.
   if (forced || !sessionStorage.getItem(Constants.DOMAIN.NAME)) {
@@ -176,7 +178,6 @@ function establishConnectionAndStart(forced) {
           // Update the page with the data we stored in session storage.
           updateDomainInfoFromStorage();
           updateUserListTableFromsessionStorage();
-          $('body').removeClass('d-none');
           $('#adconnectionStatus').html(
             '<span class="badge badge-success p-1">Connected</span>'
           );
@@ -184,7 +185,6 @@ function establishConnectionAndStart(forced) {
           $('div', $pbar).addClass('bg-success');
           finishLoading();
         } else {
-          $('body').removeClass('d-none');
           $('#adconnectionStatus').html(
             `<span class="badge badge-danger p-1">Unable to Connect</span>`
           );

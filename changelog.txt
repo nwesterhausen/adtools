@@ -1,4 +1,6 @@
 v0.1.20-snapshot
+Fix: Updated Material Design Icons CSS-shim.
+Fix: AD Reconnection Button displays connecting when connecting.
 
 v0.1.19
 Feature: Can reload general domain information or reconnect if a failure occurred.
