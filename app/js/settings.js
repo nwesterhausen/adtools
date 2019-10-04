@@ -87,10 +87,10 @@ function generateListHTMLFromJson(listjson) {
     html += `<div class="list-group-item list-group-item-action" data-value="${item}">
               <span>${item}</span>
               <div class="settings-option remove-option my-0">
-                <i class="mdi mdi-trash-can-outline"></i>
+                <i class="mdi mdi-trash-can-outline mdi-24px"></i>
               </div>
               <div class="settings-option edit-option my-0 mx-2">
-                <i class="mdi mdi-pencil-outline"></i>
+                <i class="mdi mdi-pencil-outline mdi-24px"></i>
               </div>
             </div>`;
   });
@@ -132,7 +132,10 @@ function editListItem(event) {
   logger.debug(`EDIT -> ${event.currentTarget.parentElement.dataset.value}`);
 }
 function removeListItem(event) {
-  logger.debug(`REMOVE -> ${event.currentTarget.parentElement.dataset.value}`);
+  let item = event.currentTarget.parentElement.dataset.value;
+  let list = event.target.parentElement.parentElement.parentElement.parentElement.id;
+  logger.debug(`REMOVE -> ${item} (${list})`);
+  updateListItem(list, item);
 }
 
 function saveModified(event) {
@@ -161,7 +164,8 @@ function cancelModification(event) {
 
 function updateListItem(listID, oldVal, newVal) {
   logger.debug(`Called updateListItem(${listID}, ${oldVal}, ${newVal})`);
-  if (oldVal) {
+  if (oldVal && newVal) {
+    // Update
     storage.get(listID, (err, data) => {
       if (err) {
         logger.error(`Error reading storage for ${listID}.`);
@@ -171,13 +175,31 @@ function updateListItem(listID, oldVal, newVal) {
       editedList.splice(data.indexOf(oldVal), 1, newVal);
       storage.set(listID, editedList, err => {
         if (err) {
-          logger.error(`Error setting new value (${newVal}) for ${listID}.`);
+          logger.error(`Error setting new value (${oldVal} -> ${newVal}) on ${listID}.`);
+          throw err;
+        }
+        generateListFromStorage(listID);
+      });
+    });
+  } else if (oldVal) {
+    // Remove
+    storage.get(listID, (err, data) => {
+      if (err) {
+        logger.error(`Error reading storage for for ${listID}.`);
+        throw err;
+      }
+      let editedList = data;
+      editedList.pop(oldVal);
+      storage.set(listID, editedList, err => {
+        if (err) {
+          logger.error(`Error removing old value (${oldVal}) from ${listID} list.`);
           throw err;
         }
         generateListFromStorage(listID);
       });
     });
   } else {
+    // Add
     storage.get(listID, (err, data) => {
       if (err) {
         logger.error(`Error reading storage for for ${listID}.`);
