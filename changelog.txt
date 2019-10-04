@@ -1,3 +1,6 @@
+v0.1.21
+Fix: Removing an item from a settings list works.
+
 v0.1.20
 Change: Settings page uses a tabbed style instead of a series of lists.
 Feature: Can add new items to a category on the settings page.
