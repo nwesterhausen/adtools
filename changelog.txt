@@ -1,3 +1,6 @@
+v0.1.22
+Fix: Don't open the dev tools in production.
+
 v0.1.21
 Fix: Removing an item from a settings list works.
 

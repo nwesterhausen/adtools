@@ -10,8 +10,14 @@ const storage = require('electron-json-storage');
 const appID = 'me.westerhausen.adtools';
 
 // Set log details
-logger.transports.file.level = 'info'; // log level for the file
-logger.transports.console.level = 'debug'; // log level for the console (false is off)
+if (process.defaultApp) {
+  // If default app, running as 'electron .'
+  logger.transports.file.level = 'debug'; // log level for the file
+  logger.transports.console.level = 'debug'; // log level for the console (false is off)
+} else {
+  logger.transports.file.level = 'info'; // log level for the file
+  logger.transports.console.level = false; // log level for the console (false is off)
+}
 
 // Make Logging Available To Other Windows via IPC
 ipcMain.on('log', (event, args) => {
@@ -44,10 +50,7 @@ ipcMain.on('close-app', (evt, arg) => {
 // Move existing log to previous.log
 if (fs.existsSync(logger.transports.file.findLogPath())) {
   let baselogpath = path.dirname(logger.transports.file.findLogPath());
-  fs.renameSync(
-    path.join(baselogpath, 'log.log'),
-    path.join(baselogpath, 'previous.log')
-  );
+  fs.renameSync(path.join(baselogpath, 'log.log'), path.join(baselogpath, 'previous.log'));
 }
 
 // Start log
@@ -148,8 +151,8 @@ app.on('ready', function() {
     mainWindow = null;
   });
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // Open the DevTools if running in development
+  if (process.defaultApp) mainWindow.webContents.openDevTools();
 
   autoUpdater.checkForUpdatesAndNotify();
 
@@ -188,13 +191,7 @@ autoUpdater.on('error', err => {
 autoUpdater.on('download-progress', progressObj => {
   let log_message = 'Download speed: ' + progressObj.bytesPerSecond;
   log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
-  log_message =
-    log_message +
-    ' (' +
-    progressObj.transferred +
-    '/' +
-    progressObj.total +
-    ')';
+  log_message = log_message + ' (' + progressObj.transferred + '/' + progressObj.total + ')';
   logger.info(log_message);
 });
 autoUpdater.on('update-downloaded', info => {
