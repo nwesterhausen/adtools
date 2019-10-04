@@ -18,8 +18,7 @@ const DOMAIN = {
   DOMAIN_CONTROLLERS_CONTAINER: 'DomainDomainControllersContainer', // LDAP string
   DOMAIN_MODE: 'DomainDomainMode', // string
   DOMAIN_SID: 'DomainDomainSID', // obj
-  FOREIGN_SECURITY_PRINCIPALS_CONTAINER:
-    'DomainForeignSecurityPrincipalsContainer', // LDAP string
+  FOREIGN_SECURITY_PRINCIPALS_CONTAINER: 'DomainForeignSecurityPrincipalsContainer', // LDAP string
   FOREST: 'DomainForest', // string
   INFRASTRUCTURE_MASTER: 'DomainInfrastructureMaster', // string
   LAST_LOGON_REPLICATION_INTERVAL: 'DomainLastLogonReplicationInterval', // string
@@ -32,8 +31,7 @@ const DOMAIN = {
   OBJECT_GUID: 'DomainObjectGUID', // guid
   PDC_EMULATOR: 'DomainPDCEmulator', // string
   PARENT_DOMAIN: 'DomainParentDomain', // string
-  PUBLIC_KEY_REQUIRED_PASSWORD_ROLLING:
-    'DomainPublicKeyRequiredPasswordRolling', // string
+  PUBLIC_KEY_REQUIRED_PASSWORD_ROLLING: 'DomainPublicKeyRequiredPasswordRolling', // string
   QUOTAS_CONTAINER: 'DomainQuotasContainer', // LDAP string
   RID_MASTER: 'DomainRIDMaster', // string
   READ_ONLY_REPLICAT_DIRECTORY_SERVERS: 'DomainReadOnlyReplicaDirectoryServers', // array
@@ -49,10 +47,22 @@ const DOMAIN = {
 const USERSLIST = 'AllADUsers'; // array
 const COMPUTERSLIST = 'AllADComputers'; //array
 const SETTINGS = {
+  PREFERENCES: 'preferences',
   COMPANY_OPTIONS: 'companies',
   DEPARTMENT_OPTIONS: 'departments',
   TITLE_OPTIONS: 'titles',
   PROXY_DOMAIN_OPTIONS: 'proxyDomains'
+};
+const DEFAULT_PREFERENCES = {
+  fileLevelLogging: 'info'
+};
+const PREFERENCES = {
+  fileLevelLogging: {
+    options: [false, 'debug', 'info', 'warning', 'error'],
+    default: DEFAULT_PREFERENCES.fileLevelLogging,
+    name: 'Log level for file',
+    type: 'select'
+  }
 };
 
 module.exports = {
@@ -60,5 +70,7 @@ module.exports = {
   DOMAIN,
   USERSLIST,
   COMPUTERSLIST,
-  SETTINGS
+  SETTINGS,
+  DEFAULT_PREFERENCES,
+  PREFERENCES
 };

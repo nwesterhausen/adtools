@@ -5,9 +5,34 @@ const fs = require('fs');
 const { autoUpdater } = require('electron-updater');
 const logger = require('electron-log');
 const storage = require('electron-json-storage');
+const Constants = require('./constants');
 
 // The app ID is used for notifications and consistent updates / uninstalls
 const appID = 'me.westerhausen.adtools';
+
+// Check for preferences setting file\
+let preferences = {};
+storage.has(Constants.SETTINGS.PREFERENCES, (err, hasKey) => {
+  if (err) {
+    logger.error(err.msg);
+    throw err;
+  }
+  if (!hasKey) {
+    storage.set(Constants.SETTINGS.PREFERENCES, Constants.DEFAULT_PREFERENCES, err => {
+      if (err) {
+        logger.error(err);
+        throw err;
+      }
+      logger.debug(`Created new settings file for ${Constants.SETTINGS.PREFERENCES}`);
+    });
+  } else {
+    logger.debug(`Existing settings file found for ${Constants.SETTINGS.PREFERENCES}`);
+    storage.get(Constants.SETTINGS.PREFERENCES, (err, data) => {
+      preferences = data;
+      reloadPreferences();
+    });
+  }
+});
 
 // Set log details
 if (process.defaultApp) {
@@ -141,7 +166,7 @@ app.on('ready', function() {
     },
     title: `Active Directory Tools ${app.getVersion()}`
   });
-  mainWindow.maximize();
+  // mainWindow.maximize();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
@@ -198,3 +223,11 @@ autoUpdater.on('update-downloaded', info => {
   logger.info('Update downloaded');
   logger.info(info);
 });
+
+// Update general settings from preferences
+function reloadPreferences() {
+  // Update logging preferences if not in development
+  if (!app.defaultApp) {
+    logger.transports.file.level = preferences.fileLogLevel;
+  }
+}

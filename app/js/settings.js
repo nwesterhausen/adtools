@@ -44,7 +44,7 @@ Object.keys(Constants.SETTINGS).map(settingName => {
           logger.error(err);
           throw err;
         }
-        logger.info(`Created new settings file for ${settingName}`);
+        logger.debug(`Created new settings file for ${settingName}`);
       });
     } else {
       logger.debug(`Existing settings file found for ${settingName}`);
@@ -54,7 +54,7 @@ Object.keys(Constants.SETTINGS).map(settingName => {
 
 // populate the settings lists with the values from the settings file
 function populateSettingsPage() {
-  logger.info('Loading values in settings page from settings files.');
+  logger.debug('Loading values in settings page from settings files.');
   Object.keys(Constants.SETTINGS).map(k => {
     addTab(Constants.SETTINGS[k]);
     generateListFromStorage(Constants.SETTINGS[k]);
@@ -76,10 +76,34 @@ function generateListFromStorage(storageKey) {
 }
 
 function generateListHTMLFromJson(listjson) {
-  // Should be an array..
+  // Should be an array unless is general preferences.
   if (!Array.isArray(listjson)) {
-    logger.debug(`Got non-array for list generation.\n${JSON.stringify(listjson)}`);
-    return false;
+    // Check if there is a key for the logging setting
+    if (!listjson.hasOwnProperty('fileLevelLogging')) {
+      logger.debug(`Got non-array for list generation.\n${JSON.stringify(listjson)}`);
+      return false;
+    }
+    // Build the preferences page
+    let html = '';
+    for (let key in listjson) {
+      if (Constants.PREFERENCES.hasOwnProperty(key)) {
+        let prefObj = Constants.PREFERENCES[key];
+        html += `<div class="form-group">
+        <label for="${key + 'Input'}">${prefObj.name}</label>`;
+        if (prefObj.type === 'select') {
+          html += `<select  class="form-control" id="${key + 'Input'}">`;
+          for (let i in prefObj.options) {
+            html += `<option${
+              prefObj.hasOwnProperty('optionsValues') ? ' value="' + prefObj.optionsValues[i] + '"' : ''
+            }
+              ${listjson[key] === prefObj.options[i] ? 'class="bg-info text-white" selected="selected">' : '>'}
+              ${prefObj.options[i]}</option>`;
+          }
+        }
+        html += `</div>`;
+      }
+    }
+    return html;
   }
 
   let html = '';
@@ -222,10 +246,13 @@ function addTab(category) {
   let htmlStr = `<a class="nav-item nav-link" id="nav-${category}-tab"
     data-toggle="tab" href="#${category}">${category[0].toUpperCase() + category.substring(1)}</a>`;
   let emptyCont = `<div class="tab-pane fade p-2" id="${category}">
-    <div class="list-group"></div><hr />
-    <button class="btn btn-success addNewItemBtn">Add New</button>
+    <div class="list-group"></div><hr />${
+      category === Constants.SETTINGS.PREFERENCES
+        ? '<button class="btn btn-success mr-2" id="saveSettingsBtn">Save</button>' +
+          '<button class="btn btn-danger mr-2" id="resetSettingsBtn"">Reset to Defaults</button>'
+        : '<button class="btn btn-success addNewItemBtn">Add New</button>'
+    }
     </div>`;
   $('#settingsNav').append(htmlStr);
   $('#settingsNav-tabContent').append(emptyCont);
-  // $(`#nav-${category}-tab`).tab();
 }
