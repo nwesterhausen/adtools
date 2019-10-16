@@ -16,9 +16,9 @@
     ajv-keywords "^3.1.0"
 
 "@mdi/font@^4.1.95":
-  version "4.4.95"
-  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-4.4.95.tgz#4a00f46a500120714ded1524f376f7882346d3fd"
-  integrity sha512-9BSvtpDF83dQ06VmwCeXTebzZZisIf4u6d62uC53oD6bzBUEMqiQrbW+oxyFrBYn3VxttRt/MKuL/wKUV9HWmA==
+  version "4.5.95"
+  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-4.5.95.tgz#43c0d2e7b08d4221a778f58d899455d0c45916ed"
+  integrity sha512-AjR2Zgu1feBXWlTfEjD6JQqLAMCqYn2Gzia5PWqFnysvz5F6JmPHtQFldIHXqyv2s/FwME7ZDBc5N86NEHbyvQ==
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
@@ -38,9 +38,9 @@
   integrity sha512-Q1y515GcOdTHgagaVFhHnIFQ38ygs/kmxdNpvpou+raI9UO3YZcHDngBSYKQklcKlvA7iuQlmIKbzvmxcOE9CQ==
 
 "@types/node@^10.12.18":
-  version "10.14.19"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.14.19.tgz#f52742c7834a815dedf66edfc8a51547e2a67342"
-  integrity sha512-j6Sqt38ssdMKutXBUuAcmWF8QtHW1Fwz/mz4Y+Wd9mzpBiVFirjpNQf363hG5itkG+yGaD+oiLyb50HxJ36l9Q==
+  version "10.14.22"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.14.22.tgz#34bcdf6b6cb5fc0db33d24816ad9d3ece22feea4"
+  integrity sha512-9taxKC944BqoTVjE+UT3pQH0nHZlTvITwfsOZqyc+R3sfJuxaTtxWjfn1K2UlxyPcKHf0rnaXcVFrS9F9vf0bw==
 
 "@types/semver@^6.0.1":
   version "6.0.2"
@@ -194,9 +194,9 @@ author-regex@^1.0.0:
   integrity sha1-0IiFvmubv5Q5/gh8dihyRfCoFFA=
 
 aws-sdk@^2.529.0:
-  version "2.541.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.541.0.tgz#dd9902ceb2b6b002893de9d35ae598b332019e0b"
-  integrity sha512-KDw2M4Df0KC6mguYWQm+r9A4dfijsnFKaJtrOtSeoIiHDmTdPzSpsrZXGCb9Mc+npGcMT1144sQNCUZWjG0JDA==
+  version "2.550.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.550.0.tgz#00a0113f4efbe7c068ac73459c77c39a32390a87"
+  integrity sha512-eZQYY7O6VJeVQvBWnctOOTOO/+aTXhy23+T7QU1FcHfuvWV7K+7+7Uats9rgMS42SQ4R8q1cIZZ1InWnmmfrEw==
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -243,9 +243,9 @@ bluebird-lst@^1.0.9:
     bluebird "^3.5.5"
 
 bluebird@^3.5.0, bluebird@^3.5.5:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.0.tgz#56a6a886e03f6ae577cffedeb524f8f2450293cf"
-  integrity sha512-aBQ1FxIa7kSWCcmKHlcHFlT2jt6J/l4FzC7KcPELkOJOsPOb/bccdhmIrKDfXhwFrmc7vDoDrrepFvGqjyXGJg==
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.1.tgz#df70e302b471d7473489acf26a93d63b53f874de"
+  integrity sha512-DdmyoGCleJnkbp3nkbxTLJ18rjDsE4yCggEwKNXkeV123sPNfOCYeDoeuOY+F2FrSjO1YXcTU+dsy96KMy+gcg==
 
 bootstrap@^4.3.1:
   version "4.3.1"
@@ -424,9 +424,9 @@ combined-stream@^1.0.6, combined-stream@~1.0.6:
     delayed-stream "~1.0.0"
 
 commander@^2.20.0:
-  version "2.20.1"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.1.tgz#3863ce3ca92d0831dcf2a102f5fb4b5926afd0f9"
-  integrity sha512-cCuLsMhJeWQ/ZpsFTbE765kvVfoeSddc4nU3up4fV+fDBcfUXnbITJ+JzhkdjzOqhURjZgujxaioam4RM9yGUg==
+  version "2.20.3"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
+  integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
 
 commander@^3.0.0:
   version "3.0.2"
@@ -595,9 +595,9 @@ dotenv-expand@^5.1.0:
   integrity sha512-YXQl1DSa4/PQyRfgrv6aoNjhasp/p4qs9FjJ4q4cQk+8m4r6k4ZSiEyytKG8f8W9gi8WsQtIObNmKd+tMzNTmA==
 
 dotenv@^8.0.0:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.1.0.tgz#d811e178652bfb8a1e593c6dd704ec7e90d85ea2"
-  integrity sha512-GUE3gqcDCaMltj2++g6bRQ5rBJWtkWTmqmD0fo1RnnMuUqHNCt2oTPeDnS9n6fKYvlhn7AeBkb38lymBtWBQdA==
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
+  integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
 
 duplexer3@^0.1.4:
   version "0.1.4"
@@ -730,17 +730,17 @@ electron-updater@^4.1.2:
     semver "^6.2.0"
 
 electron-util@^0.12.1:
-  version "0.12.1"
-  resolved "https://registry.yarnpkg.com/electron-util/-/electron-util-0.12.1.tgz#4a10492d416509a1f588c92d2e50e17798fb4c56"
-  integrity sha512-tRumSqHzNs37X9r2dS42cCxTw8Kw1kARyIcOrKNlYf73n+cooDpBM7+WvA1UNpx1KFPuaBxDpxCmt0SFsJq3BQ==
+  version "0.12.2"
+  resolved "https://registry.yarnpkg.com/electron-util/-/electron-util-0.12.2.tgz#ab03458459a3354fc2ea0e22ede714f291c0896d"
+  integrity sha512-AG96dy4o7jgsTmiHwps/CGRzQDbeZYDqxxBprbEwcK0Ao15njIAsZQfcMEPid6D6Mdix+T/Pjs5hxoYPkjKscg==
   dependencies:
     electron-is-dev "^1.1.0"
     new-github-issue-url "^0.2.1"
 
 electron@^6.0.3:
-  version "6.0.11"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-6.0.11.tgz#64effa71397045779a1ddbf51312a41ccf26f491"
-  integrity sha512-mi1oHmeFIQrg+CDQ6lbugZAloOxuWPm/ecEKYe1230PGlDoWND7SYStiWQ2eI4YXAEOL/NvuY88ogemu1qhdBg==
+  version "6.0.12"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-6.0.12.tgz#85bf0061e32f660256cfde95488f1cb75253bc94"
+  integrity sha512-70ODZa1RP6K0gE9IV9YLCXPSyhLjXksCuYSSPb3MljbfwfHo5uE6X0CGxzm+54YuPdE2e7EPnWZxOOsJYrS5iQ==
   dependencies:
     "@types/node" "^10.12.18"
     electron-download "^4.1.0"
@@ -1006,9 +1006,9 @@ has-yarn@^2.1.0:
   integrity sha512-UqBRqi4ju7T+TqGNdqAO0PaSVGsDGJUBQvk9eUWNGRY1CFGDzYhLWoM7JQEemnlvVcv/YEmc2wNW8BC24EnUsw==
 
 hosted-git-info@^2.1.4, hosted-git-info@^2.7.1:
-  version "2.8.4"
-  resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.8.4.tgz#44119abaf4bc64692a16ace34700fed9c03e2546"
-  integrity sha512-pzXIvANXEFrc5oFFXRMkbLPQ2rXRoDERwDLyrcUxGhaZhgP54BBSl9Oheh7Vv0T090cszWBxPjkQQ5Sq1PbBRQ==
+  version "2.8.5"
+  resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.8.5.tgz#759cfcf2c4d156ade59b0b2dfabddc42a6b9c70c"
+  integrity sha512-kssjab8CvdXfcXMXVcvsXum4Hwdq9XGtRD3TteMEvEbq0LXyiNQr6AprqKqfeaDXze7SxWvRxdpwE6ku7ikLkg==
 
 http-cache-semantics@^4.0.0:
   version "4.0.3"
@@ -1420,9 +1420,9 @@ ms@^2.1.1:
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
 nanoid@^2.1.0:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-2.1.2.tgz#5c63a913f4fbf4afff2004c7bb42dee8e627baf4"
-  integrity sha512-q0iKJHcLc9rZg/qtJ/ioG5s6/5357bqvkYCpqXJxpcyfK7L5us8+uJllZosqPWou7l6E1lY2Qqoq5ce+AMbFuQ==
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-2.1.3.tgz#5130db537fca20d2676515fe7b8ecf8e22192914"
+  integrity sha512-SbgVmGjEUAR/rYdAM0p0TCdKtJILZeYk3JavV2cmNVmIeR0SaKDudLRk58au6gpJqyFM9qz8ufEsS91D7RZyYA==
 
 new-github-issue-url@^0.2.1:
   version "0.2.1"
@@ -1644,9 +1644,9 @@ pinkie@^2.0.0:
   integrity sha1-clVrgM+g1IqXToDnckjoDtT3+HA=
 
 popper.js@^1.15.0:
-  version "1.15.0"
-  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.15.0.tgz#5560b99bbad7647e9faa475c6b8056621f5a4ff2"
-  integrity sha512-w010cY1oCUmI+9KwwlWki+r5jxKfTFDVoadl7MSrIujHU5MJ5OR6HTDj6Xo8aoR/QsA56x8jKjA59qGH4ELtrA==
+  version "1.16.0"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.16.0.tgz#2e1816bcbbaa518ea6c2e15a466f4cb9c6e2fbb3"
+  integrity sha512-+G+EkOPoE5S/zChTpmBSSDYmhXJ5PsW8eMhH8cP/CQHMFPBG/kC9Y5IIw6qNYgdJ+/COf0ddY2li28iHaZRSjw==
 
 prepend-http@^2.0.0:
   version "2.0.0"
