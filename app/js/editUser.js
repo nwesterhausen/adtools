@@ -184,7 +184,7 @@ function addProxyAddress() {
   let newAddress = $('#newProxyAddress').val();
   $('#proxyTable').append(`<li  class="list-group-item" data-value="smtp:${newAddress}">${newAddress}</li>`);
 
-  if ($('isNewProxyAddressPrimary').prop('checked')) {
+  if ($('#isNewProxyAddressPrimary').prop('checked')) {
     updatePrimaryProxyAddressTo(newAddress);
   }
 
