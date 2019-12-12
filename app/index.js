@@ -182,9 +182,7 @@ function establishConnectionAndStart(forced) {
           $('#adconnectionStatus').html(`<span class="badge badge-danger p-1">Unable to Connect</span>`);
 
           $('#refreshAdConnection span').text('Retry Connection');
-          $('#refreshAdConnection i').addClass('mdi-reload');
-          $('#refreshAdConnection i').removeClass('mdi-loading');
-          $('#refreshAdConnection i').removeClass('mdi-spin');
+          $('#refreshAdConnection i').addClass('mdi-reload').removeClass('mdi-loading').removeClass('mdi-spin');
         }
       }
     );
@@ -210,12 +208,9 @@ function finishLoading() {
 
   $('#navPills a').removeClass('disabled');
 
-  $('#domainInfoCards').removeClass('d-none');
-  $('#domainInfoCards').addClass('d-flex');
+  $('#domainInfoCards').removeClass('d-none').addClass('d-flex');
 
-  $('#refreshAdConnection i').addClass('mdi-reload');
-  $('#refreshAdConnection i').removeClass('mdi-loading');
-  $('#refreshAdConnection i').removeClass('mdi-spin');
+  $('#refreshAdConnection i').addClass('mdi-reload').removeClass('mdi-loading').removeClass('mdi-spin');
   setTimeout(() => {
     $('div', $pbar).fadeOut(250, () => {
       $('div', $pbar).css('width', '0%');
@@ -250,7 +245,11 @@ function registerHandlers() {
   $('#changePrimary').click(() => {
     $('#primaryAddressModal').modal();
   });
+  $('#addAddress').click(() => {
+    $('#addAddressModal').modal();
+  });
   $('#mdlbtnSetPrimary').click(edituser.updateProxyAddressList);
+  $('#mdlbtnAddProxy').click(edituser.addProxyAddress);
   // NEW USER PAGE
   $('#uGivenName').change(updateDirectoryName);
   $('#uSurname').change(updateDirectoryName);
@@ -264,9 +263,7 @@ function registerHandlers() {
   // MAIN PAGE
   $('#refreshAdConnection').click(e => {
     $('#refreshAdConnection span').text('Connecting..');
-    $('#refreshAdConnection i').removeClass('mdi-reload');
-    $('#refreshAdConnection i').addClass('mdi-loading');
-    $('#refreshAdConnection i').addClass('mdi-spin');
+    $('#refreshAdConnection i').removeClass('mdi-reload').addClass('mdi-loading').addClass('mdi-spin');
     establishConnectionAndStart(true);
   });
 }

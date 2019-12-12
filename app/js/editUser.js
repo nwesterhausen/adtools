@@ -25,7 +25,8 @@ module.exports = {
   enabledBasicInfoEditing,
   cancelBasicInfoEditing,
   commitProxyAddressChange,
-  updateProxyAddressList
+  updateProxyAddressList,
+  addProxyAddress
 };
 
 // Static HTML for Inclusion
@@ -42,8 +43,11 @@ async function loadUserDetails() {
   resetPage();
   let user = $('#userName').val() || 'nwesterhausen';
 
-  $('#loadingBar').show();
-  $('#detailsTabs').hide();
+  let $loadingBar = $('#loadingBar'),
+      $detailsTabs = $('#detailsTabs');
+
+  $loadingBar.show();
+  $detailsTabs.hide();
   let data = await pscmd.loadAdUser(user);
 
   // It's possible that the data returned is a list instead of a single
@@ -54,8 +58,8 @@ async function loadUserDetails() {
   } else {
     updatePageWithUserInfo(data);
   }
-  $('#loadingBar').hide();
-  $('#detailsTabs').show();
+  $loadingBar.hide();
+  $detailsTabs.show();
   $('#userHeader').show();
 }
 
@@ -97,10 +101,13 @@ function updatePageWithUserInfo(data) {
 
   $('#uSamAccountName').text(data.SamAccountName);
 
-  $('#userDisplayname').text(data.DisplayName);
-  $('#userDisplayname').attr('data-guid', data.ObjectGUID);
+  $('#userDisplayname').text(data.DisplayName).attr('data-guid', data.ObjectGUID);
   $('#primaryLabel').show();
   $('#addresslistLabel').show();
+
+  if (!data.hasOwnProperty('proxyAddresses')) {
+    //TODO generate a proxy address list with one SMTP: entry
+  }
 
   if (data.proxyAddresses) {
     data.proxyAddresses.forEach(value => {
@@ -173,20 +180,35 @@ function commitProxyAddressChange() {
   pscmd.saveUserProxyAddresses(userid, newValue);
 }
 
+function addProxyAddress() {
+  let newAddress = $('#newProxyAddress').val();
+  $('#proxyTable').append(`<li  class="list-group-item" data-value="smtp:${newAddress}">${newAddress}</li>`);
+
+  if ($('isNewProxyAddressPrimary').prop('checked')) {
+    updatePrimaryProxyAddressTo(newAddress);
+  }
+
+  $('#isNewProxyAddressPrimary').prop("checked", false);
+  $('#addAddressModal').modal('hide');
+}
+
 function updateProxyAddressList() {
   let newPA = $('#selectNewPrimaryAddress').val();
+  updatePrimaryProxyAddressTo(newPA);
+  $('#primaryAddressModal').modal('hide');
+}
+
+function updatePrimaryProxyAddressTo(newProxyAddress) {
   for (let row of $('#proxyTable li')) {
     let aval = row.getAttribute('data-value');
-    if (aval.startsWith('SMTP:') && aval.indexOf(newPA) === -1) {
+    if (aval.startsWith('SMTP:') && aval.indexOf(newProxyAddress) === -1) {
       $(row).removeProp('active');
       row.setAttribute('data-value', `smtp:${aval.split(':')[1]}`);
       row.innerHTML = `${aval.split(':')[1]}`;
-    } else if (aval.indexOf(newPA) !== -1) {
+    } else if (aval.indexOf(newProxyAddress) !== -1) {
       $(row).prop('active');
-      row.setAttribute('data-value', `SMTP:${newPA}`);
-      row.innerHTML = `${newPA} ${primeBadge}`;
+      row.setAttribute('data-value', `SMTP:${newProxyAddress}`);
+      row.innerHTML = `${newProxyAddress} ${primeBadge}`;
     }
   }
-
-  $('#primaryAddressModal').modal('hide');
 }
