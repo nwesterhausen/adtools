@@ -1,3 +1,6 @@
+v0.1.23-snapshot
+Fix: Upgraded dependencies.
+
 v0.1.22
 Fix: Don't open the dev tools in production.
 
