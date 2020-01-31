@@ -73,10 +73,12 @@ ipcMain.on('close-app', (evt, arg) => {
 });
 
 // Move existing log to previous.log
-if (fs.existsSync(logger.transports.file.findLogPath())) {
-  let baselogpath = path.dirname(logger.transports.file.findLogPath());
-  fs.renameSync(path.join(baselogpath, 'log.log'), path.join(baselogpath, 'previous.log'));
+if (fs.existsSync(logger.transports.file.getFile().path)) {
+  let baselogpath = path.dirname(logger.transports.file.getFile().path);
+  fs.renameSync(logger.transports.file.getFile().path, path.join(baselogpath, 'previous.log'));
 }
+logger.transports.file.getFile().clear();
+logger.info(`Logging to ${logger.transports.file.getFile().path}`);
 
 // Start log
 logger.info(`Started adtools version ${app.getVersion()}`);
