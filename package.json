@@ -52,7 +52,7 @@
     "electron-json-storage": "^4.1.8",
     "electron-log": "^3.0.8",
     "electron-updater": "^4.1.2",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "node-powershell": "^4.0.0",
     "popper.js": "^1.15.0",
     "selectize": "^0.12.6"
