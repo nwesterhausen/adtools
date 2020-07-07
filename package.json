@@ -39,7 +39,7 @@
   "devDependencies": {
     "aws-sdk": "^2.529.0",
     "builder-util": "^21.2.0",
-    "electron": "^6.0.3",
+    "electron": "^7.2.4",
     "electron-builder": "^21.2.0",
     "electron-installer-windows": "^2.0.0",
     "electron-util": "^0.12.1",
