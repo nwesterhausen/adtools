@@ -1,4 +1,4 @@
-v0.1.23-snapshot
+v0.1.23
 Feature: Add New Proxy Address functional
 Fix: Upgraded dependencies.
 

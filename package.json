@@ -12,7 +12,7 @@
   },
   "build": {
     "productName": "Active Directory Tools",
-    "appId": "me.westerhausen.adtools",
+    "appId": "solutions.westerhausen.adtools",
     "copyright": "Copyright © 2019 ${author}",
     "nsis": {
       "oneClick": true
@@ -33,26 +33,26 @@
   },
   "author": {
     "name": "Nicholas Westerhausen",
-    "email": "nicholas@westerhausen.me"
+    "email": "nicholas@westmail.cc"
   },
   "license": "MIT",
   "devDependencies": {
-    "aws-sdk": "^2.529.0",
-    "builder-util": "^22.3.3",
-    "electron": "^7.1.11",
-    "electron-builder": "^22.3.2",
+    "aws-sdk": "^2.710.0",
+    "builder-util": "^22.7.0",
+    "electron": "^7.3.2",
+    "electron-builder": "^22.7.0",
     "electron-installer-windows": "^3.0.0",
     "electron-util": "^0.13.1",
-    "env-cmd": "^10.0.1"
+    "env-cmd": "^10.1.0"
   },
   "dependencies": {
-    "@mdi/font": "^4.1.95",
-    "async": "^3.1.0",
-    "bootstrap": "^4.3.1",
+    "@mdi/font": "^4.9.95",
+    "async": "^3.2.0",
+    "bootstrap": "^4.5.0",
     "electron-json-storage": "^4.1.8",
-    "electron-log": "^4.0.4",
-    "electron-updater": "^4.1.2",
-    "jquery": "^3.4.1",
+    "electron-log": "^4.2.2",
+    "electron-updater": "^4.3.1",
+    "jquery": "^3.5.1",
     "node-powershell": "^4.0.0",
     "popper.js": "^1.16.1",
     "selectize": "^0.12.6"
